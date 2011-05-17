@@ -14,7 +14,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-			if(event.getPlayer().isSneaking()){
+			if(!event.getPlayer().isSneaking()){
 				return;
 			}
 			ShowcaseItem showItem = ShowcaseMain.instance.getItemByBlock(event.getClickedBlock());
