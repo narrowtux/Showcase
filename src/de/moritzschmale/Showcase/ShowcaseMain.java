@@ -219,7 +219,6 @@ public class ShowcaseMain extends JavaPlugin {
 	}
 	
 	public static boolean hasPermission(Player player, String node, boolean adminMethod){
-		System.out.println("Checking "+node+player);
 		if(Permissions!=null)
 		{
 			return Permissions.has(player, node);

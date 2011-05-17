@@ -3,6 +3,7 @@ package de.moritzschmale.Showcase;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -16,6 +17,8 @@ public class ShowcasePlayer {
 	private int dialogState = 0;
 	private ItemStack requestedItem = null;
 	private double requestedPrice = 0;
+	private boolean hasReadPrice;
+	private Location readPriceLocation;
 	private static Map<String,ShowcasePlayer> instances = new HashMap<String, ShowcasePlayer>();
 	private ShowcasePlayer(String player){
 		this.player = player;
@@ -154,5 +157,56 @@ public class ShowcasePlayer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param hasReadPrice the hasReadPrice to set
+	 */
+	public void setHasReadPrice(boolean hasReadPrice) {
+		this.hasReadPrice = hasReadPrice;
+	}
+
+	/**
+	 * @return the hasReadPrice
+	 */
+	public boolean hasReadPrice() {
+		return hasReadPrice;
+	}
+
+	/**
+	 * @param readPriceLocation the readPriceLocation to set
+	 */
+	public void setReadPriceLocation(Location readPriceLocation) {
+		this.readPriceLocation = readPriceLocation;
+	}
+
+	/**
+	 * @return the readPriceLocation
+	 */
+	public Location getReadPriceLocation() {
+		return readPriceLocation;
+	}
+	
+	public boolean canAfford(double price){
+		return true;
+	}
+	
+	public boolean withdraw(double price){
+		if(canAfford(price)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void giveMoney(double amount){
+		
+	}
+	
+	public boolean standsOnReadPosition(){
+		Location pos1 = new Location(readPriceLocation.getWorld(), readPriceLocation.getBlockX(), readPriceLocation.getBlockY(), readPriceLocation.getBlockZ());
+		Location tmp = getPlayer().getLocation();
+		Location pos2 = new Location(tmp.getWorld(), tmp.getBlockX(), tmp.getBlockY(), tmp.getBlockZ());
+		return pos1.equals(pos2);
 	}
 }

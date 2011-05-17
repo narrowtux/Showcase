@@ -114,6 +114,10 @@ public class ShowcaseItem {
 	 * @param itemAmount the itemAmount to set
 	 */
 	public void setItemAmount(int itemAmount) {
+		if(itemAmount==0){
+			remove();
+			ShowcaseMain.instance.showcasedItems.remove(this);
+		}
 		this.itemAmount = itemAmount;
 	}
 	/**

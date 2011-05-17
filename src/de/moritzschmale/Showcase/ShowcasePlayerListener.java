@@ -15,45 +15,80 @@ import org.bukkit.inventory.ItemStack;
 public class ShowcasePlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
-		if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-			if(!event.getPlayer().isSneaking()){
-				return;
-			}
-			if(!ShowcaseMain.hasPermission(event.getPlayer(), "showcase.basic", false)){
-				return;
-			}
+		if(event.hasBlock()){
 			ShowcaseItem showItem = ShowcaseMain.instance.getItemByBlock(event.getClickedBlock());
-			if(event.hasBlock()&&event.hasItem()&&showItem == null){
-				if(event.getClickedBlock().getType().equals(Material.GLASS)){
-					/*
-					Location spawnLoc = event.getClickedBlock().getLocation();
-					ItemStack stack = event.getItem();
-					addShowcase(spawnLoc, stack.getType(), stack.getDurability(), event.getPlayer(), ShowcaseType.BASIC, 1, 0);
-					event.getPlayer().sendMessage(ChatColor.GREEN+"Item "+stack.getType()+" showcased!");
-					*/
-					printTypeMenu(event.getPlayer());
-					player.setDialogState(1);
-					player.setRequestedItem(event.getItem().clone());
-					player.setRequestedBlock(event.getClickedBlock());
+			ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
+			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+				if(!event.getPlayer().isSneaking()){
+					return;
+				}
+				if(!ShowcaseMain.hasPermission(event.getPlayer(), "showcase.basic", false)){
+					return;
+				}
+				if(event.hasBlock()&&event.hasItem()&&showItem == null){
+					if(event.getClickedBlock().getType().equals(Material.GLASS)){
+						printTypeMenu(event.getPlayer());
+						player.setDialogState(1);
+						player.setRequestedItem(event.getItem().clone());
+						player.setRequestedBlock(event.getClickedBlock());
+						event.setCancelled(true);
+					}
+				} else if(showItem!=null){
+					if(showItem.getPlayer().equals(event.getPlayer().getName())){
+						showItem.remove();
+						ShowcaseMain.instance.showcasedItems.remove(showItem);
+						event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
+					} else {
+						event.getPlayer().sendMessage(ChatColor.RED+"This is "+showItem.getPlayer()+"'s Showcase!");
+					}
 					event.setCancelled(true);
 				}
-			} else if(showItem!=null){
-				if(showItem.getPlayer().equals(event.getPlayer().getName())){
-					showItem.remove();
-					ShowcaseMain.instance.showcasedItems.remove(showItem);
-					event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
-				} else {
-					event.getPlayer().sendMessage(ChatColor.RED+"This is "+showItem.getPlayer()+"'s Showcase!");
+			} else if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
+				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
+					if(!player.hasReadPrice()||!player.standsOnReadPosition()){
+						String print = ChatColor.YELLOW+"An item costs "+ChatColor.WHITE+showItem.getPricePerItem()+"\n";
+						player.setHasReadPrice(true);
+						player.setReadPriceLocation(player.getPlayer().getLocation());
+						if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
+							print+=ChatColor.YELLOW+"There are "+ChatColor.WHITE+showItem.getItemAmount();
+							print+=ChatColor.YELLOW+" items in stock.";
+						} else if(showItem.getType().equals(ShowcaseType.INFINITE_SHOP)){
+							print+=ChatColor.YELLOW+"This shop has unlimited items.";
+						}
+						player.sendMessage(print);
+					} else {
+						if(player.standsOnReadPosition()){
+							//User wants to buy
+							ItemStack stack = showItem.getItem().getItemStack().clone();
+							stack.setAmount(1);
+							switch(showItem.getType()){
+							case INFINITE_SHOP:
+								if(player.withdraw(showItem.getPricePerItem())){
+									player.getPlayer().getInventory().addItem(stack);
+									player.sendMessage("You bought an item");
+								}
+								break;
+							case FINITE_SHOP:
+								if(player.withdraw(showItem.getPricePerItem())){
+									player.getPlayer().getInventory().addItem(stack);
+									showItem.setItemAmount(showItem.getItemAmount()-1);
+									ShowcasePlayer owner = ShowcasePlayer.getPlayer(showItem.getPlayer());
+									owner.giveMoney(showItem.getPricePerItem());
+									player.sendMessage("You bought an item. Still in stock: "+showItem.getItemAmount());
+								}
+								break;
+							}
+						} else {
+							player.setHasReadPrice(false);
+						}
+					}
 				}
-				event.setCancelled(true);
 			}
 		}
 	}
 	
 	@Override
 	public void onPlayerPickupItem(PlayerPickupItemEvent event){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 		Item item = event.getItem();
 		for(ShowcaseItem compare:ShowcaseMain.instance.showcasedItems){
 			if(compare.getItem().equals(item)){
