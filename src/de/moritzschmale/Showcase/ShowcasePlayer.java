@@ -10,6 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.nijikokun.register.payment.Method;
+import com.nijikokun.register.payment.Method.MethodAccount;
+
 public class ShowcasePlayer {
 	private String player;
 	private ShowcaseType requestedType = ShowcaseType.NONE;
@@ -188,19 +191,36 @@ public class ShowcasePlayer {
 	}
 	
 	public boolean canAfford(double price){
-		return true;
+		MethodAccount account = getAccount();
+		if(account!=null)
+		{
+			return account.hasEnough(price);
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean withdraw(double price){
 		if(canAfford(price)){
-			return true;
+			MethodAccount account = getAccount();
+			if(account!=null)
+			{
+				account.subtract(price);
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
 	}
 	
 	public void giveMoney(double amount){
-		
+		MethodAccount account = getAccount();
+		if(account!=null)
+		{
+			account.add(amount);
+		}
 	}
 	
 	public boolean standsOnReadPosition(){
@@ -208,5 +228,19 @@ public class ShowcasePlayer {
 		Location tmp = getPlayer().getLocation();
 		Location pos2 = new Location(tmp.getWorld(), tmp.getBlockX(), tmp.getBlockY(), tmp.getBlockZ());
 		return pos1.equals(pos2);
+	}
+	
+	public MethodAccount getAccount(){
+		Method method = ShowcaseMain.instance.method;
+		if(method!=null)
+		{
+			if(method.hasAccount(player)){
+				return method.getAccount(player);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 }

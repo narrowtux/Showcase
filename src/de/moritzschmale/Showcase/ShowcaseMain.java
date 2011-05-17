@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -29,6 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.nijiko.permissions.*;
 import com.nijikokun.bukkit.Permissions.*;
+import com.nijikokun.register.payment.Method;
 
 
 public class ShowcaseMain extends JavaPlugin {
@@ -36,9 +36,11 @@ public class ShowcaseMain extends JavaPlugin {
 	private Logger log;
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
+	private ShowcaseServerListener serverListener = new ShowcaseServerListener();
 	public static ShowcaseMain instance;
 	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
 	private ItemWatcher watcher = new ItemWatcher();
+	public Method method = null;
 	@Override
 	public void onDisable() {
 		//Read plugin file
@@ -61,6 +63,8 @@ public class ShowcaseMain extends JavaPlugin {
 		getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 10);
 		load();
 		setupPermissions();
