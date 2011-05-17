@@ -19,14 +19,20 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.nijiko.permissions.*;
+import com.nijikokun.bukkit.Permissions.*;
+
 
 public class ShowcaseMain extends JavaPlugin {
+	private static PermissionHandler Permissions = null;
 	private Logger log;
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
@@ -149,6 +155,37 @@ public class ShowcaseMain extends JavaPlugin {
 				}
 			} catch(Exception e){
 				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void setupPermissions() {
+		try{
+			Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+
+			if(this.Permissions == null) {
+				try{
+					this.Permissions = ((Permissions)test).getHandler();
+				} catch(Exception e) {
+					this.Permissions = null;
+					log.log(Level.WARNING, "Permissions is not enabled! All Operations are allowed!");
+				}
+			}
+		} catch(java.lang.NoClassDefFoundError e){
+			this.Permissions = null;
+			log.log(Level.WARNING, "Permissions not found! All Operations are allowed!");
+		}
+	}
+	
+	public static boolean hasPermission(Player player, String node, boolean adminMethod){
+		if(Permissions!=null)
+		{
+			return Permissions.has(player, node);
+		} else {
+			if(!player.isOp()){
+				return !adminMethod;
+			} else {
+				return true;
 			}
 		}
 	}
