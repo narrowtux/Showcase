@@ -24,7 +24,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 			if(event.hasBlock()&&event.hasItem()&&showItem == null){
 				if(event.getClickedBlock().getType().equals(Material.GLASS)){
 					Location spawnLoc = event.getClickedBlock().getLocation();
-					ItemStack stack = new ItemStack(event.getItem().getType());
+					ItemStack stack = new ItemStack(event.getItem().getType(),1,event.getItem().getDurability());
 					Item item = spawnLoc.getWorld().dropItemNaturally(spawnLoc, stack);
 					event.getPlayer().sendMessage(ChatColor.GREEN+"Item "+stack.getType()+" showcased");
 					ShowcaseMain.instance.showcasedItems.add(new ShowcaseItem(item, spawnLoc, event.getPlayer().getName()));

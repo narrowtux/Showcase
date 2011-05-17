@@ -96,11 +96,12 @@ public class ShowcaseMain extends JavaPlugin {
 				String line = "";
 				Location loc = item.getBlock().getLocation();
 				Material type = item.getItem().getItemStack().getType();
+				short data = item.getItem().getItemStack().getDurability();
 				String player = item.getPlayer();
 				//Save
 				//x,y,z,itemid,player,worldname,worldenviromnent
 				line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
-				line+=type.getId()+",";
+				line+=type.getId()+","+data+",";
 				line+=player+",";
 				line+=loc.getWorld().getName()+"\n";
 				w.write(line);
@@ -147,6 +148,20 @@ public class ShowcaseMain extends JavaPlugin {
 						World world = getServer().getWorld(line[5]);
 						Location loc = new Location(world, x, y, z);
 						ItemStack stack = new ItemStack(type);
+						Item item = world.dropItemNaturally(loc, stack);
+						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
+						showcasedItems.add(showItem);
+					} else if(line.length==7){
+						int x,y,z;
+						x = Integer.valueOf(line[0]);
+						y = Integer.valueOf(line[1]);
+						z = Integer.valueOf(line[2]);
+						Material type = Material.getMaterial(Integer.valueOf(line[3]));
+						short data = Short.valueOf(line[4]);
+						String player = line[5];
+						World world = getServer().getWorld(line[6]);
+						Location loc = new Location(world, x, y, z);
+						ItemStack stack = new ItemStack(type, 1, data);
 						Item item = world.dropItemNaturally(loc, stack);
 						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
 						showcasedItems.add(showItem);
