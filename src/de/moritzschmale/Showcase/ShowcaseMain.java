@@ -60,6 +60,7 @@ public class ShowcaseMain extends JavaPlugin {
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Normal, this);
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 10);
 		load();
 		setupPermissions();
@@ -98,12 +99,16 @@ public class ShowcaseMain extends JavaPlugin {
 				Material type = item.getItem().getItemStack().getType();
 				short data = item.getItem().getItemStack().getDurability();
 				String player = item.getPlayer();
+				ShowcaseType showtype = item.getType();
+				int amount = item.getItemAmount();
+				double price = item.getPricePerItem();
 				//Save
 				//x,y,z,itemid,player,worldname,worldenviromnent
 				line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
 				line+=type.getId()+","+data+",";
 				line+=player+",";
-				line+=loc.getWorld().getName()+"\n";
+				line+=loc.getWorld().getName()+",";
+				line+=showtype+","+amount+","+price+"\n";
 				w.write(line);
 			}
 			w.flush();
@@ -164,6 +169,26 @@ public class ShowcaseMain extends JavaPlugin {
 						ItemStack stack = new ItemStack(type, 1, data);
 						Item item = world.dropItemNaturally(loc, stack);
 						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
+						showcasedItems.add(showItem);
+					} else if(line.length==10){
+						int x,y,z;
+						x = Integer.valueOf(line[0]);
+						y = Integer.valueOf(line[1]);
+						z = Integer.valueOf(line[2]);
+						Material type = Material.getMaterial(Integer.valueOf(line[3]));
+						short data = Short.valueOf(line[4]);
+						String player = line[5];
+						World world = getServer().getWorld(line[6]);
+						ShowcaseType showtype = ShowcaseType.valueOf(line[7]);
+						int amount = Integer.valueOf(line[8]);
+						double price = Double.valueOf(line[9]);
+						Location loc = new Location(world, x, y, z);
+						ItemStack stack = new ItemStack(type, 1, data);
+						Item item = world.dropItemNaturally(loc, stack);
+						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
+						showItem.setType(showtype);
+						showItem.setItemAmount(amount);
+						showItem.setPricePerItem(price);
 						showcasedItems.add(showItem);
 					} else {
 						continue;

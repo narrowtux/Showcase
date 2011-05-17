@@ -12,6 +12,9 @@ public class ShowcaseItem {
 	private Block block;
 	private String player;
 	private boolean updatedPosition = false;
+	private ShowcaseType type = ShowcaseType.BASIC;
+	private int itemAmount = 1;
+	private double pricePerItem = 0;
 	public ShowcaseItem(Item item, Location location, String player){
 		setItem(item);
 		setLocation(location);
@@ -35,7 +38,7 @@ public class ShowcaseItem {
 	 */
 	public void setLocation(Location location) {
 		Vector vec = location.toVector();
-		vec.add(new Vector(0.5,0,0.5));
+		vec.add(new Vector(0.5,0.1,0.5));
 		location = vec.toLocation(location.getWorld());
 		this.location = location;
 		item.teleport(location);
@@ -48,13 +51,21 @@ public class ShowcaseItem {
 	}
 	
 	public void remove(){
+		if(type.equals(ShowcaseType.FINITE_SHOP)){
+			ShowcasePlayer player = ShowcasePlayer.getPlayer(this.player);
+			ItemStack stack = item.getItemStack().clone();
+			stack.setAmount(itemAmount);
+			player.getPlayer().getInventory().addItem(stack);
+		}
 		item.remove();
 	}
+	
 	public void respawn() {
 		ItemStack stack = item.getItemStack().clone();
 		item = item.getLocation().getWorld().dropItemNaturally(location, stack);
 		updatedPosition = false;
 	}
+	
 	public void updatePosition() {
 		if(!updatedPosition){
 			item.teleport(location);
@@ -62,6 +73,7 @@ public class ShowcaseItem {
 			updatedPosition=true;
 		}
 	}
+	
 	/**
 	 * @param block the block to set
 	 */
@@ -85,5 +97,41 @@ public class ShowcaseItem {
 	 */
 	public String getPlayer() {
 		return player;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(ShowcaseType type) {
+		this.type = type;
+	}
+	/**
+	 * @return the type
+	 */
+	public ShowcaseType getType() {
+		return type;
+	}
+	/**
+	 * @param itemAmount the itemAmount to set
+	 */
+	public void setItemAmount(int itemAmount) {
+		this.itemAmount = itemAmount;
+	}
+	/**
+	 * @return the itemAmount
+	 */
+	public int getItemAmount() {
+		return itemAmount;
+	}
+	/**
+	 * @param pricePerItem the pricePerItem to set
+	 */
+	public void setPricePerItem(double pricePerItem) {
+		this.pricePerItem = pricePerItem;
+	}
+	/**
+	 * @return the pricePerItem
+	 */
+	public double getPricePerItem() {
+		return pricePerItem;
 	}
 }
