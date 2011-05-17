@@ -17,6 +17,9 @@ public class ShowcasePlayerListener extends PlayerListener {
 			if(!event.getPlayer().isSneaking()){
 				return;
 			}
+			if(!ShowcaseMain.hasPermission(event.getPlayer(), "showcase.basic", false)){
+				return;
+			}
 			ShowcaseItem showItem = ShowcaseMain.instance.getItemByBlock(event.getClickedBlock());
 			if(event.hasBlock()&&event.hasItem()&&showItem == null){
 				if(event.getClickedBlock().getType().equals(Material.GLASS)){
