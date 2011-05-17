@@ -51,7 +51,7 @@ public class ShowcaseItem {
 		item.remove();
 	}
 	public void respawn() {
-		ItemStack stack = new ItemStack(item.getItemStack().getType());
+		ItemStack stack = item.getItemStack().clone();
 		item = item.getLocation().getWorld().dropItemNaturally(location, stack);
 		updatedPosition = false;
 	}
