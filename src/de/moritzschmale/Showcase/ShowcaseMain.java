@@ -24,6 +24,7 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.nijiko.permissions.*;
@@ -37,6 +38,7 @@ public class ShowcaseMain extends JavaPlugin {
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
 	private ShowcaseServerListener serverListener = new ShowcaseServerListener();
+	private DropChestListener dclistener = new DropChestListener();
 	public static ShowcaseMain instance;
 	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
 	private ItemWatcher watcher = new ItemWatcher();
@@ -59,12 +61,14 @@ public class ShowcaseMain extends JavaPlugin {
 		//Read plugin file
 		PluginDescriptionFile pdfFile = this.getDescription();
 		log.log( Level.INFO, pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
-		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Low, this);
+		pm.registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
+		pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 10);
 		load();
 		setupPermissions();
