@@ -19,6 +19,7 @@ public class ShowcasePlayer {
 	private Block requestedBlock = null;
 	private int dialogState = 0;
 	private ItemStack requestedItem = null;
+	private ShowcaseItem lastClickedShowcase = null;
 	private double requestedPrice = 0;
 	private boolean hasReadPrice;
 	private Location readPriceLocation;
@@ -242,5 +243,19 @@ public class ShowcasePlayer {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * @param lastClickedShowcase the lastClickedShowcase to set
+	 */
+	public void setLastClickedShowcase(ShowcaseItem lastClickedShowcase) {
+		this.lastClickedShowcase = lastClickedShowcase;
+	}
+
+	/**
+	 * @return the lastClickedShowcase
+	 */
+	public ShowcaseItem getLastClickedShowcase() {
+		return lastClickedShowcase;
 	}
 }
