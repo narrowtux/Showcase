@@ -148,9 +148,9 @@ public class ShowcasePlayer {
 	public void remove(Material mat, short data, int amount) {
 		Inventory inv = getPlayer().getInventory();
 		for(int i = 0; i<inv.getSize();i++){
-			ItemStack stack = inv.getItem(i);
+			ItemStack stack = inv.getItem(i).clone();
 			if(stack.getType().equals(mat)&&stack.getDurability()==data){
-				if(stack.getAmount()>=amount){
+				if(stack.getAmount()>amount){
 					stack.setAmount(stack.getAmount()-amount);
 					inv.setItem(i, stack);
 					return;

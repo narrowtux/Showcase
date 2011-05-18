@@ -24,26 +24,36 @@ public class ShowcasePlayerListener extends PlayerListener {
 				if(!event.getPlayer().isSneaking()){
 					return;
 				}
-				if(event.getItem()==null)
-				{
-					player.sendMessage(ChatColor.RED+"You have got to hold something in your hand!");
-					event.setCancelled(true);
-					return;
-				}
-				if(event.hasBlock()&&event.hasItem()&&showItem == null){
+				if(event.hasBlock()&&showItem == null){
+					if(event.getItem()==null)
+					{
+						player.sendMessage(ChatColor.RED+"You have got to hold something in your hand!");
+						event.setCancelled(true);
+						return;
+					}
 					if(event.getClickedBlock().getType().equals(Material.GLASS)){
 						event.setCancelled(true);
 						if(!isSafePlace(event.getClickedBlock())){
 							player.sendMessage(ChatColor.RED+"This is not a safe place for your item. It will fall down.");
 							return;
 						}
-						printTypeMenu(event.getPlayer());
-						player.setDialogState(1);
-						player.setRequestedItem(event.getItem().clone());
-						player.setRequestedBlock(event.getClickedBlock());
+						if(player.hasPermission("showcase.basic", false)&&!player.hasPermission("showcase.infinite", true)&&!player.hasPermission("showcase.finite", false)){
+							Location loc = event.getClickedBlock().getLocation();
+							Material mat = event.getItem().getType();
+							short data = event.getItem().getDurability();
+							addShowcase(loc, mat, data, player.getPlayer(), ShowcaseType.BASIC, 1, 0);
+							player.sendMessage(ChatColor.GREEN+"Item "+mat+" showcased.");
+							player.resetDialog();
+						} else {
+							printTypeMenu(event.getPlayer());
+							player.setDialogState(1);
+							player.setRequestedItem(event.getItem().clone());
+							player.setRequestedBlock(event.getClickedBlock());
+						}
 					}
 				} else if(showItem!=null){
 					if(showItem.getPlayer().equals(event.getPlayer().getName())){
+						showItem.giveItemsBack();
 						showItem.remove();
 						ShowcaseMain.instance.showcasedItems.remove(showItem);
 						event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
@@ -234,7 +244,6 @@ public class ShowcasePlayerListener extends PlayerListener {
 	
 	public void printAmountMenu(Player p){
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(p);
-		ShowcaseType type = player.getRequestedType();
 		String print = ChatColor.YELLOW+"You want "+player.getRequestedPrice()+ChatColor.YELLOW+" dollars per item.\n";
 		print+=ChatColor.YELLOW+"Please enter the desired amount of items:\n";
 		print+=ChatColor.YELLOW+"(You have got "+ChatColor.WHITE;

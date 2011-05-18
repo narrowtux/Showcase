@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.minecraft.server.EntityItem;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
@@ -81,6 +84,20 @@ public class ShowcaseMain extends JavaPlugin {
 			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
 		}
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 10);
+		
+		//Remove probably duplicated items
+		for(World w:getServer().getWorlds()){
+			for(Entity e:w.getEntities()){
+				if(e instanceof Item){
+					Location loc = e.getLocation();
+					Block b = loc.getBlock();
+					if(b.getType().equals(Material.GLASS)){
+						e.remove();
+					}
+				}
+			}
+		}
+		
 		load();
 		setupPermissions();
 	}

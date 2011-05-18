@@ -51,13 +51,16 @@ public class ShowcaseItem {
 	}
 	
 	public void remove(){
+		item.remove();
+	}
+	
+	public void giveItemsBack(){
 		if(type.equals(ShowcaseType.FINITE_SHOP)){
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(this.player);
 			ItemStack stack = item.getItemStack().clone();
 			stack.setAmount(itemAmount);
 			player.getPlayer().getInventory().addItem(stack);
 		}
-		item.remove();
 	}
 	
 	public void respawn() {
