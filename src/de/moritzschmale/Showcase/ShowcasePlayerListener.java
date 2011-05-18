@@ -67,15 +67,23 @@ public class ShowcasePlayerListener extends PlayerListener {
 							if(player.withdraw(showItem.getPricePerItem())){
 								switch(showItem.getType()){
 								case INFINITE_SHOP:
-									player.getPlayer().getInventory().addItem(stack);
-									player.sendMessage("You bought an item");
+									if(player.hasPermission("showcase.buy.infinite", false)){
+										player.getPlayer().getInventory().addItem(stack);
+										player.sendMessage("You bought an item");
+									} else {
+										player.sendMessage("You can't buy from infinite showcases!");
+									}
 									break;
 								case FINITE_SHOP:
-									player.getPlayer().getInventory().addItem(stack);
-									showItem.setItemAmount(showItem.getItemAmount()-1);
-									ShowcasePlayer owner = ShowcasePlayer.getPlayer(showItem.getPlayer());
-									owner.giveMoney(showItem.getPricePerItem());
-									player.sendMessage("You bought an item. Still in stock: "+showItem.getItemAmount());
+									if(player.hasPermission("showcase.buy.finite", false)){
+										player.getPlayer().getInventory().addItem(stack);
+										showItem.setItemAmount(showItem.getItemAmount()-1);
+										ShowcasePlayer owner = ShowcasePlayer.getPlayer(showItem.getPlayer());
+										owner.giveMoney(showItem.getPricePerItem());
+										player.sendMessage("You bought an item. Still in stock: "+showItem.getItemAmount());
+									} else {
+										player.sendMessage("You can't buy from finite showcases!");
+									}
 									break;
 								}
 							} else {
