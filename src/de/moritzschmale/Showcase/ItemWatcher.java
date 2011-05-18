@@ -1,5 +1,9 @@
 package de.moritzschmale.Showcase;
 
+import net.minecraft.server.EntityItem;
+
+import org.bukkit.craftbukkit.entity.CraftItem;
+
 public class ItemWatcher implements Runnable {
 
 	@Override
@@ -9,6 +13,9 @@ public class ItemWatcher implements Runnable {
 				item.respawn();
 			}
 			item.updatePosition();
+			CraftItem citem = (CraftItem)item.getItem();
+			EntityItem eitem = (EntityItem) citem.getHandle();
+			eitem.b = 0;
 		}
 	}
 
