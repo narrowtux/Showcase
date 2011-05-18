@@ -64,22 +64,22 @@ public class ShowcasePlayerListener extends PlayerListener {
 							//User wants to buy
 							ItemStack stack = showItem.getItem().getItemStack().clone();
 							stack.setAmount(1);
-							switch(showItem.getType()){
-							case INFINITE_SHOP:
-								if(player.withdraw(showItem.getPricePerItem())){
+							if(player.withdraw(showItem.getPricePerItem())){
+								switch(showItem.getType()){
+								case INFINITE_SHOP:
 									player.getPlayer().getInventory().addItem(stack);
 									player.sendMessage("You bought an item");
-								}
-								break;
-							case FINITE_SHOP:
-								if(player.withdraw(showItem.getPricePerItem())){
+									break;
+								case FINITE_SHOP:
 									player.getPlayer().getInventory().addItem(stack);
 									showItem.setItemAmount(showItem.getItemAmount()-1);
 									ShowcasePlayer owner = ShowcasePlayer.getPlayer(showItem.getPlayer());
 									owner.giveMoney(showItem.getPricePerItem());
 									player.sendMessage("You bought an item. Still in stock: "+showItem.getItemAmount());
+									break;
 								}
-								break;
+							} else {
+								player.sendMessage("You have not enough money.");
 							}
 						} else {
 							player.setHasReadPrice(false);

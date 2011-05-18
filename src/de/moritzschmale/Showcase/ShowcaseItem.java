@@ -38,7 +38,7 @@ public class ShowcaseItem {
 	 */
 	public void setLocation(Location location) {
 		Vector vec = location.toVector();
-		vec.add(new Vector(0.5,0.1,0.5));
+		vec.add(new Vector(0.5,0.0,0.5));
 		location = vec.toLocation(location.getWorld());
 		this.location = location;
 		item.teleport(location);
@@ -67,7 +67,7 @@ public class ShowcaseItem {
 	}
 	
 	public void updatePosition() {
-		if(!updatedPosition){
+		if(!updatedPosition||item.getLocation().getY()>=block.getLocation().getBlockY()+0.5){
 			item.teleport(location);
 			item.setVelocity(new Vector(0,0,0));
 			updatedPosition=true;
