@@ -204,6 +204,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 				addShowcase(loc, mat, data, player.getPlayer(), player.getRequestedType(), amount, player.getRequestedPrice());
 				player.sendMessage(ChatColor.GREEN+"Finite Shop Showcase setup successful.");
 				player.remove(mat, data, amount);
+				player.resetDialog();
 			}
 		}
 	}
