@@ -22,7 +22,10 @@ public class ShowcasePlayerListener extends PlayerListener {
 				if(!event.getPlayer().isSneaking()){
 					return;
 				}
-				if(!ShowcaseMain.hasPermission(event.getPlayer(), "showcase.basic", false)){
+				if(event.getItem()==null)
+				{
+					player.sendMessage(ChatColor.RED+"You have got to hold something in your hand!");
+					event.setCancelled(true);
 					return;
 				}
 				if(event.hasBlock()&&event.hasItem()&&showItem == null){
@@ -119,6 +122,13 @@ public class ShowcasePlayerListener extends PlayerListener {
 					player.resetDialog();
 					return;
 				}
+				if(message.equals("basic")&&!player.hasPermission("showcase.basic", false)
+						|| message.equals("infinite")&&!player.hasPermission("showcase.infinite", true)
+						|| message.equals("finite")&&!player.hasPermission("showcase.finite", false)){
+					player.sendMessage("Insufficient permissions. Aborting.");
+					player.resetDialog();
+					return;
+				}
 				player.setRequestedType(type);
 				player.setDialogState(2);
 				if(type.equals(ShowcaseType.BASIC)){
@@ -144,7 +154,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 					Location loc = player.getRequestedBlock().getLocation();
 					Material mat = player.getRequestedItem().getType();
 					short data = player.getRequestedItem().getDurability();
-					addShowcase(loc, mat, data, event.getPlayer(), player.getRequestedType(), 0, price);
+					addShowcase(loc, mat, data, event.getPlayer(), ShowcaseType.INFINITE_SHOP, -1, price);
 					player.sendMessage(ChatColor.GREEN+"Setup of Infinite Showcase successful.");
 					player.resetDialog();
 				} else {
