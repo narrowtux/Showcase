@@ -2,6 +2,8 @@ package de.moritzschmale.Showcase;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -30,11 +32,15 @@ public class ShowcasePlayerListener extends PlayerListener {
 				}
 				if(event.hasBlock()&&event.hasItem()&&showItem == null){
 					if(event.getClickedBlock().getType().equals(Material.GLASS)){
+						event.setCancelled(true);
+						if(!isSafePlace(event.getClickedBlock())){
+							player.sendMessage(ChatColor.RED+"This is not a safe place for your item. It will fall down.");
+							return;
+						}
 						printTypeMenu(event.getPlayer());
 						player.setDialogState(1);
 						player.setRequestedItem(event.getItem().clone());
 						player.setRequestedBlock(event.getClickedBlock());
-						event.setCancelled(true);
 					}
 				} else if(showItem!=null){
 					if(showItem.getPlayer().equals(event.getPlayer().getName())){
@@ -236,5 +242,62 @@ public class ShowcasePlayerListener extends PlayerListener {
 		print+=player.getAmountOfType(stack.getType(), stack.getDurability());
 		print+=ChatColor.YELLOW+" of "+ChatColor.WHITE+stack.getType()+ChatColor.YELLOW+")\n";
 		player.sendMessage(print);
+	}
+	
+	public boolean isSafePlace(Block glass){
+		Block below = glass.getFace(BlockFace.DOWN);
+		Material nonsafe[] = {
+			Material.GLASS,
+			Material.AIR,
+			Material.RED_MUSHROOM,
+			Material.RED_ROSE,
+			Material.REDSTONE_WIRE,
+			Material.REDSTONE_TORCH_ON,
+			Material.REDSTONE_TORCH_OFF,
+			Material.YELLOW_FLOWER,
+			Material.TORCH,
+			Material.DIODE_BLOCK_ON,
+			Material.DIODE_BLOCK_OFF,
+			Material.WOOD_DOOR,
+			Material.IRON_DOOR,
+			Material.WOOD_PLATE,
+			Material.STONE_PLATE,
+			Material.STONE_BUTTON,
+			Material.DOUBLE_STEP,
+			Material.WATER,
+			Material.LAVA,
+			Material.STATIONARY_LAVA,
+			Material.STATIONARY_WATER,
+			Material.WOOD_STAIRS,
+			Material.COBBLESTONE_STAIRS,
+			Material.STEP,
+			Material.SIGN_POST,
+			Material.WALL_SIGN,
+			Material.FENCE,
+			Material.CACTUS,
+			Material.LEVER,
+			Material.LADDER,
+			Material.RAILS,
+			Material.POWERED_RAIL,
+			Material.DETECTOR_RAIL,
+			Material.SAPLING,
+			Material.BED_BLOCK,
+			Material.WEB,
+			Material.BROWN_MUSHROOM,
+			Material.FIRE,
+			Material.MOB_SPAWNER,
+			Material.SEEDS,
+			Material.SOIL,
+			Material.SNOW,
+			Material.SUGAR_CANE_BLOCK,
+			Material.PORTAL,
+			Material.CAKE_BLOCK,
+		};
+		for(Material t:nonsafe){
+			if(t.equals(below.getType())){
+				return false;
+			}
+		}
+		return true;
 	}
 }
