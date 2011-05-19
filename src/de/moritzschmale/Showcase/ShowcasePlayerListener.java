@@ -142,7 +142,12 @@ public class ShowcasePlayerListener extends PlayerListener {
 			}
 			if(account.hasEnough(priceToPay)){
 				player.sendMessage("Bought "+amount+" "+ShowcaseMain.getName(show.getMaterial(), show.getData())+" for "+method.format(priceToPay));
-				player.getPlayer().getInventory().addItem(new ItemStack(show.getMaterial(), amount, show.getData()));
+				int remaining = player.addItems(show.getMaterial(), show.getData(), amount);
+				if(remaining>0){
+					player.sendMessage("They didn't fit completely into your inventory. Selling you as much as I can.");
+					priceToPay = (double)(amount-remaining)*show.getPricePerItem();
+					amount = amount-remaining;
+				}
 				account.subtract(priceToPay);
 				if(show.getType().equals(ShowcaseType.FINITE_SHOP)){
 					show.setItemAmount(show.getItemAmount()-amount);
@@ -342,7 +347,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 			Vector showcase = player.getLastClickedShowcase().getLocation().toVector();
 			Vector pl = event.getTo().toVector();
 			if(pl.distanceSquared(showcase)>16){
-				player.sendMessage("Aborting checkout.");
+				player.sendMessage("Not interested? Bah, screw it!");
 				player.setHasReadPrice(false);
 				player.setLastClickedShowcase(null);
 			}

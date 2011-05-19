@@ -235,4 +235,27 @@ public class ShowcasePlayer {
 	public ShowcaseItem getLastClickedShowcase() {
 		return lastClickedShowcase;
 	}
+	
+	public int addItems(Material type, short data, int amount){
+		//returns the number of items that did not fit.
+		Inventory inv = getPlayer().getInventory();
+		while(amount>0){
+			ItemStack stack = new ItemStack(type);
+			stack.setDurability(data);
+			int max = stack.getMaxStackSize();
+			if(amount>=max&&max!=-1){
+				stack.setAmount(stack.getMaxStackSize());
+			} else {
+				stack.setAmount(amount);
+			}
+			amount-=stack.getAmount();
+			System.out.println(stack);
+			Map<Integer, ItemStack> notFitting = inv.addItem(stack);
+			if(notFitting.size()>0){
+				amount+=notFitting.get(0).getAmount();
+				break;
+			}
+		}
+		return amount;
+	}
 }
