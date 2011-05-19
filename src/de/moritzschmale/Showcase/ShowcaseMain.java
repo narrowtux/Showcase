@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Wool;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -75,7 +77,7 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Low, this);
-		pm.registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Lowest, this);
 		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
 		if(dclistener!=null){
@@ -260,4 +262,18 @@ public class ShowcaseMain extends JavaPlugin {
 		}
 	}
 
+	public static String getName(Material type, short data){
+		String ret = type.toString().toLowerCase();
+		ret = ret.replace("_", " ");
+		if(type.equals(Material.WOOL)){
+			DyeColor color = DyeColor.getByData((byte) data);
+			ret = color.toString().toLowerCase()+" wool";
+		}
+		if(type.equals(Material.INK_SACK)){
+			DyeColor color = DyeColor.getByData((byte) (15-data));
+			ret = color.toString().toLowerCase()+" dye";
+		}
+		return ret;
+		
+	}
 }

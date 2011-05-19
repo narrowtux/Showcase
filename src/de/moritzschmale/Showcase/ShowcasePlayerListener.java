@@ -45,7 +45,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
 							addShowcase(loc, mat, data, player.getPlayer(), ShowcaseType.BASIC, 1, 0);
-							player.sendMessage(ChatColor.GREEN+"Item "+mat+" showcased.");
+							player.sendMessage(ChatColor.GREEN+ShowcaseMain.getName(showItem.getMaterial(), showItem.getData())+" showcased.");
 							player.resetDialog();
 						} else {
 							printTypeMenu(event.getPlayer());
@@ -76,12 +76,13 @@ public class ShowcasePlayerListener extends PlayerListener {
 					if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
 						itemCount = ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+showItem.getItemAmount()+ChatColor.YELLOW+")";
 					}
-					String print = showItem.getMaterial().toString()+itemCount;
+					String print = ShowcaseMain.getName(showItem.getMaterial(), showItem.getData())+itemCount;
 					print+=ChatColor.YELLOW+" for "+ChatColor.WHITE+method.format(showItem.getPricePerItem())+ChatColor.YELLOW+" each.\n";
 					print+=ChatColor.YELLOW+"How many items do you want?\n"+ChatColor.YELLOW+"Type the number in chat, "+ChatColor.WHITE+"0"+ChatColor.YELLOW+" to abort.";
 					player.setHasReadPrice(true);
 					player.setLastClickedShowcase(showItem);
 					player.sendMessage(print);
+					//player.getPlayer().sendBlockChange(event.getClickedBlock().getLocation(), Material.STONE_PLATE, (byte) 0);
 				}
 			}
 		}
@@ -105,11 +106,15 @@ public class ShowcasePlayerListener extends PlayerListener {
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 		if(player.hasReadPrice()){
 			ShowcaseItem show = player.getLastClickedShowcase();
+			//player.getPlayer().sendBlockChange(show.getLocation(), Material.GLASS, (byte) 0);
 			event.setCancelled(true);
 			int amount = 0;
 			try{
 				amount = Integer.valueOf(event.getMessage());
 			}catch(Exception e){
+				amount = 0;
+			}
+			if(amount<0){
 				amount = 0;
 			}
 			if(amount==0){
@@ -133,14 +138,14 @@ public class ShowcasePlayerListener extends PlayerListener {
 				return;
 			}
 			if(account.hasEnough(priceToPay)){
-				player.sendMessage("Bought "+amount+" "+show.getMaterial()+" for "+method.format(priceToPay));
+				player.sendMessage("Bought "+amount+" "+ShowcaseMain.getName(show.getMaterial(), show.getData())+" for "+method.format(priceToPay));
 				player.getPlayer().getInventory().addItem(new ItemStack(show.getMaterial(), amount, show.getData()));
 				account.subtract(priceToPay);
 				if(show.getType().equals(ShowcaseType.FINITE_SHOP)){
 					show.setItemAmount(show.getItemAmount()-amount);
 					ShowcasePlayer owner = ShowcasePlayer.getPlayer(show.getPlayer());
 					owner.giveMoney(priceToPay);
-					owner.sendMessage(player.getPlayer().getName()+" bought "+amount+" "+show.getMaterial()+" for totally "+method.format(priceToPay)+".");
+					owner.sendMessage(player.getPlayer().getName()+" bought "+amount+" "+ShowcaseMain.getName(show.getMaterial(), show.getData())+" for a total of "+method.format(priceToPay)+".");
 				}
 			} else {
 				player.sendMessage("You don't have enough money for "+amount+" items.");
