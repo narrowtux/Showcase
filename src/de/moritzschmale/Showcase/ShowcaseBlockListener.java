@@ -11,14 +11,17 @@ public class ShowcaseBlockListener extends BlockListener {
 		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
 			if(event.getBlock().equals(item.getBlock())){
 				event.setCancelled(true);
-				event.getPlayer().sendMessage(ChatColor.RED+"This is a Showcase. You can't destroy it until you remove the item.");
-				return;
+				event.getPlayer().sendMessage(ChatColor.RED+"This is "+item.getPlayer()+"'s showcase.");
+				break;
 			}
 			if(event.getBlock().getFace(BlockFace.UP).equals(item.getBlock())){
 				event.setCancelled(true);
 				event.getPlayer().sendMessage(ChatColor.RED+"This is below a Showcase. You can't destroy it, because the item would fall down otherwise.");
-				return;
+				break;
 			}
+		}
+		if(event.isCancelled()){
+			event.getPlayer().sendBlockChange(event.getBlock().getLocation(), event.getBlock().getType(), event.getBlock().getData());
 		}
 	}
 }

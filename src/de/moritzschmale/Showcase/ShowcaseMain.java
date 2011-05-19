@@ -80,6 +80,7 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Lowest, this);
 		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
 		if(dclistener!=null){
 			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
 		}

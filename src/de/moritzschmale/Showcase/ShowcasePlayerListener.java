@@ -10,8 +10,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Method.MethodAccount;
@@ -78,6 +80,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 					}
 					String print = ShowcaseMain.getName(showItem.getMaterial(), showItem.getData())+itemCount;
 					print+=ChatColor.YELLOW+" for "+ChatColor.WHITE+method.format(showItem.getPricePerItem())+ChatColor.YELLOW+" each.\n";
+					print+=ChatColor.YELLOW+"This is "+ChatColor.WHITE+showItem.getPlayer()+ChatColor.YELLOW+"'s shop.\n";
 					print+=ChatColor.YELLOW+"How many items do you want?\n"+ChatColor.YELLOW+"Type the number in chat, "+ChatColor.WHITE+"0"+ChatColor.YELLOW+" to abort.";
 					player.setHasReadPrice(true);
 					player.setLastClickedShowcase(showItem);
@@ -330,5 +333,19 @@ public class ShowcasePlayerListener extends PlayerListener {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public void onPlayerMove(PlayerMoveEvent event){
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
+		if(player.hasReadPrice()){
+			Vector showcase = player.getLastClickedShowcase().getLocation().toVector();
+			Vector pl = event.getTo().toVector();
+			if(pl.distanceSquared(showcase)>16){
+				player.sendMessage("Aborting checkout.");
+				player.setHasReadPrice(false);
+				player.setLastClickedShowcase(null);
+			}
+		}
 	}
 }
