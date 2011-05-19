@@ -13,6 +13,8 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.nijikokun.register.payment.Method;
+
 
 public class ShowcasePlayerListener extends PlayerListener {
 	@Override
@@ -61,51 +63,19 @@ public class ShowcasePlayerListener extends PlayerListener {
 					}
 					event.setCancelled(true);
 				}
-			} else if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
+			}
+			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
-					if(!player.hasReadPrice()||!player.standsOnReadPosition()||!player.getLastClickedShowcase().equals(showItem)){
-						String print = ChatColor.YELLOW+"An item costs "+ChatColor.WHITE+showItem.getPricePerItem()+"\n";
-						player.setHasReadPrice(true);
-						player.setReadPriceLocation(player.getPlayer().getLocation());
-						if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
-							print+=ChatColor.YELLOW+"There are "+ChatColor.WHITE+showItem.getItemAmount();
-							print+=ChatColor.YELLOW+" items in stock.";
-						} else if(showItem.getType().equals(ShowcaseType.INFINITE_SHOP)){
-							print+=ChatColor.YELLOW+"This shop has unlimited items.";
-						}
-						player.setLastClickedShowcase(showItem);
-						player.sendMessage(print);
-					} else {
-						player.setLastClickedShowcase(showItem);
-						//User wants to buy
-						ItemStack stack = showItem.getItem().getItemStack().clone();
-						stack.setAmount(1);
-						if(player.withdraw(showItem.getPricePerItem())){
-							switch(showItem.getType()){
-							case INFINITE_SHOP:
-								if(player.hasPermission("showcase.buy.infinite", false)){
-									player.getPlayer().getInventory().addItem(stack);
-									player.sendMessage("You bought an item");
-								} else {
-									player.sendMessage("You can't buy from infinite showcases!");
-								}
-								break;
-							case FINITE_SHOP:
-								if(player.hasPermission("showcase.buy.finite", false)){
-									player.getPlayer().getInventory().addItem(stack);
-									showItem.setItemAmount(showItem.getItemAmount()-1);
-									ShowcasePlayer owner = ShowcasePlayer.getPlayer(showItem.getPlayer());
-									owner.giveMoney(showItem.getPricePerItem());
-									player.sendMessage("You bought an item. Still in stock: "+showItem.getItemAmount());
-								} else {
-									player.sendMessage("You can't buy from finite showcases!");
-								}
-								break;
-							}
-						} else {
-							player.sendMessage("You have not enough money.");
-						}
+					Method method = ShowcaseMain.instance.method;
+					if(method==null){
+						return;
 					}
+					String print = showItem.getMaterial().toString()+ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+showItem.getItemAmount();
+					print+=ChatColor.YELLOW+") for "+ChatColor.WHITE+method.format(showItem.getPricePerItem())+ChatColor.YELLOW+" each.";
+					print+=ChatColor.YELLOW+"\nHow many items do you want?";
+					player.setHasReadPrice(true);
+					player.setLastClickedShowcase(showItem);
+					player.sendMessage(print);
 				}
 			}
 		}
@@ -127,6 +97,12 @@ public class ShowcasePlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerChat(PlayerChatEvent event){
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
+		if(player.hasReadPrice()){
+			
+			player.setHasReadPrice(false);
+			player.setLastClickedShowcase(null);
+			return;
+		}
 		if(player.getDialogState()>=1){
 			event.setCancelled(true);
 			player.sendMessage(event.getMessage());
