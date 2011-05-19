@@ -114,10 +114,12 @@ public class ShowcasePlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerPickupItem(PlayerPickupItemEvent event){
 		Item item = event.getItem();
-		for(ShowcaseItem compare:ShowcaseMain.instance.showcasedItems){
-			if(compare.getItem().equals(item)){
-				event.setCancelled(true);
-				return;
+		ShowcaseItem shit = ShowcaseMain.instance.getItemByBlock(item.getLocation().getBlock());
+		if(shit!=null)
+		{
+			event.setCancelled(true);
+			if(shit.getItem().isDead()){
+				shit.setItem(item);
 			}
 		}
 	}

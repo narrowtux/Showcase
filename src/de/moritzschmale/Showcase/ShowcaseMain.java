@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.minecraft.server.EntityItem;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -219,12 +217,7 @@ public class ShowcaseMain extends JavaPlugin {
 						int amount = Integer.valueOf(line[8]);
 						double price = Double.valueOf(line[9]);
 						Location loc = new Location(world, x, y, z);
-						ItemStack stack = new ItemStack(type, 1, data);
-						Item item = world.dropItemNaturally(loc, stack);
-						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
-						showItem.setType(showtype);
-						showItem.setItemAmount(amount);
-						showItem.setPricePerItem(price);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype, amount, price);
 						showcasedItems.add(showItem);
 					} else {
 						continue;

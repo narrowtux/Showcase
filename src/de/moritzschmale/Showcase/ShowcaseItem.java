@@ -1,6 +1,7 @@
 package de.moritzschmale.Showcase;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -15,17 +16,31 @@ public class ShowcaseItem {
 	private ShowcaseType type = ShowcaseType.BASIC;
 	private int itemAmount = 1;
 	private double pricePerItem = 0;
+	private Material material;
+	private short data;
 	public ShowcaseItem(Item item, Location location, String player){
 		setItem(item);
 		setLocation(location);
 		setBlock(location.getBlock());
 		setPlayer(player);
 	}
+	
+	public ShowcaseItem(Location loc, Material mat, short data, String player, ShowcaseType type, int amount, double price){
+		setItem(loc.getWorld().dropItemNaturally(loc, new ItemStack(mat, 1, data)));
+		setLocation(loc);
+		setMaterial(mat);
+		setData(data);
+		setPlayer(player);
+		setType(type);
+		setItemAmount(amount);
+		setPricePerItem(price);
+	}
 	/**
 	 * @param item the item to set
 	 */
 	public void setItem(Item item) {
 		this.item = item;
+		updatedPosition = false;
 	}
 	/**
 	 * @return the item
@@ -38,7 +53,7 @@ public class ShowcaseItem {
 	 */
 	public void setLocation(Location location) {
 		Vector vec = location.toVector();
-		vec.add(new Vector(0.5,0.0,0.5));
+		vec.add(new Vector(0.5,0.2,0.5));
 		location = vec.toLocation(location.getWorld());
 		this.location = location;
 		item.teleport(location);
@@ -140,5 +155,33 @@ public class ShowcaseItem {
 	 */
 	public double getPricePerItem() {
 		return pricePerItem;
+	}
+
+	/**
+	 * @param material the material to set
+	 */
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
+	/**
+	 * @return the material
+	 */
+	public Material getMaterial() {
+		return material;
+	}
+
+	/**
+	 * @param data the data to set
+	 */
+	public void setData(short data) {
+		this.data = data;
+	}
+
+	/**
+	 * @return the data
+	 */
+	public short getData() {
+		return data;
 	}
 }

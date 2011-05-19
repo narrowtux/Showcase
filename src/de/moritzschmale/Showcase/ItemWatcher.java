@@ -1,8 +1,5 @@
 package de.moritzschmale.Showcase;
 
-import net.minecraft.server.EntityItem;
-
-import org.bukkit.craftbukkit.entity.CraftItem;
 
 public class ItemWatcher implements Runnable {
 
@@ -13,9 +10,19 @@ public class ItemWatcher implements Runnable {
 				item.respawn();
 			}
 			item.updatePosition();
-			CraftItem citem = (CraftItem)item.getItem();
+			/*
+			if(item.getItem().getItemStack().getType().equals(Material.TORCH)){
+				//try to make it glow
+				int x, y, z;
+				Chunk c = item.getBlock().getChunk();
+				x = item.getBlock().getX()-c.getX()*16;
+				z = item.getBlock().getZ()-c.getZ()*16;
+				y = item.getBlock().getY();
+				((CraftChunk)c).getHandle().g.a(x, y, z, 15);
+			}*/ //Doesn't work.
+			/*CraftItem citem = (CraftItem)item.getItem();
 			EntityItem eitem = (EntityItem) citem.getHandle();
-			eitem.b = 0;
+			eitem.b = 0;*/ //This is a bad idea, the client won't display the items nicely then.
 		}
 	}
 
