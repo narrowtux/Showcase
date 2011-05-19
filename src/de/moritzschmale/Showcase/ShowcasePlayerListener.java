@@ -20,6 +20,8 @@ import com.nijikokun.register.payment.Method.MethodAccount;
 
 
 public class ShowcasePlayerListener extends PlayerListener {
+	
+	public Configuration config = ShowcaseMain.instance.config;
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(event.hasBlock()){
@@ -57,7 +59,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 						}
 					}
 				} else if(showItem!=null){
-					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)){
+					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)||!config.isShowcaseProtection()){
 						showItem.giveItemsBack();
 						showItem.remove();
 						ShowcaseMain.instance.showcasedItems.remove(showItem);

@@ -46,6 +46,7 @@ public class ShowcaseMain extends JavaPlugin {
 	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
 	private ItemWatcher watcher = new ItemWatcher();
 	public Method method = null;
+	public Configuration config;
 	@Override
 	public void onDisable() {
 		//Read plugin file
@@ -59,10 +60,10 @@ public class ShowcaseMain extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		
 		instance = this;
 		log = getServer().getLogger();
-		
+
+		config = new Configuration();
 		try{
 			dclistener = new DropChestListener();
 		} catch(NoClassDefFoundError e){
