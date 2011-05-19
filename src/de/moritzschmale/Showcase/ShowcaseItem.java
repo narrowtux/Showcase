@@ -18,6 +18,7 @@ public class ShowcaseItem {
 	private double pricePerItem = 0;
 	private Material material;
 	private short data;
+	private boolean chunkLoaded = true;
 	public ShowcaseItem(Item item, Location location, String player){
 		setItem(item);
 		setLocation(location);
@@ -52,6 +53,7 @@ public class ShowcaseItem {
 	 * @param location the location to set
 	 */
 	public void setLocation(Location location) {
+		location = location.getBlock().getLocation(); //simply clear everything after the comma.
 		Vector vec = location.toVector();
 		vec.add(new Vector(0.5,0.2,0.5));
 		location = vec.toLocation(location.getWorld());
@@ -79,7 +81,8 @@ public class ShowcaseItem {
 	}
 	
 	public void respawn() {
-		ItemStack stack = item.getItemStack().clone();
+		item.remove();
+		ItemStack stack = new ItemStack(getMaterial(), 1, getData());
 		item = item.getLocation().getWorld().dropItemNaturally(location, stack);
 		updatedPosition = false;
 	}
@@ -183,5 +186,19 @@ public class ShowcaseItem {
 	 */
 	public short getData() {
 		return data;
+	}
+
+	/**
+	 * @param chunkLoaded the chunkLoaded to set
+	 */
+	public void setChunkLoaded(boolean chunkLoaded) {
+		this.chunkLoaded = chunkLoaded;
+	}
+
+	/**
+	 * @return the chunkLoaded
+	 */
+	public boolean isChunkLoaded() {
+		return chunkLoaded;
 	}
 }
