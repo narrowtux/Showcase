@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.nijikokun.register.payment.Method;
+import com.nijikokun.register.payment.Method.MethodAccount;
 
 
 public class ShowcasePlayerListener extends PlayerListener {
@@ -38,6 +39,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 							player.sendMessage(ChatColor.RED+"This is not a safe place for your item. It will fall down.");
 							return;
 						}
+						player.setHasReadPrice(false);
 						if(player.hasPermission("showcase.basic", false)&&!player.hasPermission("showcase.infinite", true)&&!player.hasPermission("showcase.finite", false)){
 							Location loc = event.getClickedBlock().getLocation();
 							Material mat = event.getItem().getType();
@@ -53,7 +55,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 						}
 					}
 				} else if(showItem!=null){
-					if(showItem.getPlayer().equals(event.getPlayer().getName())){
+					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)){
 						showItem.giveItemsBack();
 						showItem.remove();
 						ShowcaseMain.instance.showcasedItems.remove(showItem);
@@ -70,9 +72,13 @@ public class ShowcasePlayerListener extends PlayerListener {
 					if(method==null){
 						return;
 					}
-					String print = showItem.getMaterial().toString()+ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+showItem.getItemAmount();
-					print+=ChatColor.YELLOW+") for "+ChatColor.WHITE+method.format(showItem.getPricePerItem())+ChatColor.YELLOW+" each.";
-					print+=ChatColor.YELLOW+"\nHow many items do you want?";
+					String itemCount = "";
+					if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
+						itemCount = ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+showItem.getItemAmount()+ChatColor.YELLOW+")";
+					}
+					String print = showItem.getMaterial().toString()+itemCount;
+					print+=ChatColor.YELLOW+" for "+ChatColor.WHITE+method.format(showItem.getPricePerItem())+ChatColor.YELLOW+" each.\n";
+					print+=ChatColor.YELLOW+"How many items do you want?\n"+ChatColor.YELLOW+"Type the number in chat, "+ChatColor.WHITE+"0"+ChatColor.YELLOW+" to abort.";
 					player.setHasReadPrice(true);
 					player.setLastClickedShowcase(showItem);
 					player.sendMessage(print);
@@ -98,7 +104,47 @@ public class ShowcasePlayerListener extends PlayerListener {
 	public void onPlayerChat(PlayerChatEvent event){
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 		if(player.hasReadPrice()){
-			
+			ShowcaseItem show = player.getLastClickedShowcase();
+			event.setCancelled(true);
+			int amount = 0;
+			try{
+				amount = Integer.valueOf(event.getMessage());
+			}catch(Exception e){
+				amount = 0;
+			}
+			if(amount==0){
+				player.sendMessage("Aborting checkout.");
+				player.setHasReadPrice(false);
+				return;
+			}
+			double price = show.getPricePerItem();
+			if(show.getType().equals(ShowcaseType.FINITE_SHOP)){
+				if(amount>show.getItemAmount()){
+					amount = show.getItemAmount();
+				}
+			}
+			double priceToPay = (double)amount * price;
+			MethodAccount account = player.getAccount();
+			Method method = ShowcaseMain.instance.method;
+			if(account==null)
+			{
+				player.sendMessage("You don't have got an account, ask your admin to give you one.");
+				player.setHasReadPrice(false);
+				return;
+			}
+			if(account.hasEnough(priceToPay)){
+				player.sendMessage("Bought "+amount+" "+show.getMaterial()+" for "+method.format(priceToPay));
+				player.getPlayer().getInventory().addItem(new ItemStack(show.getMaterial(), amount, show.getData()));
+				account.subtract(priceToPay);
+				if(show.getType().equals(ShowcaseType.FINITE_SHOP)){
+					show.setItemAmount(show.getItemAmount()-amount);
+					ShowcasePlayer owner = ShowcasePlayer.getPlayer(show.getPlayer());
+					owner.giveMoney(priceToPay);
+					owner.sendMessage(player.getPlayer().getName()+" bought "+amount+" "+show.getMaterial()+" for totally "+method.format(priceToPay)+".");
+				}
+			} else {
+				player.sendMessage("You don't have enough money for "+amount+" items.");
+			}
 			player.setHasReadPrice(false);
 			player.setLastClickedShowcase(null);
 			return;
