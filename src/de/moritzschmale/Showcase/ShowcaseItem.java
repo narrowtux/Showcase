@@ -1,8 +1,10 @@
 package de.moritzschmale.Showcase;
 
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -24,17 +26,30 @@ public class ShowcaseItem {
 		setLocation(location);
 		setBlock(location.getBlock());
 		setPlayer(player);
+		setMaterial(item.getItemStack().getType());
+		setData(item.getItemStack().getDurability());
+		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
+		checkForDupedItem();
 	}
 	
 	public ShowcaseItem(Location loc, Material mat, short data, String player, ShowcaseType type, int amount, double price){
-		setItem(loc.getWorld().dropItemNaturally(loc, new ItemStack(mat, 1, data)));
-		setLocation(loc);
 		setMaterial(mat);
 		setData(data);
 		setPlayer(player);
 		setType(type);
 		setItemAmount(amount);
 		setPricePerItem(price);
+		setBlock(loc.getBlock());
+		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
+		if(isChunkLoaded()){
+			setItem(loc.getWorld().dropItemNaturally(loc, new ItemStack(mat, 1, data)));
+			setLocation(loc);
+			checkForDupedItem();
+		} else {
+			location = loc;
+			setItem(null);
+			System.out.println("Item is currently in not loaded chunk.");
+		}
 	}
 	/**
 	 * @param item the item to set
@@ -68,6 +83,7 @@ public class ShowcaseItem {
 	}
 	
 	public void remove(){
+		checkForDupedItem();
 		item.remove();
 	}
 	
@@ -81,14 +97,16 @@ public class ShowcaseItem {
 	}
 	
 	public void respawn() {
-		item.remove();
+		if(item!=null){
+			item.remove();
+		}
 		ItemStack stack = new ItemStack(getMaterial(), 1, getData());
-		item = item.getLocation().getWorld().dropItemNaturally(location, stack);
+		item = getLocation().getWorld().dropItemNaturally(location, stack);
 		updatedPosition = false;
 	}
 	
 	public void updatePosition() {
-		if(!updatedPosition||item.getLocation().getY()>=block.getLocation().getBlockY()+0.5){
+		if(item!=null&&(!updatedPosition||item.getLocation().getY()>=block.getLocation().getBlockY()+0.5)){
 			item.teleport(location);
 			item.setVelocity(new Vector(0,0,0));
 			updatedPosition=true;
@@ -200,5 +218,15 @@ public class ShowcaseItem {
 	 */
 	public boolean isChunkLoaded() {
 		return chunkLoaded;
+	}
+	
+	public void checkForDupedItem(){
+		Chunk c = getBlock().getChunk();
+		for(Entity e:c.getEntities()){
+			if(e.getLocation().getBlock().equals(getBlock())&&e instanceof Item&&!e.equals(item)){
+				e.remove();
+				System.out.print("removed a duped item.");
+			}
+		}
 	}
 }

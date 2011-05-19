@@ -209,13 +209,8 @@ public class ShowcasePlayerListener extends PlayerListener {
 	}
 	
 	public void addShowcase(Location loc, Material material, short data, Player owner, ShowcaseType type, int amount, double price){
-		ItemStack stack = new ItemStack(material,1,data);
-		Item item = loc.getWorld().dropItemNaturally(loc, stack);
-		ShowcaseItem shit = new ShowcaseItem(item, loc, owner.getName()); //Lol, it's ShIt for short :D
+		ShowcaseItem shit = new ShowcaseItem(loc, material, data, owner.getName(), type, amount, price); //Lol, it's ShIt for short :D
 		ShowcaseMain.instance.showcasedItems.add(shit);
-		shit.setItemAmount(amount);
-		shit.setPricePerItem(price);
-		shit.setType(type);
 	}
 	
 	public void printTypeMenu(Player p){

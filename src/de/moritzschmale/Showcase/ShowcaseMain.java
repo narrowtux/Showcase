@@ -130,14 +130,14 @@ public class ShowcaseMain extends JavaPlugin {
 			for(ShowcaseItem item:showcasedItems){
 				String line = "";
 				Location loc = item.getBlock().getLocation();
-				Material type = item.getItem().getItemStack().getType();
-				short data = item.getItem().getItemStack().getDurability();
+				Material type = item.getMaterial();
+				short data = item.getData();
 				String player = item.getPlayer();
 				ShowcaseType showtype = item.getType();
 				int amount = item.getItemAmount();
 				double price = item.getPricePerItem();
 				//Save
-				//x,y,z,itemid,player,worldname,worldenviromnent
+				//x,y,z,itemid,player,worldname,worldenviromnent,showtype,amount,price
 				line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
 				line+=type.getId()+","+data+",";
 				line+=player+",";
