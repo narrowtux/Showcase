@@ -64,6 +64,8 @@ public class ShowcaseMain extends JavaPlugin {
 		log = getServer().getLogger();
 
 		config = new Configuration();
+		
+		playerListener.config = config;
 		try{
 			dclistener = new DropChestListener();
 		} catch(NoClassDefFoundError e){

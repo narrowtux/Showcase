@@ -8,6 +8,34 @@ public class Configuration {
 	private boolean showcaseProtection = true;
 	private double priceForBasic = 0.0;
 	private double priceForFiniteShop = 0.0;
+	/**
+	 * @return the showcaseProtection
+	 */
+	public boolean isShowcaseProtection() {
+		return showcaseProtection;
+	}
+
+	/**
+	 * @return the priceForBasic
+	 */
+	public double getPriceForBasic() {
+		return priceForBasic;
+	}
+
+	/**
+	 * @return the priceForFiniteShop
+	 */
+	public double getPriceForFiniteShop() {
+		return priceForFiniteShop;
+	}
+
+	/**
+	 * @return the maximumPerUser
+	 */
+	public int getMaximumPerUser() {
+		return maximumPerUser;
+	}
+
 	private int maximumPerUser = 0;
 	private FlatFileReader reader;
 	public Configuration(){

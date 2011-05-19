@@ -21,7 +21,7 @@ import com.nijikokun.register.payment.Method.MethodAccount;
 
 public class ShowcasePlayerListener extends PlayerListener {
 	
-	public Configuration config = ShowcaseMain.instance.config;
+	public Configuration config = null;
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(event.hasBlock()){
@@ -172,10 +172,20 @@ public class ShowcasePlayerListener extends PlayerListener {
 				String message = event.getMessage().toLowerCase();
 				if(message.equals("basic")){
 					type = ShowcaseType.BASIC;
+					if(!player.takeMoney(config.getPriceForBasic())){
+						player.resetDialog();
+						player.sendMessage("You can't afford this showcase.");
+						return;
+					}
 				} else if(message.equals("infinite")){
 					type = ShowcaseType.INFINITE_SHOP;
 				} else if(message.equals("finite")){
 					type = ShowcaseType.FINITE_SHOP;
+					if(!player.takeMoney(config.getPriceForFiniteShop())){
+						player.resetDialog();
+						player.sendMessage("You can't afford this showcase.");
+						return;
+					}
 				}
 				if(type.equals(ShowcaseType.NONE)){
 					player.sendMessage("Invalid answer. Aborting.");
@@ -252,12 +262,25 @@ public class ShowcasePlayerListener extends PlayerListener {
 	
 	public void printTypeMenu(Player p){
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(p);
+		String priceBasic = "";
+		String priceFinite = "";
+		Method method = ShowcaseMain.instance.method;
+		if(method!=null){
+			if(config.getPriceForBasic()>0){
+				priceBasic = ChatColor.YELLOW+" ("+ChatColor.WHITE+method.format(config.getPriceForBasic())+ChatColor.YELLOW+")";
+			}
+			if(config.getPriceForFiniteShop()>0){
+
+				priceFinite = ChatColor.YELLOW+" ("+ChatColor.WHITE+method.format(config.getPriceForFiniteShop())+ChatColor.YELLOW+")";
+			}
+			
+		}
 		String print = ChatColor.GOLD+"======[ "+ChatColor.YELLOW+"Showcase Type Selection"+ChatColor.GOLD+" ]======\n";
 		if(player.hasPermission("showcase.basic", false)){
-			print+=ChatColor.YELLOW+"(basic)"+ChatColor.WHITE+" Basic Showcase. Just displays an item\n";
+			print+=ChatColor.YELLOW+"(basic)"+ChatColor.WHITE+" Basic Showcase. Just displays an item"+priceBasic+"\n";
 		}
 		if(player.hasPermission("showcase.finite", false)){
-			print+=ChatColor.YELLOW+"(finite)"+ChatColor.WHITE+" Fininite Shop Showcase. You can sell your items there\n";
+			print+=ChatColor.YELLOW+"(finite)"+ChatColor.WHITE+" Finite Shop Showcase. You can sell your items there"+priceFinite+"\n";
 		}
 		if(player.hasPermission("showcase.infinite", true)){
 			print+=ChatColor.YELLOW+"(infinite)"+ChatColor.WHITE+" Infinite Shop Showcase. Others can buy unlimited items\n";

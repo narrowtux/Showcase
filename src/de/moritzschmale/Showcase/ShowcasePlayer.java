@@ -185,7 +185,7 @@ public class ShowcasePlayer {
 		}
 	}
 	
-	public boolean withdraw(double price){
+	public boolean takeMoney(double price){
 		if(canAfford(price)){
 			MethodAccount account = getAccount();
 			if(account!=null)
@@ -249,7 +249,6 @@ public class ShowcasePlayer {
 				stack.setAmount(amount);
 			}
 			amount-=stack.getAmount();
-			System.out.println(stack);
 			Map<Integer, ItemStack> notFitting = inv.addItem(stack);
 			if(notFitting.size()>0){
 				amount+=notFitting.get(0).getAmount();

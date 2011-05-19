@@ -48,7 +48,6 @@ public class ShowcaseItem {
 		} else {
 			location = loc;
 			setItem(null);
-			System.out.println("Item is currently in not loaded chunk.");
 		}
 	}
 	/**
@@ -225,7 +224,6 @@ public class ShowcaseItem {
 		for(Entity e:c.getEntities()){
 			if(e.getLocation().getBlock().equals(getBlock())&&e instanceof Item&&!e.equals(item)){
 				e.remove();
-				System.out.print("removed a duped item.");
 			}
 		}
 	}
