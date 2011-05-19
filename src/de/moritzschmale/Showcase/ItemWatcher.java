@@ -13,14 +13,12 @@ public class ItemWatcher implements Runnable {
 			Chunk c = item.getBlock().getChunk();
 			if(c.getWorld().isChunkLoaded(c)){
 				if(!item.isChunkLoaded()){
-					System.out.println("Checking for remaining items.");
 					//Scan chunk for eventually dropped items
 					boolean itemFound = false;
 					for(Entity e:c.getEntities()){
 						if(e instanceof Item){
 							if(e.getLocation().getBlock().equals(item.getBlock())){
 								item.setItem((Item)e);
-								System.out.println("Restored item from unloaded chunk.");
 								itemFound = true;
 								break;
 							}

@@ -158,7 +158,7 @@ public class ShowcaseMain extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("Unexpected error.");
+			System.out.println("Unexpected error when writing file.");
 		}
 	}
 	
