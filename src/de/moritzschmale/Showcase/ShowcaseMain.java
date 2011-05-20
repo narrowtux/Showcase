@@ -47,6 +47,7 @@ public class ShowcaseMain extends JavaPlugin {
 	private ItemWatcher watcher = new ItemWatcher();
 	public Method method = null;
 	public Configuration config;
+	
 	@Override
 	public void onDisable() {
 		//Read plugin file
@@ -85,9 +86,9 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
 		if(dclistener!=null){
+			//Listen for dropchest-suck events
 			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
 		}
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 10);
 		
 		//Remove probably duplicated items
 		for(World w:getServer().getWorlds()){
@@ -103,12 +104,22 @@ public class ShowcaseMain extends JavaPlugin {
 		}
 		
 		load();
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
 	}
 	
 	public ShowcaseItem getItemByBlock(Block b){
 		for(ShowcaseItem item:showcasedItems){
 			if(b.equals(item.getBlock())){
+				return item;
+			}
+		}
+		return null;
+	}
+
+	public ShowcaseItem getItemByDrop(Item i){
+		for(ShowcaseItem item: showcasedItems){
+			if(item.getItem().equals(i)){
 				return item;
 			}
 		}
@@ -239,16 +250,16 @@ public class ShowcaseMain extends JavaPlugin {
 		try{
 			Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
 
-			if(this.Permissions == null) {
+			if(ShowcaseMain.Permissions == null) {
 				try{
-					this.Permissions = ((Permissions)test).getHandler();
+					ShowcaseMain.Permissions = ((Permissions)test).getHandler();
 				} catch(Exception e) {
-					this.Permissions = null;
+					ShowcaseMain.Permissions = null;
 					log.log(Level.WARNING, "Permissions is not enabled! All Operations are allowed!");
 				}
 			}
 		} catch(java.lang.NoClassDefFoundError e){
-			this.Permissions = null;
+			ShowcaseMain.Permissions = null;
 			log.log(Level.WARNING, "Permissions not found! All Operations are allowed!");
 		}
 	}
@@ -271,13 +282,63 @@ public class ShowcaseMain extends JavaPlugin {
 		ret = ret.replace("_", " ");
 		if(type.equals(Material.WOOL)){
 			DyeColor color = DyeColor.getByData((byte) data);
-			ret = color.toString().toLowerCase()+" wool";
+			ret = color.toString().toLowerCase().replace("_", " ")+" Wool";
 		}
 		if(type.equals(Material.INK_SACK)){
 			DyeColor color = DyeColor.getByData((byte) (15-data));
-			ret = color.toString().toLowerCase()+" dye";
+			ret = color.toString().toLowerCase().replace("_", " ")+" Dye";
+		}
+		if(type.equals(Material.STEP)){
+			switch(data){
+			case 0:
+				ret = "Stone Slab";
+				break;
+			case 1:
+				ret = "Sandstone Slab";
+				break;
+			case 2:
+				ret = "Wooden Slab";
+				break;
+			case 3:
+				ret = "Cobblestone Slab";
+				break;
+			}
+		}
+		if(type.equals(Material.COAL)){
+			switch(data){
+			case 0:
+				ret = "Coal";
+				break;
+			case 1:
+				ret = "Charcoal";
+				break;
+			}
+		}
+		if(type.equals(Material.LOG)||type.equals(Material.SAPLING)||type.equals(Material.LEAVES)){
+			ret = "";
+			switch(data){
+			case 0:
+				ret = "";
+				break;
+			case 1:
+				ret = "Spruce ";
+				break;
+			case 2:
+				ret = "Birch ";
+				break;
+			}
+			switch(type){
+			case LOG:
+				ret+="Log";
+				break;
+			case SAPLING:
+				ret+="Sapling";
+				break;
+			case LEAVES:
+				ret+="Leaves";
+				break;
+			}
 		}
 		return ret;
-		
 	}
 }
