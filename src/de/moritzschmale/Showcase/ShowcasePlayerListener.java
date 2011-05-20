@@ -24,7 +24,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 	public Configuration config = null;
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
-		if(event.hasBlock()){
+		if(event.hasBlock()&&event.getClickedBlock().getType().equals(Material.GLASS)){
 			ShowcaseItem showItem = ShowcaseMain.instance.getItemByBlock(event.getClickedBlock());
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
@@ -44,12 +44,12 @@ public class ShowcasePlayerListener extends PlayerListener {
 							return;
 						}
 						player.setHasReadPrice(false);
-						if(player.hasPermission("showcase.basic", false)&&!player.hasPermission("showcase.infinite", true)&&!player.hasPermission("showcase.finite", false)){
+						if(player.hasPermission("showcase.basic", false)&&!player.hasPermission("showcase.infinite", true)&&!player.hasPermission("showcase.finite", false)||config.isBasicMode()){
 							Location loc = event.getClickedBlock().getLocation();
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
 							addShowcase(loc, mat, data, player.getPlayer(), ShowcaseType.BASIC, 1, 0);
-							player.sendMessage(ChatColor.GREEN+ShowcaseMain.getName(showItem.getMaterial(), showItem.getData())+" showcased.");
+							player.sendMessage(ChatColor.GREEN+ShowcaseMain.getName(event.getItem().getType(), event.getItem().getDurability())+" showcased.");
 							player.resetDialog();
 						} else {
 							printTypeMenu(event.getPlayer());
@@ -95,14 +95,10 @@ public class ShowcasePlayerListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerPickupItem(PlayerPickupItemEvent event){
-		Item item = event.getItem();
-		ShowcaseItem shit = ShowcaseMain.instance.getItemByBlock(item.getLocation().getBlock());
+		ShowcaseItem shit = ShowcaseMain.instance.getItemByDrop(event.getItem());
 		if(shit!=null)
 		{
 			event.setCancelled(true);
-			if(shit.getItem().isDead()){
-				shit.setItem(item);
-			}
 		}
 	}
 	
@@ -324,6 +320,8 @@ public class ShowcasePlayerListener extends PlayerListener {
 			Material.DIODE_BLOCK_OFF,
 			Material.WOOD_DOOR,
 			Material.IRON_DOOR,
+			Material.WOODEN_DOOR,
+			Material.IRON_DOOR_BLOCK,
 			Material.WOOD_PLATE,
 			Material.STONE_PLATE,
 			Material.STONE_BUTTON,
@@ -356,6 +354,8 @@ public class ShowcasePlayerListener extends PlayerListener {
 			Material.SUGAR_CANE_BLOCK,
 			Material.PORTAL,
 			Material.CAKE_BLOCK,
+			Material.SAND,
+			Material.GRAVEL,
 		};
 		for(Material t:nonsafe){
 			if(t.equals(below.getType())){

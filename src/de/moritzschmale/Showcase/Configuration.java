@@ -8,6 +8,9 @@ public class Configuration {
 	private boolean showcaseProtection = true;
 	private double priceForBasic = 0.0;
 	private double priceForFiniteShop = 0.0;
+	private int maximumPerUser = 0;
+	private FlatFileReader reader;
+	private boolean basicMode;
 	/**
 	 * @return the showcaseProtection
 	 */
@@ -35,9 +38,6 @@ public class Configuration {
 	public int getMaximumPerUser() {
 		return maximumPerUser;
 	}
-
-	private int maximumPerUser = 0;
-	private FlatFileReader reader;
 	public Configuration(){
 		File pluginFolder = ShowcaseMain.instance.getDataFolder();
 		reader = new FlatFileReader(new File(pluginFolder.getAbsolutePath()+"/showcase.cfg"), false);
@@ -49,6 +49,14 @@ public class Configuration {
 		showcaseProtection = reader.getBoolean("showcaseprotection", true);
 		priceForBasic = reader.getDouble("priceforbasic", 0);
 		priceForFiniteShop = reader.getDouble("priceforfinite", 0);
+		basicMode = reader.getBoolean("basicmode", false);
 		//maximumPerUser = reader.getInteger("maximumperplayer", 0);
+	}
+
+	/**
+	 * @return the basicMode
+	 */
+	public boolean isBasicMode() {
+		return basicMode;
 	}
 }
