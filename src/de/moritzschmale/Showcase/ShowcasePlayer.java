@@ -3,12 +3,12 @@ package de.moritzschmale.Showcase;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Method.MethodAccount;
@@ -42,7 +42,8 @@ public class ShowcasePlayer {
 	}
 	
 	public Player getPlayer(){
-		return ShowcaseMain.instance.getServer().getPlayer(player);
+		Player ret = ShowcaseMain.instance.getServer().getPlayer(player);
+		return ret;
 	}
 	
 	public boolean hasPermission(String node, boolean adminMethod){
@@ -241,7 +242,7 @@ public class ShowcasePlayer {
 	
 	public int addItems(Material type, short data, int amount){
 		//returns the number of items that did not fit.
-		Inventory inv = getPlayer().getInventory();
+		PlayerInventory inv = getPlayer().getInventory();
 		while(amount>0){
 			ItemStack stack = new ItemStack(type);
 			stack.setDurability(data);

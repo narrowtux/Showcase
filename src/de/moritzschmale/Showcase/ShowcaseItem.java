@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import org.bukkitcontrib.player.*;
 
 public class ShowcaseItem {
 	private Item item;
@@ -25,7 +24,6 @@ public class ShowcaseItem {
 	private Material material;
 	private short data;
 	private boolean chunkLoaded = true;
-	private TileEntityDispenser dispenser = new TileEntityDispenser();
 	public ShowcaseItem(Item item, Location location, String player){
 		setItem(item);
 		setLocation(location);
@@ -95,9 +93,7 @@ public class ShowcaseItem {
 	public void giveItemsBack(){
 		if(type.equals(ShowcaseType.FINITE_SHOP)){
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(this.player);
-			ItemStack stack = item.getItemStack().clone();
-			stack.setAmount(itemAmount);
-			player.getPlayer().getInventory().addItem(stack);
+			player.addItems(material, data, itemAmount);
 		}
 	}
 	
@@ -230,12 +226,5 @@ public class ShowcaseItem {
 				e.remove();
 			}
 		}
-	}
-	
-	public void openInventory(Player p){
-		ContribPlayer player = (ContribPlayer)p;
-		Inventory inv = new CraftInventory(dispenser);
-		inv.setItem(4, new ItemStack(getMaterial(), getItemAmount()>0?getItemAmount():1, getData()));
-		player.openInventoryWindow(inv);
 	}
 }

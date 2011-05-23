@@ -67,4 +67,8 @@ public class AssistantPage {
 		}
 		assistant.sendMessage(message);
 	}
+	
+	public void sendMessage(String text){
+		getAssistant().sendMessage(text);
+	}
 }
