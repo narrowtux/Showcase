@@ -48,6 +48,7 @@ public class ShowcaseItem {
 		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
 		if(isChunkLoaded()){
 			setItem(loc.getWorld().dropItemNaturally(loc, new ItemStack(mat, 1, data)));
+			getItem().setVelocity(new Vector(0,0,0));
 			setLocation(loc);
 			checkForDupedItem();
 		} else {
