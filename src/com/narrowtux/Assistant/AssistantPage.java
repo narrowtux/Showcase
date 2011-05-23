@@ -1,0 +1,59 @@
+package com.narrowtux.Assistant;
+
+import org.bukkit.ChatColor;
+
+public class AssistantPage {
+	private String title = "Generic Page";
+	private String text = "Enter some weird text here.";
+	private Assistant assistant = null;
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+	
+	/**
+	 * @param assistant the assistant to set
+	 */
+	public void setAssistant(Assistant assistant) {
+		this.assistant = assistant;
+	}
+	
+	/**
+	 * @return the assistant
+	 */
+	public Assistant getAssistant() {
+		return assistant;
+	}
+	
+	public boolean onPageInput(String text){
+		assistant.sendMessage(ChatColor.YELLOW+"You: "+ChatColor.WHITE+text);
+		return true;
+	}
+	
+	/**
+	 * @param text the text to set
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return text;
+	}
+	/*
+	 * Page actions
+	 */
+	public void play(){
+		assistant.sendMessage("* "+getTitle()+"\n*******************\n"+getText()+"\n*******************");
+	}
+}
