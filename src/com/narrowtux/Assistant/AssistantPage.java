@@ -12,6 +12,7 @@ public class AssistantPage {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	/**
 	 * @return the title
 	 */
@@ -34,7 +35,7 @@ public class AssistantPage {
 	}
 	
 	public boolean onPageInput(String text){
-		assistant.sendMessage(ChatColor.YELLOW+"You: "+ChatColor.WHITE+text);
+		assistant.sendMessage(assistant.formatLine(ChatColor.YELLOW+"You: "+ChatColor.WHITE+text));
 		return true;
 	}
 	
@@ -54,6 +55,16 @@ public class AssistantPage {
 	 * Page actions
 	 */
 	public void play(){
-		assistant.sendMessage("* "+getTitle()+"\n*******************\n"+getText()+"\n*******************");
+		String message = "";
+		message += assistant.getSeparator()+"\n";
+		message += assistant.formatLine(getTitle())+"\n";
+		message += assistant.getSeparator()+"\n";
+		if(!getText().equals("")){
+			for(String line:getText().split("\n")){
+				message += assistant.formatLine(line)+"\n";
+			}
+			message += assistant.getSeparator();
+		}
+		assistant.sendMessage(message);
 	}
 }

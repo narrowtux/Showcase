@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.narrowtux.Assistant.Assistant;
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Method.MethodAccount;
 
@@ -53,15 +54,11 @@ public class ShowcasePlayerListener extends PlayerListener {
 							player.sendMessage(ChatColor.GREEN+ShowcaseMain.getName(event.getItem().getType(), event.getItem().getDurability())+" showcased.");
 							player.resetDialog();
 						} else {
-							printTypeMenu(event.getPlayer());
-							player.setDialogState(1);
-							player.setRequestedItem(event.getItem().clone());
-							player.setRequestedBlock(event.getClickedBlock());
+							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
+							assistant.start();
 						}
 					}
 				} else if(showItem!=null){
-					showItem.openInventory(event.getPlayer());
-					/*
 					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)||!config.isShowcaseProtection()){
 						showItem.giveItemsBack();
 						showItem.remove();
@@ -69,7 +66,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 						event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
 					} else {
 						event.getPlayer().sendMessage(ChatColor.RED+"This is "+showItem.getPlayer()+"'s Showcase!");
-					}*/
+					}
 					event.setCancelled(true);
 				}
 			}
@@ -113,151 +110,8 @@ public class ShowcasePlayerListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerChat(PlayerChatEvent event){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
-		if(player.hasReadPrice()){
-			ShowcaseItem show = player.getLastClickedShowcase();
-			//player.getPlayer().sendBlockChange(show.getLocation(), Material.GLASS, (byte) 0);
-			event.setCancelled(true);
-			int amount = 0;
-			try{
-				amount = Integer.valueOf(event.getMessage());
-			}catch(Exception e){
-				amount = 0;
-			}
-			if(amount<0){
-				amount = 0;
-			}
-			if(amount==0){
-				player.sendMessage("Aborting checkout.");
-				player.setHasReadPrice(false);
-				return;
-			}
-			double price = show.getPricePerItem();
-			if(show.getType().equals(ShowcaseType.FINITE_SHOP)){
-				if(amount>show.getItemAmount()){
-					amount = show.getItemAmount();
-				}
-			}
-			double priceToPay = (double)amount * price;
-			MethodAccount account = player.getAccount();
-			Method method = ShowcaseMain.instance.method;
-			if(account==null)
-			{
-				player.sendMessage("You don't have got an account, ask your admin to give you one.");
-				player.setHasReadPrice(false);
-				return;
-			}
-			if(account.hasEnough(priceToPay)){
-				player.sendMessage("Bought "+amount+" "+ShowcaseMain.getName(show.getMaterial(), show.getData())+" for "+method.format(priceToPay));
-				int remaining = player.addItems(show.getMaterial(), show.getData(), amount);
-				if(remaining>0){
-					player.sendMessage("They didn't fit completely into your inventory. Selling you as much as I can.");
-					priceToPay = (double)(amount-remaining)*show.getPricePerItem();
-					amount = amount-remaining;
-				}
-				account.subtract(priceToPay);
-				if(show.getType().equals(ShowcaseType.FINITE_SHOP)){
-					show.setItemAmount(show.getItemAmount()-amount);
-					ShowcasePlayer owner = ShowcasePlayer.getPlayer(show.getPlayer());
-					owner.giveMoney(priceToPay);
-					owner.sendMessage(player.getPlayer().getName()+" bought "+amount+" "+ShowcaseMain.getName(show.getMaterial(), show.getData())+" for a total of "+method.format(priceToPay)+".");
-				}
-			} else {
-				player.sendMessage("You don't have enough money for "+amount+" items.");
-			}
-			player.setHasReadPrice(false);
-			player.setLastClickedShowcase(null);
-			return;
-		}
-		if(player.getDialogState()>=1){
-			event.setCancelled(true);
-			player.sendMessage(event.getMessage());
-			if(player.getDialogState()==1){
-				ShowcaseType type = ShowcaseType.NONE;
-				String message = event.getMessage().toLowerCase();
-				if(message.equals("basic")){
-					type = ShowcaseType.BASIC;
-					if(!player.takeMoney(config.getPriceForBasic())){
-						player.resetDialog();
-						player.sendMessage("You can't afford this showcase.");
-						return;
-					}
-				} else if(message.equals("infinite")){
-					type = ShowcaseType.INFINITE_SHOP;
-				} else if(message.equals("finite")){
-					type = ShowcaseType.FINITE_SHOP;
-					if(!player.takeMoney(config.getPriceForFiniteShop())){
-						player.resetDialog();
-						player.sendMessage("You can't afford this showcase.");
-						return;
-					}
-				}
-				if(type.equals(ShowcaseType.NONE)){
-					player.sendMessage("Invalid answer. Aborting.");
-					player.resetDialog();
-					return;
-				}
-				if(message.equals("basic")&&!player.hasPermission("showcase.basic", false)
-						|| message.equals("infinite")&&!player.hasPermission("showcase.infinite", true)
-						|| message.equals("finite")&&!player.hasPermission("showcase.finite", false)){
-					player.sendMessage("Insufficient permissions. Aborting.");
-					player.resetDialog();
-					return;
-				}
-				player.setRequestedType(type);
-				player.setDialogState(2);
-				if(type.equals(ShowcaseType.BASIC)){
-					Location loc = player.getRequestedBlock().getLocation();
-					Material mat = player.getRequestedItem().getType();
-					short data = player.getRequestedItem().getDurability();
-					addShowcase(loc, mat, data, player.getPlayer(), type, 1, 0);
-					player.sendMessage(ChatColor.GREEN+"Item "+mat+" showcased.");
-					player.resetDialog();
-				} else {
-					printPriceMenu(event.getPlayer());
-				}
-			} else if(player.getDialogState()==2){
-				double price = 0;
-				try{
-					price = Double.valueOf(event.getMessage());
-				} catch(Exception e){
-					price = 0;
-				}
-				player.setRequestedPrice(price);
-				player.setDialogState(3);
-				if(player.getRequestedType().equals(ShowcaseType.INFINITE_SHOP)){
-					Location loc = player.getRequestedBlock().getLocation();
-					Material mat = player.getRequestedItem().getType();
-					short data = player.getRequestedItem().getDurability();
-					addShowcase(loc, mat, data, event.getPlayer(), ShowcaseType.INFINITE_SHOP, -1, price);
-					player.sendMessage(ChatColor.GREEN+"Setup of Infinite Showcase successful.");
-					player.resetDialog();
-				} else {
-					printAmountMenu(event.getPlayer());
-				}
-			} else if(player.getDialogState()==3){
-				int amount = 0;
-				try{
-					amount = Integer.valueOf(event.getMessage());
-				} catch(Exception e){
-					amount = 0;
-				}
-				ItemStack stack = player.getRequestedItem();
-				if(amount>player.getAmountOfType(stack.getType(), stack.getDurability())){
-					amount = player.getAmountOfType(stack.getType(), stack.getDurability());
-				}
-				if(amount<=0){
-					amount = 1;
-				}
-				Location loc = player.getRequestedBlock().getLocation();
-				Material mat = player.getRequestedItem().getType();
-				short data = player.getRequestedItem().getDurability();
-				addShowcase(loc, mat, data, player.getPlayer(), player.getRequestedType(), amount, player.getRequestedPrice());
-				player.sendMessage(ChatColor.GREEN+"Finite Shop Showcase setup successful.");
-				player.remove(mat, data, amount);
-				player.resetDialog();
-			}
-		}
+		//Cool, not?
+		Assistant.onPlayerChat(event);
 	}
 	
 	public void addShowcase(Location loc, Material material, short data, Player owner, ShowcaseType type, int amount, double price){

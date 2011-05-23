@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 
@@ -14,6 +15,7 @@ public class Assistant {
 	private AssistantPage currentPage = null;
 	private int currentPageIndex = 0;
 	private Player player = null;
+	private String heldBackChat = "";
 	private static Map<Player, Assistant> instances = new HashMap<Player, Assistant>();
 	
 	public Assistant(Player p){
@@ -23,6 +25,12 @@ public class Assistant {
 	public static boolean onPlayerChat(PlayerChatEvent event){
 		//Dispatch the chat to the right assistant
 		Assistant current = null;
+		for(Player p:instances.keySet()){
+			event.getRecipients().remove(p);
+			if(!event.getPlayer().equals(p)){
+				instances.get(p).heldBackChat+= event.getFormat()+"\n";
+			}
+		}
 		if(instances.containsKey(event.getPlayer())){
 			current = instances.get(event.getPlayer());
 		} else {
@@ -32,12 +40,13 @@ public class Assistant {
 		String text = event.getMessage();
 		if(current.getCurrentPage()!=null)
 		{
+			event.setCancelled(true);
 			if(!current.getCurrentPage().onPageInput(text)){
 				current.cancel();
 				return false;
 			} else {
 				current.currentPageIndex++;
-				if(current.pages.size()>=current.currentPageIndex){
+				if(current.pages.size()>current.currentPageIndex){
 					current.currentPage = current.pages.get(current.currentPageIndex);
 					current.currentPage.play();
 				} else {
@@ -110,12 +119,8 @@ public class Assistant {
 	 * Assistant events
 	 */
 	
-	public void onAssistantCancelled(){
-		getPlayer().sendMessage("Assistant cancelled.");
-	}
-	
-	public void onAssistantNextPage(AssistantPage current, AssistantPage next){
-		//TODO: some default implementation here.
+	public void onAssistantCancel(){
+		getPlayer().sendMessage(ChatColor.YELLOW+"Assistant cancelled.");
 	}
 	
 	public void onAssistantFinish(){
@@ -128,20 +133,32 @@ public class Assistant {
 	
 	public void start(){
 		instances.put(getPlayer(),this);
-		sendMessage("*******************\n* "+getTitle()+"\n*******************");
+		String message = getSeparator()+"\n";
+		message += formatLine(getTitle())+"\n";
+		message += getSeparator();
+		sendMessage(message);
 		currentPage.play();
 	}
 	
 	public void cancel(){
-		onAssistantCancelled();
-		instances.remove(getPlayer());
+		onAssistantCancel();
+		sendMessage(getSeparator());
+		remove();
 	}
 	
 	public void stop(){
 		onAssistantFinish();
-		instances.remove(getPlayer());
+		sendMessage(getSeparator());
+		remove();
 	}
 	
+	private void remove(){
+		instances.remove(getPlayer());
+		if(!heldBackChat.equals("")){
+			sendMessage(ChatColor.YELLOW+"This is the chat held back for you:");
+			sendMessage(heldBackChat);
+		}
+	}
 	/*
 	 * Misc actions
 	 */
@@ -150,5 +167,13 @@ public class Assistant {
 		for(String line:text.split("\n")){
 			getPlayer().sendMessage(line);
 		}
+	}
+	
+	public String getSeparator(){
+		return ChatColor.LIGHT_PURPLE+"|---------------------------------------------------|";
+	}
+	
+	public String formatLine(String line){
+		return ChatColor.LIGHT_PURPLE+"| "+ChatColor.WHITE+line;
 	}
 }
