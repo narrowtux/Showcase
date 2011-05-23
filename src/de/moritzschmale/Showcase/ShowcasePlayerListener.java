@@ -119,54 +119,6 @@ public class ShowcasePlayerListener extends PlayerListener {
 		ShowcaseMain.instance.showcasedItems.add(shit);
 	}
 	
-	public void printTypeMenu(Player p){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(p);
-		String priceBasic = "";
-		String priceFinite = "";
-		Method method = ShowcaseMain.instance.method;
-		if(method!=null){
-			if(config.getPriceForBasic()>0){
-				priceBasic = ChatColor.YELLOW+" ("+ChatColor.WHITE+method.format(config.getPriceForBasic())+ChatColor.YELLOW+")";
-			}
-			if(config.getPriceForFiniteShop()>0){
-
-				priceFinite = ChatColor.YELLOW+" ("+ChatColor.WHITE+method.format(config.getPriceForFiniteShop())+ChatColor.YELLOW+")";
-			}
-			
-		}
-		String print = ChatColor.GOLD+"======[ "+ChatColor.YELLOW+"Showcase Type Selection"+ChatColor.GOLD+" ]======\n";
-		if(player.hasPermission("showcase.basic", false)){
-			print+=ChatColor.YELLOW+"(basic)"+ChatColor.WHITE+" Basic Showcase. Just displays an item"+priceBasic+"\n";
-		}
-		if(player.hasPermission("showcase.finite", false)){
-			print+=ChatColor.YELLOW+"(finite)"+ChatColor.WHITE+" Finite Shop Showcase. You can sell your items there"+priceFinite+"\n";
-		}
-		if(player.hasPermission("showcase.infinite", true)){
-			print+=ChatColor.YELLOW+"(infinite)"+ChatColor.WHITE+" Infinite Shop Showcase. Others can buy unlimited items\n";
-		}
-		print += ChatColor.GOLD+"======[ "+ChatColor.YELLOW+"Enter Selection"+ChatColor.GOLD+" ]======";
-		player.sendMessage(print);
-	}
-	
-	public void printPriceMenu(Player p){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(p);
-		ShowcaseType type = player.getRequestedType();
-		String print = ChatColor.YELLOW+"You want a "+type.toString().toLowerCase()+" Showcase.\n";
-		print+=ChatColor.YELLOW+"Please enter the price per item:";
-		player.sendMessage(print);
-	}
-	
-	public void printAmountMenu(Player p){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(p);
-		String print = ChatColor.YELLOW+"You want "+player.getRequestedPrice()+ChatColor.YELLOW+" dollars per item.\n";
-		print+=ChatColor.YELLOW+"Please enter the desired amount of items:\n";
-		print+=ChatColor.YELLOW+"(You have got "+ChatColor.WHITE;
-		ItemStack stack = player.getRequestedItem();
-		print+=player.getAmountOfType(stack.getType(), stack.getDurability());
-		print+=ChatColor.YELLOW+" of "+ChatColor.WHITE+stack.getType()+ChatColor.YELLOW+")\n";
-		player.sendMessage(print);
-	}
-	
 	public boolean isSafePlace(Block glass){
 		Block below = glass.getFace(BlockFace.DOWN);
 		Material nonsafe[] = {
