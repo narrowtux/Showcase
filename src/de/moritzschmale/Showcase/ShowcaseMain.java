@@ -41,6 +41,7 @@ public class ShowcaseMain extends JavaPlugin {
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
 	private ShowcaseServerListener serverListener = new ShowcaseServerListener();
+	private ShowcaseWorldListener worldListener = new ShowcaseWorldListener();
 	private DropChestListener dclistener;
 	public static ShowcaseMain instance;
 	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
@@ -63,10 +64,6 @@ public class ShowcaseMain extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		log = getServer().getLogger();
-
-		config = new Configuration();
-		
-		playerListener.config = config;
 		try{
 			dclistener = new DropChestListener();
 		} catch(NoClassDefFoundError e){
@@ -85,6 +82,9 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
+		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);
 		if(dclistener!=null){
 			//Listen for dropchest-suck events
 			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
@@ -106,6 +106,10 @@ public class ShowcaseMain extends JavaPlugin {
 		load();
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
+
+		config = new Configuration();
+		
+		playerListener.config = config;
 	}
 	
 	public ShowcaseItem getItemByBlock(Block b){

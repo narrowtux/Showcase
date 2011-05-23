@@ -50,7 +50,6 @@ public class Configuration {
 		priceForBasic = reader.getDouble("priceforbasic", 0);
 		priceForFiniteShop = reader.getDouble("priceforfinite", 0);
 		basicMode = reader.getBoolean("basicmode", false);
-		//maximumPerUser = reader.getInteger("maximumperplayer", 0);
 	}
 
 	/**

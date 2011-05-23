@@ -10,7 +10,7 @@ public class ItemWatcher implements Runnable {
 	@Override
 	public void run() {
 		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
-			Chunk c = item.getBlock().getChunk();
+			/*Chunk c = item.getBlock().getChunk();
 			if(c.getWorld().isChunkLoaded(c)){
 				if(!item.isChunkLoaded()){
 					//Scan chunk for eventually dropped items
@@ -29,8 +29,8 @@ public class ItemWatcher implements Runnable {
 					}
 				}
 			}
-			item.setChunkLoaded(c.getWorld().isChunkLoaded(c));
-			if((item.getItem()==null||item.getItem().isDead())&&item.isChunkLoaded()){
+			item.setChunkLoaded(c.getWorld().isChunkLoaded(c));*/
+			if(item.getItem()==null||item.getItem().isDead()){
 				item.respawn();
 			}
 			item.updatePosition();

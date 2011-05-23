@@ -176,6 +176,9 @@ public class ShowcasePlayer {
 		return hasReadPrice;
 	}
 	public boolean canAfford(double price){
+		if(price<=0){
+			return true;
+		}
 		MethodAccount account = getAccount();
 		if(account!=null)
 		{
