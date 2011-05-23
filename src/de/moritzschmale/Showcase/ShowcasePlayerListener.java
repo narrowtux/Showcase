@@ -60,6 +60,8 @@ public class ShowcasePlayerListener extends PlayerListener {
 						}
 					}
 				} else if(showItem!=null){
+					showItem.openInventory(event.getPlayer());
+					/*
 					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)||!config.isShowcaseProtection()){
 						showItem.giveItemsBack();
 						showItem.remove();
@@ -67,7 +69,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 						event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
 					} else {
 						event.getPlayer().sendMessage(ChatColor.RED+"This is "+showItem.getPlayer()+"'s Showcase!");
-					}
+					}*/
 					event.setCancelled(true);
 				}
 			}
