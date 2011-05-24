@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import com.narrowtux.Assistant.Assistant;
 
@@ -71,6 +70,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
 					if(showItem.getPlayer().equals(event.getPlayer().getName())&&showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
+						player.sendMessage(ChatColor.YELLOW+"Drop new items to refill, or type "+ChatColor.WHITE+"cancel"+ChatColor.YELLOW+" in chat to abort.");
 						player.setLastClickedShowcase(showItem);
 						player.setHasReadPrice(true);
 					} else if(showItem.getItemAmount()!=0){
@@ -98,6 +98,13 @@ public class ShowcasePlayerListener extends PlayerListener {
 	public void onPlayerChat(PlayerChatEvent event){
 		//Cool, not?
 		Assistant.onPlayerChat(event);
+		
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
+		if(player.hasReadPrice()&&event.getMessage().toLowerCase().contains("cancel")){
+			player.sendMessage("Cancelled");
+			player.setHasReadPrice(false);
+			event.setCancelled(true);
+		}
 	}
 	
 	public void addShowcase(Location loc, Material material, short data, Player owner, ShowcaseType type, int amount, double price){
