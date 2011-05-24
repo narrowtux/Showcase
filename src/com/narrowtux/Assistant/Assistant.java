@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Assistant {
 	private List<AssistantPage> pages = new ArrayList<AssistantPage>();
@@ -16,6 +18,7 @@ public class Assistant {
 	private int currentPageIndex = 0;
 	private Player player = null;
 	private String heldBackChat = "";
+	private Location assistantStartLocation = null;
 	private static Map<Player, Assistant> instances = new HashMap<Player, Assistant>();
 	
 	public Assistant(Player p){
@@ -58,6 +61,22 @@ public class Assistant {
 		return false;
 	}
 
+	public static void onPlayerMove(PlayerMoveEvent event){
+		Assistant current = null;
+		if(instances.containsKey(event.getPlayer())){
+			current = instances.get(event.getPlayer());
+		} else {
+			return;
+		}
+		if(current.assistantStartLocation==null)
+		{
+			return;
+		}
+		if(current.assistantStartLocation.toVector().distanceSquared(event.getTo().toVector())>25){
+			current.cancel();
+		}
+	}
+	
 	/**
 	 * @param player the player to set
 	 */
@@ -175,5 +194,19 @@ public class Assistant {
 	
 	public String formatLine(String line){
 		return ChatColor.LIGHT_PURPLE+"| "+ChatColor.WHITE+line;
+	}
+
+	/**
+	 * @param assistantStartLocation the assistantStartLocation to set
+	 */
+	public void setAssistantStartLocation(Location assistantStartLocation) {
+		this.assistantStartLocation = assistantStartLocation;
+	}
+
+	/**
+	 * @return the assistantStartLocation
+	 */
+	public Location getAssistantStartLocation() {
+		return assistantStartLocation;
 	}
 }
