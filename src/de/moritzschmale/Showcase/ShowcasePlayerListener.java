@@ -17,8 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.narrowtux.Assistant.Assistant;
-import com.nijikokun.register.payment.Method;
-import com.nijikokun.register.payment.Method.MethodAccount;
 
 
 public class ShowcasePlayerListener extends PlayerListener {
@@ -72,28 +70,16 @@ public class ShowcasePlayerListener extends PlayerListener {
 			}
 			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
-					Method method = ShowcaseMain.instance.method;
-					if(method==null){
-						return;
+					if(showItem.getPlayer().equals(event.getPlayer().getName())&&showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
+						player.setLastClickedShowcase(showItem);
+						player.setHasReadPrice(true);
+					} else if(showItem.getItemAmount()!=0){
+						BuyAssistant assistant = new BuyAssistant(event.getPlayer(), showItem);
+						assistant.setAssistantStartLocation(showItem.getLocation());
+						assistant.start();
+					} else {
+						player.sendMessage("This shop is sold-out!");
 					}
-					String itemCount = "";
-					if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
-						itemCount = ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+showItem.getItemAmount()+ChatColor.YELLOW+")";
-					}
-					String print = ShowcaseMain.getName(showItem.getMaterial(), showItem.getData())+itemCount;
-					print+=ChatColor.YELLOW+" for "+ChatColor.WHITE+method.format(showItem.getPricePerItem())+ChatColor.YELLOW+" each.\n";
-					print+=ChatColor.YELLOW+"This is "+ChatColor.WHITE+showItem.getPlayer()+ChatColor.YELLOW+"'s shop.\n";
-					print+=ChatColor.YELLOW+"How many items do you want?\n"+ChatColor.YELLOW+"Type the number in chat, "+ChatColor.WHITE+"0"+ChatColor.YELLOW+" to abort.";
-					if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)&&showItem.getItemAmount()==0){
-						print = ChatColor.YELLOW+"This showcase is currently sold-out.";
-					}
-					if(showItem.getType().equals(ShowcaseType.FINITE_SHOP)&&showItem.getPlayer().equals(player.getPlayer().getName())){
-						print = ChatColor.YELLOW+"This showcase has got "+showItem.getItemAmount()+" "+ShowcaseMain.getName(showItem.getMaterial(), showItem.getData())+". To add some, simply drop them.";
-					}
-					player.setHasReadPrice(true);
-					player.setLastClickedShowcase(showItem);
-					player.sendMessage(print);
-					//player.getPlayer().sendBlockChange(event.getClickedBlock().getLocation(), Material.STONE_PLATE, (byte) 0);
 				}
 			}
 		}
@@ -182,16 +168,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event){
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
-		if(player.hasReadPrice()){
-			Vector showcase = player.getLastClickedShowcase().getLocation().toVector();
-			Vector pl = event.getTo().toVector();
-			if(pl.distanceSquared(showcase)>16){
-				player.sendMessage("Not interested? Bah, screw it!");
-				player.setHasReadPrice(false);
-				player.setLastClickedShowcase(null);
-			}
-		}
+		Assistant.onPlayerMove(event);
 	}
 
 	public void onPlayerDropItem(PlayerDropItemEvent event){
@@ -208,6 +185,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 				player.sendMessage("Added "+stack.getAmount()+" "+ShowcaseMain.getName(stack.getType(), stack.getDurability())+" to the showcase.");
 				item.remove();
 			}
+			player.setHasReadPrice(false);
 		}
 	}
 }
