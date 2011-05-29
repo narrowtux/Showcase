@@ -96,7 +96,7 @@ public class ShowcaseMain extends JavaPlugin {
 				if(e instanceof Item){
 					Location loc = e.getLocation();
 					Block b = loc.getBlock();
-					if(b.getType().equals(Material.GLASS)){
+					if(b.getType().equals(Material.GLASS)||b.getType().equals(Material.STEP)){
 						e.remove();
 					}
 				}

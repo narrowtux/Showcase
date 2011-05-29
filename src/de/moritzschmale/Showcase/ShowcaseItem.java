@@ -43,6 +43,9 @@ public class ShowcaseItem {
 		setItemAmount(amount);
 		setPricePerItem(price);
 		setBlock(loc.getBlock());
+		if(getBlock().getTypeId()==20){
+			getBlock().setType(Material.STEP);
+		}
 		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
 		if(isChunkLoaded()){
 			setItem(loc.getWorld().dropItemNaturally(loc, new ItemStack(mat, 1, data)));
@@ -109,7 +112,7 @@ public class ShowcaseItem {
 	}
 	
 	public void updatePosition() {
-		if(item!=null&&(!updatedPosition||item.getLocation().getY()>=block.getLocation().getBlockY()+0.5)){
+		if(item!=null&&(!updatedPosition||item.getLocation().getY()>=block.getLocation().getBlockY()+0.6)){
 			item.teleport(location);
 			item.setVelocity(new Vector(0,0,0));
 			updatedPosition=true;

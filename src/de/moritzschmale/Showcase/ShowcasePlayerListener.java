@@ -23,7 +23,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 	public Configuration config = null;
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
-		if(event.hasBlock()&&event.getClickedBlock().getType().equals(Material.GLASS)){
+		if(event.hasBlock()&&event.getClickedBlock().getType().equals(Material.STEP)){
 			ShowcaseItem showItem = ShowcaseMain.instance.getItemByBlock(event.getClickedBlock());
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
@@ -36,7 +36,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 						event.setCancelled(true);
 						return;
 					}
-					if(event.getClickedBlock().getType().equals(Material.GLASS)){
+					if(event.getClickedBlock().getType().equals(Material.STEP)){
 						event.setCancelled(true);
 						if(!isSafePlace(event.getClickedBlock())){
 							player.sendMessage(ChatColor.RED+"This is not a safe place for your item. It will fall down.");
@@ -73,7 +73,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 						player.sendMessage(ChatColor.YELLOW+"Drop new items to refill, or type "+ChatColor.WHITE+"cancel"+ChatColor.YELLOW+" in chat to abort.");
 						player.setLastClickedShowcase(showItem);
 						player.setHasReadPrice(true);
-					} else if(showItem.getItemAmount()!=0){
+					} else if(!(showItem.getItemAmount()==0&&showItem.getType().equals(ShowcaseType.FINITE_SHOP))){
 						BuyAssistant assistant = new BuyAssistant(event.getPlayer(), showItem);
 						assistant.setAssistantStartLocation(showItem.getLocation());
 						assistant.start();

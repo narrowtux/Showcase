@@ -9,7 +9,7 @@ import org.bukkit.event.block.BlockListener;
 public class ShowcaseBlockListener extends BlockListener {
 	@Override
 	public void onBlockBreak(BlockBreakEvent event){
-		if(!event.getBlock().getType().equals(Material.GLASS)&&!event.getBlock().getFace(BlockFace.UP).getType().equals(Material.GLASS)){
+		if(!event.getBlock().getType().equals(Material.STEP)&&!event.getBlock().getFace(BlockFace.UP).getType().equals(Material.STEP)){
 			//nothing to do for us.
 			return;
 		}

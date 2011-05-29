@@ -101,6 +101,10 @@ public class ShowcasePlayer {
 	}
 	
 	public void sendMessage(String message){
+		if(getPlayer()==null)
+		{
+			return;
+		}
 		for(String line:message.split("\n")){
 			getPlayer().sendMessage(line);
 		}
