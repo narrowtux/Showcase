@@ -2,8 +2,6 @@ package de.moritzschmale.Showcase;
 
 import java.io.File;
 
-import org.bukkit.Material;
-
 public class Configuration {
 	private boolean showcaseProtection = true;
 	private double priceForBasic = 0.0;

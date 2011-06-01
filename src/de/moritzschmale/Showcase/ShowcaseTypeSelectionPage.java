@@ -1,7 +1,5 @@
 package de.moritzschmale.Showcase;
 
-import org.bukkit.ChatColor;
-
 import com.narrowtux.Assistant.AssistantPage;
 import com.nijikokun.register.payment.Method;
 

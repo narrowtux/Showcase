@@ -71,9 +71,9 @@ public class ShowcasePlayerListener extends PlayerListener {
 				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
 					player.sendMessage(showItem.getItem().getLocation().toString());
 					if(showItem.getPlayer().equals(event.getPlayer().getName())&&showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
-						player.sendMessage(ChatColor.YELLOW+"Drop new items to refill, or type "+ChatColor.WHITE+"cancel"+ChatColor.YELLOW+" in chat to abort.");
-						player.setLastClickedShowcase(showItem);
-						player.setHasReadPrice(true);
+						RefillAssistant assistant = new RefillAssistant(event.getPlayer(), showItem);
+						assistant.setAssistantStartLocation(showItem.getLocation());
+						assistant.start();
 					} else if(!(showItem.getItemAmount()==0&&showItem.getType().equals(ShowcaseType.FINITE_SHOP))){
 						BuyAssistant assistant = new BuyAssistant(event.getPlayer(), showItem);
 						assistant.setAssistantStartLocation(showItem.getLocation());

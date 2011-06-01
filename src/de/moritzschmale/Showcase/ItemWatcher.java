@@ -1,9 +1,5 @@
 package de.moritzschmale.Showcase;
 
-import org.bukkit.Chunk;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-
 
 public class ItemWatcher implements Runnable {
 
