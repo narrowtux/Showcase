@@ -24,7 +24,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Wool;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -33,6 +32,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.nijiko.permissions.*;
 import com.nijikokun.bukkit.Permissions.*;
 import com.nijikokun.register.payment.Method;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 
 public class ShowcaseMain extends JavaPlugin {
@@ -48,6 +48,7 @@ public class ShowcaseMain extends JavaPlugin {
 	private ItemWatcher watcher = new ItemWatcher();
 	public Method method = null;
 	public Configuration config;
+	public  WorldGuardPlugin worldguard;
 	
 	@Override
 	public void onDisable() {
@@ -68,6 +69,11 @@ public class ShowcaseMain extends JavaPlugin {
 			dclistener = new DropChestListener();
 		} catch(NoClassDefFoundError e){
 			dclistener = null;
+		}
+		try{
+			worldguard = (WorldGuardPlugin)getServer().getPluginManager().getPlugin("WorldGuard");
+		}catch(Exception e){
+			worldguard = null;
 		}
 		
 		//Read plugin file

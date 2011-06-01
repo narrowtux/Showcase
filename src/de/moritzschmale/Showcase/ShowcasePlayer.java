@@ -265,4 +265,12 @@ public class ShowcasePlayer {
 		}
 		return amount;
 	}
+	
+	public boolean mayCreateHere(Block b){
+		if(ShowcaseMain.instance.worldguard!=null){
+			return ShowcaseMain.instance.worldguard.canBuild(getPlayer(), b);
+		} else {
+			return true;
+		}
+	}
 }

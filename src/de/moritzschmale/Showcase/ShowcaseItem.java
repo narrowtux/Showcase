@@ -48,9 +48,9 @@ public class ShowcaseItem {
 		}
 		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
 		if(isChunkLoaded()){
-			setItem(loc.getWorld().dropItemNaturally(loc, new ItemStack(mat, 1, data)));
-			getItem().setVelocity(new Vector(0,0,0));
 			setLocation(loc);
+			setItem(loc.getWorld().dropItemNaturally(getLocation(), new ItemStack(mat, 1, data)));
+			getItem().setVelocity(new Vector(0,0,0));
 			checkForDupedItem();
 		} else {
 			location = loc;
@@ -76,10 +76,12 @@ public class ShowcaseItem {
 	public void setLocation(Location location) {
 		location = location.getBlock().getLocation(); //simply clear everything after the comma.
 		Vector vec = location.toVector();
-		vec.add(new Vector(0.5,0.2,0.5));
+		vec.add(new Vector(0.5,0.6,0.5));
 		location = vec.toLocation(location.getWorld());
 		this.location = location;
-		item.teleport(location);
+		if(item!=null){
+			item.teleport(location);
+		}
 	}
 	/**
 	 * @return the location
@@ -112,7 +114,7 @@ public class ShowcaseItem {
 	}
 	
 	public void updatePosition() {
-		if(item!=null&&(!updatedPosition||item.getLocation().getY()>=block.getLocation().getBlockY()+0.6)){
+		if(item!=null&&(!updatedPosition||item.getLocation().getY()<=block.getLocation().getBlockY()+0.4)){
 			item.teleport(location);
 			item.setVelocity(new Vector(0,0,0));
 			updatedPosition=true;

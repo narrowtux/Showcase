@@ -30,7 +30,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 				if(!event.getPlayer().isSneaking()){
 					return;
 				}
-				if(event.hasBlock()&&showItem == null){
+				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
 					if(event.getItem()==null){
 						player.sendMessage(ChatColor.RED+"You have got to hold something in your hand!");
 						event.setCancelled(true);
@@ -69,6 +69,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 			}
 			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
+					player.sendMessage(showItem.getItem().getLocation().toString());
 					if(showItem.getPlayer().equals(event.getPlayer().getName())&&showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
 						player.sendMessage(ChatColor.YELLOW+"Drop new items to refill, or type "+ChatColor.WHITE+"cancel"+ChatColor.YELLOW+" in chat to abort.");
 						player.setLastClickedShowcase(showItem);
@@ -115,7 +116,6 @@ public class ShowcasePlayerListener extends PlayerListener {
 	public boolean isSafePlace(Block glass){
 		Block below = glass.getFace(BlockFace.DOWN);
 		Material nonsafe[] = {
-			Material.GLASS,
 			Material.AIR,
 			Material.RED_MUSHROOM,
 			Material.RED_ROSE,
