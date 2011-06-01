@@ -1,5 +1,6 @@
 package de.moritzschmale.Showcase;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -37,11 +38,11 @@ public class RefillAssistant extends Assistant {
 				if(value>0&&value<=amountAtPlayer){
 					player.remove(mat, data, value);
 					showcase.setItemAmount(amountAtShowcase+value);
-					sendMessage(formatLine(value+" items added."));
+					sendMessage(formatLine(ChatColor.YELLOW.toString()+value+ChatColor.WHITE+" items added."));
 				} else if(value<0&&value*-1<=amountAtShowcase){
 					player.addItems(mat, data, -value);
 					showcase.setItemAmount(amountAtShowcase+value);
-					sendMessage(formatLine(-value+" items removed."));
+					sendMessage(formatLine(ChatColor.YELLOW.toString()+(-value)+ChatColor.WHITE+" items removed."));
 				}
 				updateText();
 				addPage(this);
@@ -69,11 +70,11 @@ public class RefillAssistant extends Assistant {
 		Material mat = showcase.getMaterial();
 		short data = showcase.getData();
 		String text = "";
-		text+=showcase.getItemAmount()+" of "+ShowcaseMain.getName(mat, data)+" in showcase.\n";
-		text+="You have got "+player.getAmountOfType(mat, data)+" items.\n";
-		text+="Type in a positive amount (e.g. 10) to add items.\n";
-		text+="Type in a negative amount (e.g. -5) to remove items.\n";
-		text+="Type in 0 or go away to leave the assistant.";
+		text+=ChatColor.YELLOW.toString()+showcase.getItemAmount()+ChatColor.WHITE+" of "+ChatColor.YELLOW+ShowcaseMain.getName(mat, data)+ChatColor.WHITE+" in showcase.\n";
+		text+="You have got "+ChatColor.YELLOW+player.getAmountOfType(mat, data)+ChatColor.WHITE+" items.\n";
+		text+="Type in a "+ChatColor.YELLOW+"positive amount (e.g. 10)"+ChatColor.WHITE+" to add items.\n";
+		text+="Type in a "+ChatColor.YELLOW+"negative amount (e.g. -6)"+ChatColor.WHITE+" to remove items.\n";
+		text+="Type in "+ChatColor.YELLOW+"0 or go away"+ChatColor.WHITE+" to leave the assistant.";
 		for(AssistantPage page:getPages()){
 			page.setText(text);
 		}

@@ -56,8 +56,10 @@ public class AssistantPage {
 	 */
 	public void play(){
 		String message = "";
-		message += assistant.getSeparator()+"\n";
-		message += assistant.formatLine(getTitle())+"\n";
+		if(!getTitle().equals("")){
+			message += assistant.getSeparator()+"\n";
+			message += assistant.formatLine(getTitle())+"\n";
+		}
 		message += assistant.getSeparator()+"\n";
 		if(!getText().equals("")){
 			for(String line:getText().split("\n")){
