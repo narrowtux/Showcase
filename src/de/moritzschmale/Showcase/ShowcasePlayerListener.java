@@ -69,7 +69,6 @@ public class ShowcasePlayerListener extends PlayerListener {
 			}
 			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 				if(showItem!=null&&showItem.getType().toString().contains("SHOP")){
-					player.sendMessage(showItem.getItem().getLocation().toString());
 					if(showItem.getPlayer().equals(event.getPlayer().getName())&&showItem.getType().equals(ShowcaseType.FINITE_SHOP)){
 						RefillAssistant assistant = new RefillAssistant(event.getPlayer(), showItem);
 						assistant.setAssistantStartLocation(showItem.getLocation());

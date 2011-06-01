@@ -43,17 +43,15 @@ public class RefillAssistant extends Assistant {
 					showcase.setItemAmount(amountAtShowcase+value);
 					sendMessage(formatLine(-value+" items removed."));
 				}
+				updateText();
 				addPage(this);
 				return true;
 			}
 		};
 		setTitle("Refill Assistant");
-		String text = "";
-		text+=showcase.getItemAmount()+" of "+ShowcaseMain.getName(showcase.getMaterial(), showcase.getData())+" in showcase.\n";
-		text+="Type in a positive amount (e.g. 10) to add items.\n";
-		text+="Type in a negative amount (e.g. -5) to remove items.\n";
-		text+="Type in 0 or go away to leave the assistant.";
+		page.setTitle("");
 		addPage(page);
+		updateText();
 	}
 	
 	@Override
@@ -64,5 +62,20 @@ public class RefillAssistant extends Assistant {
 	@Override
 	public void onAssistantFinish(){
 		sendMessage(formatLine("Refill done."));
+	}
+	
+	public void updateText(){
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(getPlayer());
+		Material mat = showcase.getMaterial();
+		short data = showcase.getData();
+		String text = "";
+		text+=showcase.getItemAmount()+" of "+ShowcaseMain.getName(mat, data)+" in showcase.\n";
+		text+="You have got "+player.getAmountOfType(mat, data)+" items.\n";
+		text+="Type in a positive amount (e.g. 10) to add items.\n";
+		text+="Type in a negative amount (e.g. -5) to remove items.\n";
+		text+="Type in 0 or go away to leave the assistant.";
+		for(AssistantPage page:getPages()){
+			page.setText(text);
+		}
 	}
 }
