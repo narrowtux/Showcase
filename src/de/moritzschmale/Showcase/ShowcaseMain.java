@@ -91,7 +91,6 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);
-		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
 		pm.registerEvent(Type.BLOCK_PHYSICS, blockListener, Priority.Normal, this);
 		if(dclistener!=null){
 			//Listen for dropchest-suck events

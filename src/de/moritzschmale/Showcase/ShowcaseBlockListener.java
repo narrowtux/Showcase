@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 
 public class ShowcaseBlockListener extends BlockListener {
 	@Override
@@ -27,20 +26,11 @@ public class ShowcaseBlockListener extends BlockListener {
 	}
 	
 	@Override
-	public void onBlockPlace(BlockPlaceEvent event){
-		
-	}
-	
-	@Override
 	public void onBlockPhysics(BlockPhysicsEvent event){
 		if(ShowcaseMain.instance.getItemByBlock(event.getBlock())!=null){
 			if(event.getChangedType().equals(Material.STEP)){
 				event.setCancelled(true);
 			}
 		}
-		String print ="";
-		print+=event.getBlock().getType()+"\n";
-		print+=event.getChangedType();
-		System.out.println(print);
 	}
 }
