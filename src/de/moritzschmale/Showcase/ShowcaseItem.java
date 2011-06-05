@@ -47,7 +47,7 @@ public class ShowcaseItem {
 		if(isChunkLoaded()){
 			setLocation(loc);
 			setItem(loc.getWorld().dropItemNaturally(getLocation(), new ItemStack(mat, 1, data)));
-			getItem().setVelocity(new Vector(0,0,0));
+			getItem().setVelocity(new Vector(0,0.1,0));
 			checkForDupedItem();
 		} else {
 			location = loc;
@@ -113,7 +113,7 @@ public class ShowcaseItem {
 	public void updatePosition() {
 		if(item!=null&&(!updatedPosition||item.getLocation().getY()<=block.getLocation().getBlockY()+0.4)){
 			item.teleport(location);
-			item.setVelocity(new Vector(0,0,0));
+			item.setVelocity(new Vector(0,0.1,0));
 			updatedPosition=true;
 		}
 	}

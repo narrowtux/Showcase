@@ -38,10 +38,6 @@ public class ShowcasePlayerListener extends PlayerListener {
 					}
 					if(event.getClickedBlock().getType().equals(Material.STEP)){
 						event.setCancelled(true);
-						if(!isSafePlace(event.getClickedBlock())){
-							player.sendMessage(ChatColor.RED+"This is not a safe place for your item. It will fall down.");
-							return;
-						}
 						player.setHasReadPrice(false);
 						if(config.isBasicMode()||(player.hasPermission("showcase.basic", false)&&!player.hasPermission("showcase.infinite", true)&&!player.hasPermission("showcase.finite", false))){
 							Location loc = event.getClickedBlock().getLocation();
@@ -166,7 +162,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 		};
 		for(Material t:nonsafe){
 			if(t.equals(below.getType())){
-				return false;
+				return true;
 			}
 		}
 		return true;

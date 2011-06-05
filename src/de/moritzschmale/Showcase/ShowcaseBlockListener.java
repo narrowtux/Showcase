@@ -2,14 +2,15 @@ package de.moritzschmale.Showcase;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 public class ShowcaseBlockListener extends BlockListener {
 	@Override
 	public void onBlockBreak(BlockBreakEvent event){
-		if(!event.getBlock().getType().equals(Material.STEP)&&!event.getBlock().getFace(BlockFace.UP).getType().equals(Material.STEP)){
+		if(!event.getBlock().getType().equals(Material.STEP)){
 			//nothing to do for us.
 			return;
 		}
@@ -19,14 +20,27 @@ public class ShowcaseBlockListener extends BlockListener {
 				event.getPlayer().sendMessage(ChatColor.RED+"This is "+item.getPlayer()+"'s showcase.");
 				break;
 			}
-			if(event.getBlock().getFace(BlockFace.UP).equals(item.getBlock())){
-				event.setCancelled(true);
-				event.getPlayer().sendMessage(ChatColor.RED+"This is below a Showcase. You can't destroy it, because the item would fall down otherwise.");
-				break;
-			}
 		}
 		if(event.isCancelled()){
 			event.getPlayer().sendBlockChange(event.getBlock().getLocation(), event.getBlock().getType(), event.getBlock().getData());
 		}
+	}
+	
+	@Override
+	public void onBlockPlace(BlockPlaceEvent event){
+		
+	}
+	
+	@Override
+	public void onBlockPhysics(BlockPhysicsEvent event){
+		if(ShowcaseMain.instance.getItemByBlock(event.getBlock())!=null){
+			if(event.getChangedType().equals(Material.STEP)){
+				event.setCancelled(true);
+			}
+		}
+		String print ="";
+		print+=event.getBlock().getType()+"\n";
+		print+=event.getChangedType();
+		System.out.println(print);
 	}
 }
