@@ -30,6 +30,9 @@ public class ShowcasePlayerListener extends PlayerListener {
 				if(!event.getPlayer().isSneaking()){
 					return;
 				}
+				if(event.getPlayer().getLocation().getBlock().getFace(BlockFace.DOWN).getTypeId()==0){
+					return;
+				}
 				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
 					if(event.getItem()==null){
 						player.sendMessage(ChatColor.RED+"You have got to hold something in your hand!");
