@@ -4,11 +4,12 @@ import org.bukkit.Material;
 
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseItem;
+import de.moritzschmale.Showcase.ShowcaseMain;
 import de.moritzschmale.Showcase.ShowcasePlayer;
 
 public class ExchangeShowcaseExtra implements ShowcaseExtra {
 
-	private Material exchangeType = Material.WOOL;
+	private Material exchangeType = Material.GOLD_INGOT;
 	private short exchangeData = 0;
 	private int itemAmount = 1;
 	private int exchangeAmount = 0;
@@ -17,14 +18,19 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	
 	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
-		return false;
+		player.addItems(exchangeType, exchangeData, exchangeAmount);
+		player.addItems(showcase.getMaterial(), showcase.getData(), itemAmount);
+		return true;
 	}
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
 		// TODO Auto-generated method stub
-
+		String print ="";
+		print+="Exchangetype: "+ShowcaseMain.getName(exchangeType, exchangeData)+"\n";
+		print+="Items: "+itemAmount+", exchanged: "+exchangeAmount+"\n";
+		print+="Exchange-rate: "+exchangeRateLeft+":"+exchangeRateRight;
+		player.sendMessage(print);
 	}
 
 	@Override
