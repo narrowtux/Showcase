@@ -209,4 +209,8 @@ public class Assistant {
 	public Location getAssistantStartLocation() {
 		return assistantStartLocation;
 	}
+	
+	public void repeatCurrentPage(){
+		pages.add(currentPageIndex+1, getCurrentPage());
+	}
 }
