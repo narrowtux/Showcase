@@ -15,13 +15,6 @@ import com.nijikokun.register.payment.Method.MethodAccount;
 
 public class ShowcasePlayer {
 	private String player;
-	private ShowcaseType requestedType = ShowcaseType.NONE;
-	private Block requestedBlock = null;
-	private int dialogState = 0;
-	private ItemStack requestedItem = null;
-	private ShowcaseItem lastClickedShowcase = null;
-	private double requestedPrice = 0;
-	private boolean hasReadPrice;
 	private static Map<String,ShowcasePlayer> instances = new HashMap<String, ShowcasePlayer>();
 	private ShowcasePlayer(String player){
 		this.player = player;
@@ -49,56 +42,6 @@ public class ShowcasePlayer {
 	public boolean hasPermission(String node, boolean adminMethod){
 		return ShowcaseMain.hasPermission(getPlayer(), node, adminMethod);
 	}
-
-	/**
-	 * @param requestedType the requestedType to set
-	 */
-	public void setRequestedType(ShowcaseType requestedType) {
-		this.requestedType = requestedType;
-	}
-
-	/**
-	 * @return the requestedType
-	 */
-	public ShowcaseType getRequestedType() {
-		return requestedType;
-	}
-
-	/**
-	 * @param requestedBlock the requestedBlock to set
-	 */
-	public void setRequestedBlock(Block requestedBlock) {
-		this.requestedBlock = requestedBlock;
-	}
-
-	/**
-	 * @return the requestedBlock
-	 */
-	public Block getRequestedBlock() {
-		return requestedBlock;
-	}
-
-	/**
-	 * @param dialogState the dialogState to set
-	 */
-	public void setDialogState(int dialogState) {
-		this.dialogState = dialogState;
-	}
-
-	/**
-	 * @return the dialogState
-	 */
-	public int getDialogState() {
-		return dialogState;
-	}
-	
-	public void resetDialog(){
-		dialogState = 0;
-		requestedBlock = null;
-		requestedType = ShowcaseType.NONE;
-		requestedItem = null;
-		requestedPrice = 0;
-	}
 	
 	public void sendMessage(String message){
 		if(getPlayer()==null)
@@ -108,34 +51,6 @@ public class ShowcasePlayer {
 		for(String line:message.split("\n")){
 			getPlayer().sendMessage(line);
 		}
-	}
-
-	/**
-	 * @param requestedItem the requestedItem to set
-	 */
-	public void setRequestedItem(ItemStack requestedItem) {
-		this.requestedItem = requestedItem;
-	}
-
-	/**
-	 * @return the requestedItem
-	 */
-	public ItemStack getRequestedItem() {
-		return requestedItem;
-	}
-
-	/**
-	 * @param requestedPrice the requestedPrice to set
-	 */
-	public void setRequestedPrice(double requestedPrice) {
-		this.requestedPrice = requestedPrice;
-	}
-
-	/**
-	 * @return the requestedPrice
-	 */
-	public double getRequestedPrice() {
-		return requestedPrice;
 	}
 	
 	public int getAmountOfType(Material mat, short data){
@@ -167,19 +82,6 @@ public class ShowcasePlayer {
 		}
 	}
 
-	/**
-	 * @param hasReadPrice the hasReadPrice to set
-	 */
-	public void setHasReadPrice(boolean hasReadPrice) {
-		this.hasReadPrice = hasReadPrice;
-	}
-
-	/**
-	 * @return the hasReadPrice
-	 */
-	public boolean hasReadPrice() {
-		return hasReadPrice;
-	}
 	public boolean canAfford(double price){
 		if(price<=0){
 			return true;
@@ -230,19 +132,6 @@ public class ShowcasePlayer {
 		}
 	}
 
-	/**
-	 * @param lastClickedShowcase the lastClickedShowcase to set
-	 */
-	public void setLastClickedShowcase(ShowcaseItem lastClickedShowcase) {
-		this.lastClickedShowcase = lastClickedShowcase;
-	}
-
-	/**
-	 * @return the lastClickedShowcase
-	 */
-	public ShowcaseItem getLastClickedShowcase() {
-		return lastClickedShowcase;
-	}
 	
 	public int addItems(Material type, short data, int amount){
 		//returns the number of items that did not fit.

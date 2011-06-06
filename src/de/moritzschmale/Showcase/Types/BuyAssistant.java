@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.Showcase.Types;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -6,6 +6,9 @@ import org.bukkit.entity.Player;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
 import com.nijikokun.register.payment.Method;
+
+import de.moritzschmale.Showcase.ShowcaseItem;
+import de.moritzschmale.Showcase.ShowcaseMain;
 
 public class BuyAssistant extends Assistant {
 	public int amount;
@@ -19,11 +22,8 @@ public class BuyAssistant extends Assistant {
 		if(method==null){
 			return;
 		}
-		
-		
 		print+=ChatColor.YELLOW+"This is "+ChatColor.WHITE+showItem.getPlayer()+ChatColor.YELLOW+"'s shop.\n";
 		print+=ChatColor.YELLOW+"How many items do you want?\n"+ChatColor.YELLOW+"Type the number in chat, "+ChatColor.WHITE+"0"+ChatColor.YELLOW+" to abort.";
-
 		 */
 		AssistantPage page = new AssistantPage(){
 			@Override
@@ -36,16 +36,18 @@ public class BuyAssistant extends Assistant {
 				if(amount<=0){
 					return false;
 				}
+				/*
 				if(item.getItemAmount()<amount&&item.getType().equals(ShowcaseType.FINITE_SHOP)){
 					amount = item.getItemAmount();
-				}
+				}*/
+				//TODO: Handle finite specific things!
 				return true;
 			}
 		};
 		Method method = ShowcaseMain.instance.method;
 		page.setText("Enter the number of items you want.");
 		String itemCount = "";
-		if(item.getType().equals(ShowcaseType.FINITE_SHOP)){
+		if(item.getType().equals("finite"){
 			itemCount = ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+item.getItemAmount()+ChatColor.YELLOW+")";
 		}
 		String print = ShowcaseMain.getName(item.getMaterial(), item.getData())+itemCount;

@@ -17,8 +17,7 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
-
+		player.sendMessage("Price: "+price);
 	}
 
 	@Override
