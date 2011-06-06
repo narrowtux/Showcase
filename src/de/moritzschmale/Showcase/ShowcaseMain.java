@@ -25,7 +25,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -236,6 +235,11 @@ public class ShowcaseMain extends JavaPlugin {
 						Location loc = new Location(world, x, y, z);
 						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						showcasedItems.add(showItem);
+						if(type.equals("finite")){
+							showItem.setExtraLoad(amount+";"+price);
+						} else  if(type.equals("infinite")){
+							showItem.setExtraLoad(""+price);
+						}
 					} else if(line.length==9){
 						//New format
 						int x,y,z;

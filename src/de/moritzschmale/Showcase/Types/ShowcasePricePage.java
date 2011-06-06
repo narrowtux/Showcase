@@ -4,8 +4,6 @@ import org.bukkit.ChatColor;
 
 import com.narrowtux.Assistant.AssistantPage;
 
-import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
-
 public class ShowcasePricePage extends AssistantPage {
 	public double price;
 	
