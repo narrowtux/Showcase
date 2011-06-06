@@ -1,6 +1,7 @@
 package de.moritzschmale.Showcase.Types;
 
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcasePlayer;
 
 public class BasicShowcaseExtra implements ShowcaseExtra {
@@ -17,7 +18,10 @@ public class BasicShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public String save() {
-		return "lolthismakesnothing";
+		return "-";
 	}
 
+	@Override
+	public void setShowcaseItem(ShowcaseItem item) {
+	}
 }

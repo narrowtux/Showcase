@@ -233,6 +233,7 @@ public class ShowcaseItem {
 	 */
 	public void setExtra(ShowcaseExtra extra) {
 		this.extra = extra;
+		extra.setShowcaseItem(this);
 	}
 	/**
 	 * @return the extra

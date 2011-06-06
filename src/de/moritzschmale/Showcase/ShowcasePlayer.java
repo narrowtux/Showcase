@@ -246,6 +246,11 @@ public class ShowcasePlayer {
 	
 	public int addItems(Material type, short data, int amount){
 		//returns the number of items that did not fit.
+		if(getPlayer()==null)
+		{
+			System.out.println("[Showcase] someone removed the items of "+player);
+			return 0;
+		}
 		PlayerInventory inv = getPlayer().getInventory();
 		while(amount>0){
 			ItemStack stack = new ItemStack(type);

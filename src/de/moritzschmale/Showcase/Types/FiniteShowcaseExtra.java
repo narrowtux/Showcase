@@ -1,14 +1,17 @@
 package de.moritzschmale.Showcase.Types;
 
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcasePlayer;
 
 public class FiniteShowcaseExtra implements ShowcaseExtra {
 	private int itemAmount = 0;
 	private double pricePerItem = 0.0D;
+	private ShowcaseItem item = null;
 	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
+		ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
+		owner.addItems(item.getMaterial(), item.getData(), itemAmount);
 		return true;
 	}
 
@@ -48,6 +51,11 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	 */
 	public double getPricePerItem() {
 		return pricePerItem;
+	}
+
+	@Override
+	public void setShowcaseItem(ShowcaseItem item) {
+		this.item = item;
 	}
 
 }

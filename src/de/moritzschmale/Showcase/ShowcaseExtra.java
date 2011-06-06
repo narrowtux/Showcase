@@ -6,4 +6,6 @@ public interface ShowcaseExtra {
 	public void onClick(ShowcasePlayer player);
 	
 	public String save();
+	
+	public void setShowcaseItem(ShowcaseItem item);
 }
