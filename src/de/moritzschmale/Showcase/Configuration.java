@@ -8,6 +8,7 @@ public class Configuration {
 	private double priceForFiniteShop = 0.0;
 	private double priceForExchangeShop = 0.0;
 	private int maximumPerUser = 0;
+	private boolean removeWhenEmpty = false;
 	private FlatFileReader reader;
 	private boolean basicMode;
 	/**
@@ -54,6 +55,7 @@ public class Configuration {
 		priceForFiniteShop = reader.getDouble("priceforfinite", 0);
 		basicMode = reader.getBoolean("basicmode", false);
 		priceForExchangeShop = reader.getDouble("priceforexchange", 0);
+		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
 	}
 
 	/**

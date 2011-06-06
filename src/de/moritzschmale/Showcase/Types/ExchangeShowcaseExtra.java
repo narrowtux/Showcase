@@ -8,10 +8,11 @@ import de.moritzschmale.Showcase.ShowcasePlayer;
 
 public class ExchangeShowcaseExtra implements ShowcaseExtra {
 
-	private Material exchangeType;
-	private short exchangeData;
-	private int itemAmount;
-	private int exchangeAmount;
+	private Material exchangeType = Material.WOOL;
+	private short exchangeData = 0;
+	private int itemAmount = 1;
+	private int exchangeAmount = 0;
+	private int exchangeRateLeft = 1, exchangeRateRight = 1;
 	private ShowcaseItem showcase = null;
 	
 	@Override
@@ -29,8 +30,8 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	@Override
 	public String save() {
 		//Values:
-		//Exchange-type;Exchange-data;buy-amount;exchange-amount
-		return exchangeType.getId()+";"+exchangeData+";"+itemAmount+";"+exchangeAmount;
+		//Exchange-type;Exchange-data;buy-amount;exchange-amount;exchange-rate
+		return exchangeType.getId()+";"+exchangeData+";"+itemAmount+";"+exchangeAmount+";"+exchangeRateLeft+";"+exchangeRateRight;
 	}
 
 	@Override
@@ -92,6 +93,34 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	 */
 	public void setExchangeAmount(int exchangeAmount) {
 		this.exchangeAmount = exchangeAmount;
+	}
+
+	/**
+	 * @return the exchangeRateLeft
+	 */
+	public int getExchangeRateLeft() {
+		return exchangeRateLeft;
+	}
+
+	/**
+	 * @param exchangeRateLeft the exchangeRateLeft to set
+	 */
+	public void setExchangeRateLeft(int exchangeRateLeft) {
+		this.exchangeRateLeft = exchangeRateLeft;
+	}
+
+	/**
+	 * @return the exchangeRateRight
+	 */
+	public int getExchangeRateRight() {
+		return exchangeRateRight;
+	}
+
+	/**
+	 * @param exchangeRateRight the exchangeRateRight to set
+	 */
+	public void setExchangeRateRight(int exchangeRateRight) {
+		this.exchangeRateRight = exchangeRateRight;
 	}
 
 }

@@ -1,5 +1,7 @@
 package de.moritzschmale.Showcase.Types;
 
+import org.bukkit.Material;
+
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -27,8 +29,19 @@ public class ExchangeShowcase implements ShowcaseProvider {
 	public ShowcaseExtra loadShowcase(String values) {
 		//Values:
 		//Exchange-type;Exchange-data;buy-amount;exchange-amount
-		// TODO Auto-generated method stub
-		return null;
+		ExchangeShowcaseExtra extra = new ExchangeShowcaseExtra();
+		String [] args = values.split(";");
+		if(args.length==6){
+			extra.setExchangeType(Material.getMaterial(Integer.valueOf(args[0])));
+			extra.setExchangeData(Short.valueOf(args[1]));
+			extra.setItemAmount(Integer.valueOf(args[2]));
+			extra.setExchangeAmount(Integer.valueOf(args[3]));
+			extra.setExchangeRateLeft(Integer.valueOf(args[4]));
+			extra.setExchangeRateRight(Integer.valueOf(args[5]));
+		} else {
+			System.out.println("[Showcase] not enough arguments for exchange");
+		}
+		return extra;
 	}
 
 	@Override
@@ -45,7 +58,7 @@ public class ExchangeShowcase implements ShowcaseProvider {
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ExchangeShowcaseExtra();
 	}
 
 	@Override
