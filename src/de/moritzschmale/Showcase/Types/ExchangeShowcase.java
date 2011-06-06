@@ -68,9 +68,9 @@ public class ExchangeShowcase implements ShowcaseProvider {
 		ShowcaseAmountPage amountPage = new ShowcaseAmountPage(assistant);
 		ExchangeTypePage typePage = new ExchangeTypePage();
 		TextPage ratePage = new TextPage();
-		assistant.addPage(amountPage);
 		assistant.addPage(typePage);
 		assistant.addPage(ratePage);
+		assistant.addPage(amountPage);
 		ratePage.setTitle("Exchange Rate");
 		ratePage.setText("Enter the exchange-rate (left:right)\nExample: 2 gold for 1 diamond = 1:2");
 		amountPages.put(assistant, amountPage);
@@ -80,8 +80,36 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
-		// TODO Auto-generated method stub
-		return new ExchangeShowcaseExtra();
+		ExchangeShowcaseExtra extra = new ExchangeShowcaseExtra();
+		ShowcaseAmountPage amountPage = amountPages.get(assistant);
+		ExchangeTypePage typePage = exchangeTypePages.get(assistant);
+		TextPage ratePage = ratePages.get(assistant);
+		extra.setExchangeAmount(0);
+		extra.setExchangeType(typePage.type);
+		extra.setExchangeData(typePage.data);
+		extra.setItemAmount(amountPage.amount);
+		
+		String [] rate = ratePage.getInput().split(":");
+		if(rate.length==2){
+			int left, right;
+			left = Integer.valueOf(rate[0]);
+			right = Integer.valueOf(rate[1]);
+			if(left!=0&&right!=0){
+				extra.setExchangeRateLeft(left);
+				extra.setExchangeRateRight(right);
+			}else {
+				extra.setExchangeRateLeft(1);
+				extra.setExchangeRateRight(1);
+			}
+		} else {
+			extra.setExchangeRateLeft(1);
+			extra.setExchangeRateRight(1);
+		}
+		
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant.getPlayer());
+		player.remove(assistant.material, assistant.data, extra.getItemAmount());
+		
+		return extra;
 	}
 
 	@Override
