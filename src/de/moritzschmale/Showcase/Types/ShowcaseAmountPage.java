@@ -1,12 +1,16 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.Showcase.Types;
 
 import org.bukkit.ChatColor;
 
 import com.narrowtux.Assistant.AssistantPage;
 
+import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.Showcase.ShowcaseMain;
+
 public class ShowcaseAmountPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
 	public int maximumamount = 0;
+	public int amount = 0;
 		
 	public ShowcaseAmountPage(ShowcaseCreationAssistant a){
 		assistant = a;
@@ -21,7 +25,6 @@ public class ShowcaseAmountPage extends AssistantPage {
 	@Override
 	public boolean onPageInput(String text){
 		maximumamount = assistant.player.getAmountOfType(assistant.material, assistant.data);
-		int amount;
 		try{
 			amount = Integer.valueOf(text);
 		} catch(Exception e){
@@ -33,7 +36,6 @@ public class ShowcaseAmountPage extends AssistantPage {
 		if(amount>maximumamount){
 			amount = maximumamount;
 		}
-		assistant.amount = amount;
 		assistant.sendMessage(assistant.formatLine(ChatColor.YELLOW+"You put in "+ChatColor.WHITE+amount+ChatColor.YELLOW+" items."));
 		return true;
 	}

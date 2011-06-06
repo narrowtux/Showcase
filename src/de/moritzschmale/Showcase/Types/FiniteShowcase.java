@@ -5,10 +5,12 @@ import java.util.Map;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcasePlayer;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
 public class FiniteShowcase implements ShowcaseProvider {
 	private Map<ShowcaseCreationAssistant, ShowcasePricePage> pricePages = new HashMap<ShowcaseCreationAssistant, ShowcasePricePage>();
+	private Map<ShowcaseCreationAssistant, ShowcaseAmountPage> amountPages = new HashMap<ShowcaseCreationAssistant, ShowcaseAmountPage>();
 	@Override
 	public String getType() {
 		return "finite";
@@ -42,19 +44,25 @@ public class FiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		ShowcasePricePage page = new ShowcasePricePage();
-		pricePages.put(assistant, page);
-		assistant.addPage(page);
+		ShowcasePricePage pricePage = new ShowcasePricePage();
+		pricePages.put(assistant, pricePage);
+		assistant.addPage(pricePage);
+		ShowcaseAmountPage amountPage = new ShowcaseAmountPage(assistant);
+		amountPages.put(assistant, amountPage);
+		assistant.addPage(amountPage);
 	}
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		FiniteShowcaseExtra extra = new FiniteShowcaseExtra();
 		ShowcasePricePage pricePage = pricePages.get(assistant);
-		extra.setItemAmount(10);
+		pricePages.remove(assistant);
+		ShowcaseAmountPage amountPage = amountPages.get(assistant);
+		amountPages.remove(assistant);
+		extra.setItemAmount(amountPage.amount);
 		extra.setPricePerItem(pricePage.price);
-		//TODO: get the correct values from assistant
-		//TODO: remove items from players inventory
+		ShowcasePlayer player = assistant.player;
+		player.remove(assistant.material, assistant.data, amountPage.amount);
 		return extra;
 	}
 
