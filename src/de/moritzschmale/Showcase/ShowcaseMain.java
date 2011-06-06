@@ -219,6 +219,7 @@ public class ShowcaseMain extends JavaPlugin {
 					}
 					String line[] = locline.split(",");
 					if(line.length==10){
+						//TODO: transfer finite and infinite showcases to the new system
 						int x,y,z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);

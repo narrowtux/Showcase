@@ -1,11 +1,14 @@
 package de.moritzschmale.Showcase.Types;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
 public class FiniteShowcase implements ShowcaseProvider {
-
+	private Map<ShowcaseCreationAssistant, ShowcasePricePage> pricePages = new HashMap<ShowcaseCreationAssistant, ShowcasePricePage>();
 	@Override
 	public String getType() {
 		return "finite";
@@ -39,14 +42,17 @@ public class FiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		// TODO Auto-generated method stub
+		ShowcasePricePage page = new ShowcasePricePage();
+		pricePages.put(assistant, page);
+		assistant.addPage(page);
 	}
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		FiniteShowcaseExtra extra = new FiniteShowcaseExtra();
+		ShowcasePricePage pricePage = pricePages.get(assistant);
 		extra.setItemAmount(10);
-		extra.setPricePerItem(10);
+		extra.setPricePerItem(pricePage.price);
 		//TODO: get the correct values from assistant
 		//TODO: remove items from players inventory
 		return extra;
