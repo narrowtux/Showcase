@@ -79,6 +79,12 @@ public class BuyAssistant extends Assistant {
 			text+=ChatColor.YELLOW+"You bought "+ChatColor.WHITE+amount;
 			text+=ChatColor.YELLOW+" items for a total of "+ChatColor.WHITE+ShowcaseMain.instance.method.format(totalamount);
 			sendMessage(formatLine(text));
+			if(getAmount()==0&&item.getType().equals("finite")&&ShowcaseMain.instance.config.isRemoveWhenEmpty()){
+				item.remove();
+				ShowcaseMain.instance.showcasedItems.remove(item);
+				ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
+				owner.sendMessage("Your shop with "+ShowcaseMain.getName(item.getMaterial(), item.getData())+" has been sold out and removed.");
+			}
 		} else {
 			sendMessage(formatLine("You can't afford so much items."));
 		}

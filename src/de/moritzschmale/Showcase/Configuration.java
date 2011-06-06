@@ -59,6 +59,13 @@ public class Configuration {
 	}
 
 	/**
+	 * @return the removeWhenEmpty
+	 */
+	public boolean isRemoveWhenEmpty() {
+		return removeWhenEmpty;
+	}
+
+	/**
 	 * @return the basicMode
 	 */
 	public boolean isBasicMode() {
