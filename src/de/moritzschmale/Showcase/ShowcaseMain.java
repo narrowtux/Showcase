@@ -37,6 +37,7 @@ import com.nijikokun.register.payment.Method;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import de.moritzschmale.Showcase.Types.BasicShowcase;
+import de.moritzschmale.Showcase.Types.FiniteShowcase;
 
 
 public class ShowcaseMain extends JavaPlugin {
@@ -118,6 +119,7 @@ public class ShowcaseMain extends JavaPlugin {
 		load();
 		//Register Providers _after_ loading
 		registerProvider(new BasicShowcase());
+		registerProvider(new FiniteShowcase());
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
@@ -231,7 +233,7 @@ public class ShowcaseMain extends JavaPlugin {
 						Location loc = new Location(world, x, y, z);
 						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						showcasedItems.add(showItem);
-					} else if(line.length==8){
+					} else if(line.length==9){
 						//New format
 						int x,y,z;
 						x = Integer.valueOf(line[0]);

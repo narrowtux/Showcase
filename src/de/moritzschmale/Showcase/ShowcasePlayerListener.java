@@ -58,7 +58,9 @@ public class ShowcasePlayerListener extends PlayerListener {
 				}
 			}
 			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-				showItem.getExtra().onClick(player);
+				if(showItem!=null){
+					showItem.getExtra().onClick(player);
+				}
 			}
 		}
 	}

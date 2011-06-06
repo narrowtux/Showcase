@@ -7,19 +7,17 @@ public class BasicShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
-		player.sendMessage("Destroy basic showcase");
 		return true;
 	}
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
-		player.sendMessage("Click basic showcase");
 
 	}
 
 	@Override
 	public String save() {
-		return "";
+		return "lolthismakesnothing";
 	}
 
 }
