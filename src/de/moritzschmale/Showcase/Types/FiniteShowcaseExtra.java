@@ -18,6 +18,13 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	@Override
 	public void onClick(ShowcasePlayer player) {
 		player.sendMessage(itemAmount+"x "+pricePerItem+"$");
+		if(player.getPlayer().getName().equals(item.getPlayer())){
+			RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
+			assistant.setAssistantStartLocation(player.getPlayer().getLocation());
+			assistant.start();
+		} else {
+			player.sendMessage("Buy assistant here");
+		}
 	}
 
 	@Override
