@@ -7,6 +7,7 @@ import de.moritzschmale.Showcase.ShowcasePlayer;
 public class InfiniteShowcaseExtra implements ShowcaseExtra {
 
 	private double price;
+	private ShowcaseItem showcase = null;
 	
 	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
@@ -22,14 +23,12 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public String save() {
-		// TODO Auto-generated method stub
-		return null;
+		return String.valueOf(price);
 	}
 
 	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
-		// TODO Auto-generated method stub
-
+		showcase = item;
 	}
 
 	/**

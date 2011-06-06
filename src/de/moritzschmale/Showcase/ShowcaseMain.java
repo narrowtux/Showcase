@@ -38,6 +38,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import de.moritzschmale.Showcase.Types.BasicShowcase;
 import de.moritzschmale.Showcase.Types.FiniteShowcase;
+import de.moritzschmale.Showcase.Types.InfiniteShowcase;
 
 
 public class ShowcaseMain extends JavaPlugin {
@@ -120,6 +121,7 @@ public class ShowcaseMain extends JavaPlugin {
 		//Register Providers _after_ loading
 		registerProvider(new BasicShowcase());
 		registerProvider(new FiniteShowcase());
+		registerProvider(new InfiniteShowcase());
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
