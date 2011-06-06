@@ -1,6 +1,11 @@
 package de.moritzschmale.Showcase.Types;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Material;
+
+import com.narrowtux.Assistant.TextPage;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
@@ -10,6 +15,9 @@ import de.moritzschmale.Showcase.ShowcaseProvider;
 
 public class ExchangeShowcase implements ShowcaseProvider {
 
+	private Map<ShowcaseCreationAssistant, ShowcaseAmountPage> amountPages = new HashMap<ShowcaseCreationAssistant, ShowcaseAmountPage>();
+	private Map<ShowcaseCreationAssistant, ExchangeTypePage> exchangeTypePages = new HashMap<ShowcaseCreationAssistant, ExchangeTypePage>();
+	private Map<ShowcaseCreationAssistant, TextPage> ratePages = new HashMap<ShowcaseCreationAssistant, TextPage>();
 	@Override
 	public String getType() {
 		return "exchange";
@@ -51,8 +59,23 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		// TODO Auto-generated method stub
-
+		/*
+		 * Wizard:
+		 * How many items of (type) you want to sell?
+		 * Take the item you want to get for this one in your hand (type ok), or type id:data
+		 * Type the exchangerate (x:y)
+		 */
+		ShowcaseAmountPage amountPage = new ShowcaseAmountPage(assistant);
+		ExchangeTypePage typePage = new ExchangeTypePage();
+		TextPage ratePage = new TextPage();
+		assistant.addPage(amountPage);
+		assistant.addPage(typePage);
+		assistant.addPage(ratePage);
+		ratePage.setTitle("Exchange Rate");
+		ratePage.setText("Enter the exchange-rate (left:right)\nExample: 2 gold for 1 diamond = 1:2");
+		amountPages.put(assistant, amountPage);
+		exchangeTypePages.put(assistant, typePage);
+		ratePages.put(assistant, ratePage);
 	}
 
 	@Override
