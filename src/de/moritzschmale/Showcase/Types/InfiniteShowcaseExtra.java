@@ -11,13 +11,15 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 	
 	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
-		return false;
+		//No special cases to do here.
+		return true;
 	}
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
-		player.sendMessage("Price: "+price);
+		BuyAssistant assistant = new BuyAssistant(player.getPlayer(), showcase);
+		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
+		assistant.start();
 	}
 
 	@Override
