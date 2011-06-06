@@ -25,12 +25,19 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
-		String print ="";
-		print+="Exchangetype: "+ShowcaseMain.getName(exchangeType, exchangeData)+"\n";
-		print+="Items: "+itemAmount+", exchanged: "+exchangeAmount+"\n";
-		print+="Exchange-rate: "+exchangeRateLeft+":"+exchangeRateRight;
-		player.sendMessage(print);
+		if(player.getPlayer().getName().equals(showcase.getPlayer())){
+			String name = ShowcaseMain.getName(exchangeType, exchangeData);
+			int remaining = player.addItems(exchangeType, exchangeData, exchangeAmount);
+			player.sendMessage("Added "+(exchangeAmount-remaining)+" "+name+" to your inventory.");
+			if(remaining!=0){
+				player.sendMessage("Your inventory is full, "+remaining+" items are still in the showcase.");
+			}
+			exchangeAmount = remaining;
+		} else {
+			ExchangeAssistant assistant = new ExchangeAssistant(player.getPlayer(), showcase);
+			assistant.setAssistantStartLocation(player.getPlayer().getLocation());
+			assistant.start();
+		}
 	}
 
 	@Override
@@ -127,6 +134,14 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	 */
 	public void setExchangeRateRight(int exchangeRateRight) {
 		this.exchangeRateRight = exchangeRateRight;
+	}
+	
+	public void addItems(int amount){
+		itemAmount+=amount;
+	}
+	
+	public void addExchanges(int amount){
+		exchangeAmount+=amount;
 	}
 
 }
