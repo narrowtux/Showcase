@@ -31,7 +31,7 @@ public class Assistant {
 		for(Player p:instances.keySet()){
 			event.getRecipients().remove(p);
 			if(!event.getPlayer().equals(p)){
-				instances.get(p).heldBackChat+= event.getFormat()+"\n";
+				instances.get(p).heldBackChat+= "<"+event.getPlayer().getName()+"> "+event.getMessage()+"\n";
 			}
 		}
 		if(instances.containsKey(event.getPlayer())){
