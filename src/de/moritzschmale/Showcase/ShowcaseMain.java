@@ -220,7 +220,6 @@ public class ShowcaseMain extends JavaPlugin {
 					}
 					String line[] = locline.split(",");
 					if(line.length==10){
-						//TODO: transfer finite and infinite showcases to the new system
 						int x,y,z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
@@ -230,14 +229,20 @@ public class ShowcaseMain extends JavaPlugin {
 						String player = line[5];
 						World world = getServer().getWorld(line[6]);
 						String showtype = line[7].toLowerCase();
+						if(showtype.equals("finite_shop")){
+							showtype="finite";
+						}
+						if(showtype.equals("infinite_shop")){
+							showtype="infinite";
+						}
 						int amount = Integer.valueOf(line[8]);
 						double price = Double.valueOf(line[9]);
 						Location loc = new Location(world, x, y, z);
 						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						showcasedItems.add(showItem);
-						if(type.equals("finite")){
+						if(showtype.equals("finite")){
 							showItem.setExtraLoad(amount+";"+price);
-						} else  if(type.equals("infinite")){
+						} else  if(showtype.equals("infinite")){
 							showItem.setExtraLoad(""+price);
 						}
 					} else if(line.length==9){
