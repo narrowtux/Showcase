@@ -6,6 +6,7 @@ public class Configuration {
 	private boolean showcaseProtection = true;
 	private double priceForBasic = 0.0;
 	private double priceForFiniteShop = 0.0;
+	private double priceForExchangeShop = 0.0;
 	private int maximumPerUser = 0;
 	private FlatFileReader reader;
 	private boolean basicMode;
@@ -29,7 +30,11 @@ public class Configuration {
 	public double getPriceForFiniteShop() {
 		return priceForFiniteShop;
 	}
-
+	
+	public double getPriceForExchangeShop(){
+		return priceForExchangeShop;
+	}
+	
 	/**
 	 * @return the maximumPerUser
 	 */
@@ -48,6 +53,7 @@ public class Configuration {
 		priceForBasic = reader.getDouble("priceforbasic", 0);
 		priceForFiniteShop = reader.getDouble("priceforfinite", 0);
 		basicMode = reader.getBoolean("basicmode", false);
+		priceForExchangeShop = reader.getDouble("priceforexchange", 0);
 	}
 
 	/**

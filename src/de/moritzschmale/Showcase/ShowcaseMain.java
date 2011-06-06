@@ -36,6 +36,7 @@ import com.nijikokun.register.payment.Method;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import de.moritzschmale.Showcase.Types.BasicShowcase;
+import de.moritzschmale.Showcase.Types.ExchangeShowcase;
 import de.moritzschmale.Showcase.Types.FiniteShowcase;
 import de.moritzschmale.Showcase.Types.InfiniteShowcase;
 
@@ -121,6 +122,7 @@ public class ShowcaseMain extends JavaPlugin {
 		registerProvider(new BasicShowcase());
 		registerProvider(new FiniteShowcase());
 		registerProvider(new InfiniteShowcase());
+		registerProvider(new ExchangeShowcase());
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
