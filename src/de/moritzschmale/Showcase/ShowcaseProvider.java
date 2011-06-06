@@ -14,4 +14,6 @@ public interface ShowcaseProvider {
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant);
 	
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant);
+	
+	public double getPriceForCreation(ShowcasePlayer player);
 }

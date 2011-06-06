@@ -5,6 +5,7 @@ import java.util.Map;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcaseMain;
 import de.moritzschmale.Showcase.ShowcasePlayer;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
@@ -64,6 +65,11 @@ public class FiniteShowcase implements ShowcaseProvider {
 		ShowcasePlayer player = assistant.player;
 		player.remove(assistant.material, assistant.data, amountPage.amount);
 		return extra;
+	}
+
+	@Override
+	public double getPriceForCreation(ShowcasePlayer player) {
+		return ShowcaseMain.instance.config.getPriceForFiniteShop();
 	}
 
 }

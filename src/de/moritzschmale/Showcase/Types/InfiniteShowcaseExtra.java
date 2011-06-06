@@ -17,6 +17,9 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
+		if(!player.hasPermission("showcase.buy.infinite", false)){
+			return;
+		}
 		BuyAssistant assistant = new BuyAssistant(player.getPlayer(), showcase);
 		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
 		assistant.start();

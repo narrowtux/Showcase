@@ -17,6 +17,9 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void onClick(ShowcasePlayer player) {
+		if(!player.hasPermission("showcase.buy.finite", false)){
+			return;
+		}
 		if(player.getPlayer().getName().equals(item.getPlayer())){
 			RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
 			assistant.setAssistantStartLocation(player.getPlayer().getLocation());

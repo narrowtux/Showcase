@@ -1,7 +1,8 @@
 package de.moritzschmale.Showcase;
 
+import org.bukkit.ChatColor;
+
 import com.narrowtux.Assistant.AssistantPage;
-import com.nijikokun.register.payment.Method;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
@@ -10,9 +11,12 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		String text = "";
 		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
 			if(player.hasPermission(provider.getPermission(), provider.isOpMethod())){
-				text+=provider.getType()+": "+provider.getDescription()+"\n";
+				text+=ChatColor.YELLOW+provider.getType()+ChatColor.WHITE+": ";
+				text+=provider.getDescription();
+				text+=" ("+ChatColor.YELLOW+getPrice(provider.getPriceForCreation(player))+ChatColor.WHITE+")\n";
 			}
 		}
+		text+="Type "+ChatColor.YELLOW+"something else"+ChatColor.WHITE+" to leave.";
 		setText(text);
 	}
 	@Override

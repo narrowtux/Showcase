@@ -5,6 +5,7 @@ import java.util.Map;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcasePlayer;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
 public class InfiniteShowcase implements ShowcaseProvider {
@@ -51,6 +52,11 @@ public class InfiniteShowcase implements ShowcaseProvider {
 		extra.setPrice(pricePage.price);
 		pricePages.remove(assistant);
 		return extra;
+	}
+
+	@Override
+	public double getPriceForCreation(ShowcasePlayer player) {
+		return 0;
 	}
 
 }

@@ -44,12 +44,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 		item.setExtra(provider.createShowcase(this));
 		if(method!=null)
 		{
-			if(type.equals("basic")){
-				method.getAccount(getPlayer().getName()).subtract(config.getPriceForBasic());
-			}
-			if(type.equals("finite")){
-				method.getAccount(getPlayer().getName()).subtract(config.getPriceForFiniteShop());
-			}
+			method.getAccount(getPlayer().getName()).subtract(provider.getPriceForCreation(player));
 		}
 	}
 

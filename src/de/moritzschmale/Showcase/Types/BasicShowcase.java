@@ -2,6 +2,8 @@ package de.moritzschmale.Showcase.Types;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcaseMain;
+import de.moritzschmale.Showcase.ShowcasePlayer;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
 public class BasicShowcase implements ShowcaseProvider {
@@ -38,5 +40,10 @@ public class BasicShowcase implements ShowcaseProvider {
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		return new BasicShowcaseExtra();
+	}
+
+	@Override
+	public double getPriceForCreation(ShowcasePlayer player) {
+		return ShowcaseMain.instance.config.getPriceForBasic();
 	}
 }
