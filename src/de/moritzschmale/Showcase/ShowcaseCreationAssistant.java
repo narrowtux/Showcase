@@ -8,9 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import com.narrowtux.Assistant.*;
 import com.nijikokun.register.payment.Method;
 public class ShowcaseCreationAssistant extends Assistant {
-	public ShowcaseType type = ShowcaseType.NONE;
-	public double price = 0;
-	public int amount = 1;
+	public String type = "";
 	public Material material;
 	public short data;
 	public Location loc;
@@ -40,19 +38,18 @@ public class ShowcaseCreationAssistant extends Assistant {
 	@Override
 	public void onAssistantFinish(){
 		sendMessage(formatLine("Showcase creation successful."));
-		ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type, amount, price);
+		ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type);
 		ShowcaseMain.instance.showcasedItems.add(item);
+		ShowcaseProvider provider = ShowcaseMain.instance.providers.get(type);
+		item.setExtra(provider.createShowcase(this));
 		if(method!=null)
 		{
-			if(type.equals(ShowcaseType.BASIC)){
+			if(type.equals("basic")){
 				method.getAccount(getPlayer().getName()).subtract(config.getPriceForBasic());
 			}
-			if(type.equals(ShowcaseType.FINITE_SHOP)){
+			if(type.equals("finite")){
 				method.getAccount(getPlayer().getName()).subtract(config.getPriceForFiniteShop());
 			}
-		}
-		if(type.equals(ShowcaseType.FINITE_SHOP)){
-			player.remove(material, data, amount);
 		}
 	}
 

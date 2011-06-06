@@ -8,7 +8,13 @@ import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
 
 public class RefillAssistant extends Assistant {
+	public RefillAssistant(Player p) {
+		super(p);
+		// TODO Auto-generated constructor stub
+	}
+
 	public ShowcaseItem showcase;
+	/*
 	public RefillAssistant(Player p, final ShowcaseItem showcase) {
 		super(p);
 		this.showcase = showcase;
@@ -78,5 +84,5 @@ public class RefillAssistant extends Assistant {
 		for(AssistantPage page:getPages()){
 			page.setText(text);
 		}
-	}
+	}*/
 }

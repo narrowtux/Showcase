@@ -8,70 +8,36 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseTypeSelectionPage(ShowcasePlayer player){
 		setTitle("Select Showcase Type");
 		String text = "";
-		if(player.hasPermission("showcase.basic", false)){
-			text+="basic: Basic showcase ("+getPrice(ShowcaseMain.instance.config.getPriceForBasic())+")\n";
-		}
-		if(player.hasPermission("showcase.finite", false)){
-			text+="finite: Shop showcase with finite ressources ("+getPrice(ShowcaseMain.instance.config.getPriceForFiniteShop())+")\n";
-		}
-		if(player.hasPermission("showcase.infinite", true)){
-			text+="infinite: Shop showcase with infinite ressources";
+		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
+			if(player.hasPermission(provider.getPermission(), provider.isOpMethod())){
+				text+=provider.getType()+": "+provider.getDescription()+"\n";
+			}
 		}
 		setText(text);
 	}
 	@Override
 	public boolean onPageInput(String text){
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(getAssistant().getPlayer());
 		text = text.toLowerCase();
-		ShowcaseType type = ShowcaseType.NONE;
-		Method method = assistant.method;
-		if(text.contains("basic")){
-			type = ShowcaseType.BASIC;
-			if(!assistant.player.hasPermission("showcase.basic", false)){
-				sendMessage("You haven't got the permission to create this showcase.");
-				return false;
-			}
-			if(method!=null)
-			{
-				if(!method.getAccount(assistant.getPlayer().getName()).hasEnough(assistant.config.getPriceForBasic())){
-					sendMessage("You haven't got enough money.");
-					return false;
-				}
-			}
-		}else if(text.contains("infinite")){
-			type = ShowcaseType.INFINITE_SHOP;
-			if(!assistant.player.hasPermission("showcase.infinite", true)){
-				sendMessage("You haven't got the permission to create this showcase.");
-				return false;
-			}
-		}else if(text.contains("finite")){
-			type = ShowcaseType.FINITE_SHOP;
-			if(!assistant.player.hasPermission("showcase.finite", false)){
-				sendMessage("You haven't got the permission to create this showcase.");
-				return false;
-			}
-			if(method!=null)
-			{
-				if(!method.getAccount(assistant.getPlayer().getName()).hasEnough(assistant.config.getPriceForFiniteShop())){
-					sendMessage("You haven't got enough money.");
-					return false;
-				}
+		ShowcaseProvider type = null;
+		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
+			if(text.equals(provider.getType())){
+				//Selected this type
+				type = provider;
 			}
 		}
-		if(type.equals(ShowcaseType.NONE)){
+		if(type==null)
+		{
 			return false;
 		}
-		assistant.sendMessage(assistant.formatLine(type.toString().toLowerCase()+" selected."));
-		assistant.type = type;
-		if(type.equals(ShowcaseType.FINITE_SHOP)||type.equals(ShowcaseType.INFINITE_SHOP)){
-			ShowcasePricePage page = new ShowcasePricePage();
-			page.assistant = assistant;
-			assistant.addPage(page);
+		if(player.hasPermission(type.getPermission(), type.isOpMethod())){
+			this.assistant.type = type.getType();
+			type.addPagesToCreationWizard((ShowcaseCreationAssistant) getAssistant());
+			return true;
+		} else {
+			player.sendMessage("You don't have sufficient permissions.");
+			return false;
 		}
-		if(type.equals(ShowcaseType.FINITE_SHOP)){
-			ShowcaseAmountPage page = new ShowcaseAmountPage(assistant);
-			assistant.addPage(page);
-		}
-		return true;
 	}
 	
 	private String getPrice(double price){

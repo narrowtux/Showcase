@@ -15,30 +15,18 @@ public class ShowcaseItem {
 	private Block block;
 	private String player;
 	private boolean updatedPosition = false;
-	private ShowcaseType type = ShowcaseType.BASIC;
-	private int itemAmount = 1;
-	private double pricePerItem = 0;
+	private String type;
 	private Material material;
 	private short data;
 	private boolean chunkLoaded = true;
-	public ShowcaseItem(Item item, Location location, String player){
-		setItem(item);
-		setLocation(location);
-		setBlock(location.getBlock());
-		setPlayer(player);
-		setMaterial(item.getItemStack().getType());
-		setData(item.getItemStack().getDurability());
-		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
-		checkForDupedItem();
-	}
+	private ShowcaseExtra extra = null;
+	private String extraLoad = "";
 	
-	public ShowcaseItem(Location loc, Material mat, short data, String player, ShowcaseType type, int amount, double price){
+	public ShowcaseItem(Location loc, Material mat, short data, String player, String type){
 		setMaterial(mat);
 		setData(data);
 		setPlayer(player);
 		setType(type);
-		setItemAmount(amount);
-		setPricePerItem(price);
 		setBlock(loc.getBlock());
 		if(getBlock().getTypeId()==20){
 			getBlock().setType(Material.STEP);
@@ -54,6 +42,15 @@ public class ShowcaseItem {
 			setItem(null);
 		}
 	}
+
+	public void setExtraLoad(String s){
+		extraLoad = s;
+	}
+	
+	public String getExtraLoad(){
+		return extraLoad;
+	}
+	
 	/**
 	 * @param item the item to set
 	 */
@@ -91,13 +88,13 @@ public class ShowcaseItem {
 		checkForDupedItem();
 		item.remove();
 	}
-	
+	/*
 	public void giveItemsBack(){
 		if(type.equals(ShowcaseType.FINITE_SHOP)){
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(this.player);
 			player.addItems(material, data, itemAmount);
 		}
-	}
+	}*/
 	
 	public void respawn() {
 		if(isChunkLoaded()){
@@ -145,40 +142,42 @@ public class ShowcaseItem {
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(ShowcaseType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	/**
 	 * @return the type
 	 */
-	public ShowcaseType getType() {
+	public String getType() {
 		return type;
 	}
+	
+	/*
 	/**
 	 * @param itemAmount the itemAmount to set
-	 */
+	 *
 	public void setItemAmount(int itemAmount) {
 		this.itemAmount = itemAmount;
 	}
 	/**
 	 * @return the itemAmount
-	 */
+	 *
 	public int getItemAmount() {
 		return itemAmount;
 	}
 	/**
 	 * @param pricePerItem the pricePerItem to set
-	 */
+	 *
 	public void setPricePerItem(double pricePerItem) {
 		this.pricePerItem = pricePerItem;
 	}
 	/**
 	 * @return the pricePerItem
-	 */
+	 *
 	public double getPricePerItem() {
 		return pricePerItem;
 	}
-
+	*/
 	/**
 	 * @param material the material to set
 	 */
@@ -228,5 +227,17 @@ public class ShowcaseItem {
 				e.remove();
 			}
 		}
+	}
+	/**
+	 * @param extra the extra to set
+	 */
+	public void setExtra(ShowcaseExtra extra) {
+		this.extra = extra;
+	}
+	/**
+	 * @return the extra
+	 */
+	public ShowcaseExtra getExtra() {
+		return extra;
 	}
 }

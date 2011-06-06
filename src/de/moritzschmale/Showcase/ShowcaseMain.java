@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +36,8 @@ import com.nijikokun.bukkit.Permissions.*;
 import com.nijikokun.register.payment.Method;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+import de.moritzschmale.Showcase.Types.BasicShowcase;
+
 
 public class ShowcaseMain extends JavaPlugin {
 	private static PermissionHandler Permissions = null;
@@ -49,6 +53,7 @@ public class ShowcaseMain extends JavaPlugin {
 	public Method method = null;
 	public Configuration config;
 	public  WorldGuardPlugin worldguard;
+	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	
 	@Override
 	public void onDisable() {
@@ -111,6 +116,9 @@ public class ShowcaseMain extends JavaPlugin {
 		}
 		
 		load();
+		//Register Providers _after_ loading
+		registerProvider(new BasicShowcase());
+		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
 
@@ -161,16 +169,19 @@ public class ShowcaseMain extends JavaPlugin {
 				Material type = item.getMaterial();
 				short data = item.getData();
 				String player = item.getPlayer();
-				ShowcaseType showtype = item.getType();
-				int amount = item.getItemAmount();
-				double price = item.getPricePerItem();
+				String showtype = item.getType();
 				//Save
 				//x,y,z,itemid,player,worldname,worldenviromnent,showtype,amount,price
 				line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
 				line+=type.getId()+","+data+",";
 				line+=player+",";
 				line+=loc.getWorld().getName()+",";
-				line+=showtype+","+amount+","+price+"\n";
+				line+=showtype+",";
+				if(item.getExtra()!=null)
+				{
+					line+=item.getExtra().save();
+				}
+				line+="\n";
 				w.write(line);
 			}
 			w.flush();
@@ -205,20 +216,7 @@ public class ShowcaseMain extends JavaPlugin {
 						break;
 					}
 					String line[] = locline.split(",");
-					if(line.length==6){
-						int x,y,z;
-						x = Integer.valueOf(line[0]);
-						y = Integer.valueOf(line[1]);
-						z = Integer.valueOf(line[2]);
-						Material type = Material.getMaterial(Integer.valueOf(line[3]));
-						String player = line[4];
-						World world = getServer().getWorld(line[5]);
-						Location loc = new Location(world, x, y, z);
-						ItemStack stack = new ItemStack(type);
-						Item item = world.dropItemNaturally(loc, stack);
-						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
-						showcasedItems.add(showItem);
-					} else if(line.length==7){
+					if(line.length==10){
 						int x,y,z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
@@ -227,27 +225,29 @@ public class ShowcaseMain extends JavaPlugin {
 						short data = Short.valueOf(line[4]);
 						String player = line[5];
 						World world = getServer().getWorld(line[6]);
-						Location loc = new Location(world, x, y, z);
-						ItemStack stack = new ItemStack(type, 1, data);
-						Item item = world.dropItemNaturally(loc, stack);
-						ShowcaseItem showItem = new ShowcaseItem(item, loc, player);
-						showcasedItems.add(showItem);
-					} else if(line.length==10){
-						int x,y,z;
-						x = Integer.valueOf(line[0]);
-						y = Integer.valueOf(line[1]);
-						z = Integer.valueOf(line[2]);
-						Material type = Material.getMaterial(Integer.valueOf(line[3]));
-						short data = Short.valueOf(line[4]);
-						String player = line[5];
-						World world = getServer().getWorld(line[6]);
-						ShowcaseType showtype = ShowcaseType.valueOf(line[7]);
+						String showtype = line[7].toLowerCase();
 						int amount = Integer.valueOf(line[8]);
 						double price = Double.valueOf(line[9]);
 						Location loc = new Location(world, x, y, z);
-						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype, amount, price);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						showcasedItems.add(showItem);
-					} else {
+					} else if(line.length==8){
+						//New format
+						int x,y,z;
+						x = Integer.valueOf(line[0]);
+						y = Integer.valueOf(line[1]);
+						z = Integer.valueOf(line[2]);
+						Material type = Material.getMaterial(Integer.valueOf(line[3]));
+						short data = Short.valueOf(line[4]);
+						String player = line[5];
+						World world = getServer().getWorld(line[6]);
+						String showtype = line[7].toLowerCase();
+						Location loc = new Location(world, x, y, z);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
+						showcasedItems.add(showItem);
+						String extra = line[8];
+						showItem.setExtraLoad(extra);
+					}else {
 						continue;
 					}
 				}
@@ -351,5 +351,17 @@ public class ShowcaseMain extends JavaPlugin {
 			}
 		}
 		return ret;
+	}
+	
+	public void registerProvider(ShowcaseProvider provider){
+		providers.put(provider.getType(), provider);
+		int a = 0;
+		for(ShowcaseItem item:showcasedItems){
+			if(item.getType().equals(provider.getType())){
+				item.setExtra(provider.loadShowcase(item.getExtraLoad()));
+				a++;
+			}
+		}
+		System.out.println("[Showcase] registered type ["+provider.getType()+"] ("+a+" items)");
 	}
 }
