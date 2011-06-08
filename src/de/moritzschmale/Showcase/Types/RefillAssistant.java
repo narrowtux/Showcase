@@ -78,6 +78,7 @@ public class RefillAssistant extends Assistant {
 		short data = showcase.getData();
 		String text = "";
 		text+=ChatColor.YELLOW.toString()+extra.getItemAmount()+ChatColor.WHITE+" of "+ChatColor.YELLOW+ShowcaseMain.getName(mat, data)+ChatColor.WHITE+" in showcase.\n";
+		text+="One item costs "+ChatColor.YELLOW+extra.getPricePerItem()+ChatColor.WHITE+".\n";
 		text+="You have got "+ChatColor.YELLOW+player.getAmountOfType(mat, data)+ChatColor.WHITE+" items.\n";
 		text+="Type in a "+ChatColor.YELLOW+"positive amount (e.g. 10)"+ChatColor.WHITE+" to add items.\n";
 		text+="Type in a "+ChatColor.YELLOW+"negative amount (e.g. -6)"+ChatColor.WHITE+" to remove items.\n";
