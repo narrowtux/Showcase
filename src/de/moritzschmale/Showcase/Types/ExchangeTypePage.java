@@ -13,7 +13,7 @@ public class ExchangeTypePage extends AssistantPage {
 	
 	public ExchangeTypePage(){
 		setTitle("Exchange item");
-		setText("Put the item you want to get for exchange and type ok\nOr type item:data");
+		setText("Put the item you want to get for exchange and type ok\nOr type the item-name/id");
 	}
 	
 	@Override
@@ -48,7 +48,11 @@ public class ExchangeTypePage extends AssistantPage {
 				}
 			}
 			if(args.length==2){
-				data = Short.valueOf(args[1]);
+				try{
+					data = Short.valueOf(args[1]);
+				} catch(Exception e){
+					data = 0;
+				}
 			}
 			if(type.equals(Material.AIR)){
 				getAssistant().repeatCurrentPage();

@@ -11,16 +11,36 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		String text = "";
 		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
 			if(player.hasPermission(provider.getPermission(), provider.isOpMethod())){
-				text+=ChatColor.YELLOW+provider.getType()+ChatColor.WHITE+": ";
-				text+=provider.getDescription();
-				text+=" ("+ChatColor.YELLOW+getPrice(provider.getPriceForCreation(player))+ChatColor.WHITE+")\n";
+				text+=ChatColor.YELLOW+provider.getType()+ChatColor.WHITE;
+				text+=" ("+ChatColor.YELLOW+getPrice(provider.getPriceForCreation(player))+ChatColor.WHITE+"), ";
 			}
 		}
-		text+="Type "+ChatColor.YELLOW+"something else"+ChatColor.WHITE+" to leave.";
+		text = text.substring(0,text.length()-2)+"\n";
+		text+="Type help [typename] to get its description.";
 		setText(text);
 	}
+
 	@Override
 	public boolean onPageInput(String text){
+		if(text.startsWith("help")){
+			String args[] = text.split(" ");
+			if(args.length>=2){
+				String type = args[1];
+				if(ShowcaseMain.instance.providers.containsKey(type)){
+					ShowcaseProvider provider = ShowcaseMain.instance.providers.get(type);
+					String msg = "";
+					msg+=provider.getType()+"\n";
+					msg+=provider.getDescription();
+					sendMessage(msg);
+					getAssistant().repeatCurrentPage();
+					return true;
+				} else {
+					sendMessage("This type doesn't exist or isn't loaded.");
+					getAssistant().repeatCurrentPage();
+					return true;
+				}
+			}
+		}
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(getAssistant().getPlayer());
 		text = text.toLowerCase();
 		ShowcaseProvider type = null;
@@ -43,7 +63,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			return false;
 		}
 	}
-	
+
 	private String getPrice(double price){
 		if(ShowcaseMain.instance.method!=null)
 		{
