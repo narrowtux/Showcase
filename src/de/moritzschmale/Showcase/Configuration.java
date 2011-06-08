@@ -1,6 +1,8 @@
 package de.moritzschmale.Showcase;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Configuration {
 	private boolean showcaseProtection = true;
@@ -11,6 +13,7 @@ public class Configuration {
 	private boolean removeWhenEmpty = false;
 	private FlatFileReader reader;
 	private boolean basicMode;
+	private List<String> disabledTypes = new ArrayList<String>();
 	/**
 	 * @return the showcaseProtection
 	 */
@@ -50,12 +53,18 @@ public class Configuration {
 	}
 	
 	public void load(){
+		disabledTypes.clear();
 		showcaseProtection = reader.getBoolean("showcaseprotection", true);
 		priceForBasic = reader.getDouble("priceforbasic", 0);
 		priceForFiniteShop = reader.getDouble("priceforfinite", 0);
 		basicMode = reader.getBoolean("basicmode", false);
 		priceForExchangeShop = reader.getDouble("priceforexchange", 0);
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
+		String list = reader.getString("disabled", "");
+		String items[] = list.split(",");
+		for(String item:items){
+			disabledTypes.add(item);
+		}
 	}
 
 	/**
@@ -70,5 +79,9 @@ public class Configuration {
 	 */
 	public boolean isBasicMode() {
 		return basicMode;
+	}
+	
+	public boolean isTypeEnabled(String type){
+		return !disabledTypes.contains(type);
 	}
 }

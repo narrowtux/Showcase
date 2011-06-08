@@ -370,14 +370,18 @@ public class ShowcaseMain extends JavaPlugin {
 	}
 	
 	public void registerProvider(ShowcaseProvider provider){
-		providers.put(provider.getType(), provider);
-		int a = 0;
-		for(ShowcaseItem item:showcasedItems){
-			if(item.getType().equals(provider.getType())){
-				item.setExtra(provider.loadShowcase(item.getExtraLoad()));
-				a++;
+		if(config.isTypeEnabled(provider.getType())){
+			providers.put(provider.getType(), provider);
+			int a = 0;
+			for(ShowcaseItem item:showcasedItems){
+				if(item.getType().equals(provider.getType())){
+					item.setExtra(provider.loadShowcase(item.getExtraLoad()));
+					a++;
+				}
 			}
+			System.out.println("[Showcase] registered type ["+provider.getType()+"] ("+a+" items)");
+		} else {
+			System.out.println("[Showcase] tried to register disabled type ["+provider.getType()+"]");
 		}
-		System.out.println("[Showcase] registered type ["+provider.getType()+"] ("+a+" items)");
 	}
 }
