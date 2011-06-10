@@ -118,7 +118,12 @@ public class ShowcaseMain extends JavaPlugin {
 		}
 		
 		load();
-		//Register Providers _after_ loading
+
+
+		config = new Configuration();
+		
+		playerListener.config = config;
+		//Register Providers _after_ loading and loading config
 		registerProvider(new BasicShowcase());
 		registerProvider(new FiniteShowcase());
 		registerProvider(new InfiniteShowcase());
@@ -126,10 +131,6 @@ public class ShowcaseMain extends JavaPlugin {
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
-
-		config = new Configuration();
-		
-		playerListener.config = config;
 	}
 	
 	public ShowcaseItem getItemByBlock(Block b){
@@ -185,6 +186,8 @@ public class ShowcaseMain extends JavaPlugin {
 				if(item.getExtra()!=null)
 				{
 					line+=item.getExtra().save();
+				} else {
+					line+=item.getExtraLoad();
 				}
 				line+="\n";
 				w.write(line);
@@ -370,7 +373,7 @@ public class ShowcaseMain extends JavaPlugin {
 	}
 	
 	public void registerProvider(ShowcaseProvider provider){
-		if(config.isTypeEnabled(provider.getType())){
+		if(config.isTypeEnabled(provider.getType())&&!(!provider.getType().equals("basic")&&config.isBasicMode())){
 			providers.put(provider.getType(), provider);
 			int a = 0;
 			for(ShowcaseItem item:showcasedItems){
@@ -379,7 +382,7 @@ public class ShowcaseMain extends JavaPlugin {
 					a++;
 				}
 			}
-			System.out.println("[Showcase] registered type ["+provider.getType()+"] ("+a+" items)");
+			System.out.println("[Showcase] registered type ["+provider.getType()+"] ("+a+" items loaded)");
 		} else {
 			System.out.println("[Showcase] tried to register disabled type ["+provider.getType()+"]");
 		}

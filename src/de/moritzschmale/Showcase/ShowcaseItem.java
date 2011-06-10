@@ -28,8 +28,8 @@ public class ShowcaseItem {
 		setPlayer(player);
 		setType(type);
 		setBlock(loc.getBlock());
-		if(getBlock().getTypeId()==20){
-			getBlock().setType(Material.STEP);
+		if(loc.getBlock().getTypeId()==20){
+			loc.getBlock().setType(Material.STEP);
 		}
 		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
 		if(isChunkLoaded()){
@@ -125,7 +125,7 @@ public class ShowcaseItem {
 	 * @return the block
 	 */
 	public Block getBlock() {
-		return block;
+		return location.getBlock();
 	}
 	/**
 	 * @param player the player to set

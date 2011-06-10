@@ -1,5 +1,6 @@
 package de.moritzschmale.Showcase;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -35,12 +36,19 @@ public class ShowcasePlayerListener extends PlayerListener {
 					}
 					if(event.getClickedBlock().getType().equals(Material.STEP)){
 						event.setCancelled(true);
-						ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
-						assistant.start();
+						if(ShowcaseMain.instance.providers.size()==1&&ShowcaseMain.instance.providers.containsKey("basic")){
+							Location loc = event.getClickedBlock().getLocation();
+							Material mat = event.getItem().getType();
+							short data = event.getItem().getDurability();
+							ShowcaseMain.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
+						} else {
+							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
+							assistant.start();
+						}
 					}
 				} else if(showItem!=null){
 					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)){
-						if(showItem.getExtra().onDestroy(player)){
+						if(showItem.getExtra()==null||showItem.getExtra().onDestroy(player)){
 							showItem.remove();
 							ShowcaseMain.instance.showcasedItems.remove(showItem);
 							event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
@@ -53,7 +61,8 @@ public class ShowcasePlayerListener extends PlayerListener {
 			}
 			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 				if(showItem!=null){
-					showItem.getExtra().onClick(player);
+					if(showItem.getExtra()!=null)
+						showItem.getExtra().onClick(player);
 				}
 			}
 		}
