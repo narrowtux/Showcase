@@ -41,6 +41,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
 							ShowcaseMain.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
+							event.getPlayer().sendMessage(ChatColor.GREEN+"You created a Showcase!");
 						} else {
 							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
 							assistant.start();
@@ -48,7 +49,14 @@ public class ShowcasePlayerListener extends PlayerListener {
 					}
 				} else if(showItem!=null){
 					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)){
-						if(showItem.getExtra()==null||showItem.getExtra().onDestroy(player)){
+						if(showItem.getExtra()==null){
+							showItem.remove();
+							ShowcaseMain.instance.showcasedItems.remove(showItem);
+							event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
+							System.out.println("null Extra");
+							return;
+						}
+						if(showItem.getExtra().onDestroy(player)){
 							showItem.remove();
 							ShowcaseMain.instance.showcasedItems.remove(showItem);
 							event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");

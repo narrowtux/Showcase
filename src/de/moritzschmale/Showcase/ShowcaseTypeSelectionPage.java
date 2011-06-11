@@ -15,8 +15,13 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 				text+=" ("+ChatColor.YELLOW+getPrice(provider.getPriceForCreation(player))+ChatColor.WHITE+"), ";
 			}
 		}
-		text = text.substring(0,text.length()-2)+"\n";
-		text+="Type help [typename] to get its description.";
+		if(text.equals("")){
+			text = "You can't place any showcases!";
+			getAssistant().cancel();
+		} else {
+			text = text.substring(0,text.length()-2)+"\n";
+			text+="Type help [typename] to get its description.";
+		}
 		setText(text);
 	}
 
