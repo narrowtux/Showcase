@@ -2,3 +2,10 @@ name: Showcase
 author: narrowtux
 version: 0.6.5
 main: de.moritzschmale.Showcase.ShowcaseMain
+commands:
+    showcase:
+         description: Showcase related commands
+         example: /showcase reload
+         example: /showcase load
+         example: /showcase save
+         usage: /showcase [reload|load|save]

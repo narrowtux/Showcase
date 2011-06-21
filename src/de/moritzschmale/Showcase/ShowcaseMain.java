@@ -20,6 +20,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -391,5 +393,53 @@ public class ShowcaseMain extends JavaPlugin {
 		} else {
 			System.out.println(Translation.tr("registerFail", provider.getType()));
 		}
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
+		if(cmd.getName().equals("showcase")){
+			if(args.length>=1){
+				if(args[0].equalsIgnoreCase("reload")){
+					if(sender.isOp()){
+						save();
+						for(ShowcaseItem item:showcasedItems){
+							item.remove();
+						}
+						showcasedItems.clear();
+						config.load();
+						Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+						load();
+						for(ShowcaseProvider provider:providers.values()){
+							registerProvider(provider);
+						}
+						sender.sendMessage(Translation.tr("reloadSuccessful"));
+					}
+					return true;
+				}
+				if(args[0].equalsIgnoreCase("save")){
+					if(sender.isOp()){
+						save();
+						sender.sendMessage(Translation.tr("saveSuccessful"));
+					}
+					return true;
+				}
+				if(args[0].equalsIgnoreCase("load")){
+					if(sender.isOp()){
+						for(ShowcaseItem item:showcasedItems){
+							item.remove();
+						}
+						showcasedItems.clear();
+						config.load();
+						Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+						load();
+						for(ShowcaseProvider provider:providers.values()){
+							registerProvider(provider);
+						}
+						sender.sendMessage(Translation.tr("loadSuccessful"));
+					}
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
