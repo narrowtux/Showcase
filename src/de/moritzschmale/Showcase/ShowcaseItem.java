@@ -12,7 +12,6 @@ import org.bukkit.util.Vector;
 public class ShowcaseItem {
 	private Item item;
 	private Location location;
-	private Block block;
 	private String player;
 	private boolean updatedPosition = false;
 	private String type;
@@ -27,11 +26,16 @@ public class ShowcaseItem {
 		setData(data);
 		setPlayer(player);
 		setType(type);
-		setBlock(loc.getBlock());
 		if(loc.getBlock().getTypeId()==20){
 			loc.getBlock().setType(Material.STEP);
 		}
-		setChunkLoaded(block.getWorld().isChunkLoaded(block.getChunk()));
+		Block block;
+		try{
+			block = loc.getBlock();
+		} catch(Exception e){
+			block = null;
+		}
+		setChunkLoaded(block==null?false:block.getWorld().isChunkLoaded(block.getChunk()));
 		if(isChunkLoaded()){
 			setLocation(loc);
 			setItem(loc.getWorld().dropItemNaturally(getLocation(), new ItemStack(mat, 1, data)));
