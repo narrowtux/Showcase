@@ -7,6 +7,7 @@ import com.narrowtux.Assistant.AssistantPage;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
+	public boolean cancel = false;
 	public ShowcaseTypeSelectionPage(ShowcasePlayer player, Assistant assistant){
 		super(assistant);
 		setTitle("Select Showcase Type");
@@ -19,7 +20,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		}
 		if(text.equals("")){
 			text = "You can't place any showcases!";
-			getAssistant().cancel();
+			cancel = true;
 		} else {
 			text = text.substring(0,text.length()-2)+"\n";
 			text+="Type help [typename] to get its description.";
@@ -78,5 +79,12 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		} else {
 			return price+" $";
 		}
+	}
+	
+	@Override
+	public void play(){
+		super.play();
+		if(cancel)
+			getAssistant().cancel();
 	}
 }
