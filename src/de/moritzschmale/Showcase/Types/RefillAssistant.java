@@ -19,7 +19,7 @@ public class RefillAssistant extends Assistant {
 		this.showcase = showcase;
 		extra = (FiniteShowcaseExtra)showcase.getExtra();
 		
-		AssistantPage page = new AssistantPage(){
+		AssistantPage page = new AssistantPage(this){
 			@Override
 			public boolean onPageInput(String text){
 				int value = 0;

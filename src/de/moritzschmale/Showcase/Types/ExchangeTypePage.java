@@ -3,6 +3,7 @@ package de.moritzschmale.Showcase.Types;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
 
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -11,7 +12,8 @@ public class ExchangeTypePage extends AssistantPage {
 	public Material type;
 	public short data;
 	
-	public ExchangeTypePage(){
+	public ExchangeTypePage(Assistant assistant){
+		super(assistant);
 		setTitle("Exchange item");
 		setText("Put the item you want to get for exchange and type ok\nOr type the item-name/id");
 	}

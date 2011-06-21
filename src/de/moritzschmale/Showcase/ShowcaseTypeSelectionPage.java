@@ -2,11 +2,13 @@ package de.moritzschmale.Showcase;
 
 import org.bukkit.ChatColor;
 
+import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
-	public ShowcaseTypeSelectionPage(ShowcasePlayer player){
+	public ShowcaseTypeSelectionPage(ShowcasePlayer player, Assistant assistant){
+		super(assistant);
 		setTitle("Select Showcase Type");
 		String text = "";
 		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
@@ -17,7 +19,8 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		}
 		if(text.equals("")){
 			text = "You can't place any showcases!";
-			getAssistant().cancel();
+			//getAssistant().cancel();
+			//TODO: cancel the assistant somehow.
 		} else {
 			text = text.substring(0,text.length()-2)+"\n";
 			text+="Type help [typename] to get its description.";

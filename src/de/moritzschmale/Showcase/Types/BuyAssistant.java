@@ -26,7 +26,7 @@ public class BuyAssistant extends Assistant {
 		print+=ChatColor.YELLOW+"This is "+ChatColor.WHITE+showItem.getPlayer()+ChatColor.YELLOW+"'s shop.\n";
 		print+=ChatColor.YELLOW+"How many items do you want?\n"+ChatColor.YELLOW+"Type the number in chat, "+ChatColor.WHITE+"0"+ChatColor.YELLOW+" to abort.";
 		 */
-		AssistantPage page = new AssistantPage(){
+		AssistantPage page = new AssistantPage(this){
 			@Override
 			public boolean onPageInput(String text){
 				try{

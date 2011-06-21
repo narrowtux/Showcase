@@ -22,7 +22,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 
 		player = ShowcasePlayer.getPlayer(getPlayer());
 		setTitle("Showcase creation assistant");
-		ShowcaseTypeSelectionPage page = new ShowcaseTypeSelectionPage(player);
+		ShowcaseTypeSelectionPage page = new ShowcaseTypeSelectionPage(player, this);
 		page.assistant = this;
 		addPage(page);
 		material = item.getType();

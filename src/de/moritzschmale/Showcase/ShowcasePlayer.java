@@ -58,7 +58,7 @@ public class ShowcasePlayer {
 		int ret = 0;
 		for(int i = 0; i<inv.getSize();i++){
 			ItemStack stack = inv.getItem(i);
-			if(stack.getType().equals(mat)&&stack.getDurability()==data){
+			if(stack!=null&&stack.getType().equals(mat)&&stack.getDurability()==data){
 				ret+=stack.getAmount();
 			}
 		}

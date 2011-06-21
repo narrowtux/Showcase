@@ -6,6 +6,9 @@ public class AssistantPage {
 	private String title = "Generic Page";
 	private String text = "Enter some weird text here.";
 	private Assistant assistant = null;
+	public AssistantPage(Assistant assistant){
+		this.assistant = assistant;
+	}
 	/**
 	 * @param title the title to set
 	 */

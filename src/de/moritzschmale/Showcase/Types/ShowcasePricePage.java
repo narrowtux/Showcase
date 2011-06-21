@@ -2,12 +2,14 @@ package de.moritzschmale.Showcase.Types;
 
 import org.bukkit.ChatColor;
 
+import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
 
 public class ShowcasePricePage extends AssistantPage {
 	public double price;
 	
-	public ShowcasePricePage(){
+	public ShowcasePricePage(Assistant assistant){
+		super(assistant);
 		setTitle("Enter the price per item.");
 		setText("");
 	}

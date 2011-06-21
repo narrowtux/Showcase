@@ -45,7 +45,7 @@ public class FiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		ShowcasePricePage pricePage = new ShowcasePricePage();
+		ShowcasePricePage pricePage = new ShowcasePricePage(assistant);
 		pricePages.put(assistant, pricePage);
 		assistant.addPage(pricePage);
 		ShowcaseAmountPage amountPage = new ShowcaseAmountPage(assistant);

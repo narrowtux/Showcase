@@ -40,7 +40,7 @@ public class InfiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		ShowcasePricePage pricePage = new ShowcasePricePage();
+		ShowcasePricePage pricePage = new ShowcasePricePage(assistant);
 		assistant.addPage(pricePage);
 		pricePages.put(assistant, pricePage);
 	}

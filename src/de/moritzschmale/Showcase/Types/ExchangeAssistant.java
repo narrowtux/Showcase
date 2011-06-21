@@ -20,7 +20,7 @@ public class ExchangeAssistant extends Assistant {
 		player = ShowcasePlayer.getPlayer(p);
 		showcase = item;
 		extra = (ExchangeShowcaseExtra)showcase.getExtra();
-		AssistantPage page = new AssistantPage(){
+		AssistantPage page = new AssistantPage(this){
 			{
 				setTitle("How many items you want to get?");
 				String text = "";

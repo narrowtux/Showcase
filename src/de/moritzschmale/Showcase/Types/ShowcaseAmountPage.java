@@ -13,6 +13,7 @@ public class ShowcaseAmountPage extends AssistantPage {
 	public int amount = 0;
 		
 	public ShowcaseAmountPage(ShowcaseCreationAssistant a){
+		super(a);
 		assistant = a;
 		maximumamount = assistant.player.getAmountOfType(assistant.material, assistant.data);
 		String title = "";

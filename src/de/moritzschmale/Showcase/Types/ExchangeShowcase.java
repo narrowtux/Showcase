@@ -66,8 +66,8 @@ public class ExchangeShowcase implements ShowcaseProvider {
 		 * Type the exchangerate (x:y)
 		 */
 		ShowcaseAmountPage amountPage = new ShowcaseAmountPage(assistant);
-		ExchangeTypePage typePage = new ExchangeTypePage();
-		TextPage ratePage = new TextPage();
+		ExchangeTypePage typePage = new ExchangeTypePage(assistant);
+		TextPage ratePage = new TextPage(assistant);
 		assistant.addPage(typePage);
 		assistant.addPage(ratePage);
 		assistant.addPage(amountPage);
