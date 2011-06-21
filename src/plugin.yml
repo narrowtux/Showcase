@@ -1,6 +1,6 @@
 name: Showcase
 author: narrowtux
-version: 0.6.6
+version: 0.6.7
 main: de.moritzschmale.Showcase.ShowcaseMain
 commands:
     showcase:
