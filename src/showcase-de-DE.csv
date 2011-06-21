@@ -1,3 +1,4 @@
+version=0.1
 enableMessage=[%s] Version %s wurde aktiviert.
 diableMessage=[%s] Version %s wurde deaktiviert.
 registerShowcase=[Showcase] Typ [%s] registriert (%d Einheiten geladen)
@@ -14,10 +15,10 @@ permissionsFail=[RED]Du hast keine Berechtigung, das zu tun.
 typeNotFound=[RED]Dieser Typ existiert nicht oder ist nicht geladen.
 helpCommand=hilfe
 helpDescription=Schreibe [YELLOW]%s [Typname][WHITE], um eine Beschreibung zu erhalten.
-assistant.creation.select.title=Showcase Typ auswählen
+assistant.creation.select.title=Showcase Typ ausw√§hlen
 noShowcasePermission=[RED]Du kannst keine Showcases benutzen.
 types.basic.description=Zeigt das Item an.
 types.finite.description=Du kannst deine eigenen items verkaufen.
 assistant.buy.title=Kauf-Assistent
 assistant.buy.text=Gib die Anzahl der items ein, die du kaufen willst.
-assistant.buy.price=[YELLOW]%s[WHITE] für jeweils [YELLOW]%s[WHITE].
+assistant.buy.price=[YELLOW]%s[WHITE] f√ºr jeweils [YELLOW]%s[WHITE].

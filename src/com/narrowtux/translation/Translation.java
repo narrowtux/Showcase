@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 public class Translation {
 	private static Map<String, String> translations = new HashMap<String, String>();
 	private static File file;
+	private static String version;
 	
 	public static void reload(File file){
 		Translation.file = file;
@@ -19,8 +20,11 @@ public class Translation {
 	private static void load() {
 		FlatFileReader reader = new FlatFileReader(file, true);
 		for(String key:reader.keys()){
-			translations.put(key, parseColors(reader.getString(key, "No translation for '"+key+"' found!")));
+			if(!key.equals("version")){
+				translations.put(key, parseColors(reader.getString(key, "No translation for '"+key+"' found!")));
+			}
 		}
+		version = reader.getString("version", "0.0");
 	}
 	
 	public static String tr(String key, Object... args){
@@ -48,5 +52,19 @@ public class Translation {
 			str = str.replaceAll(name, color.toString());
 		}
 		return str;
+	}
+	
+	public static int getVersion(){
+		String args[] = version.split(".");
+		int result = 0;
+		for(int i = 0; i<args.length; i++)
+		{
+			try{
+				result+=Integer.valueOf(args[args.length-i-1])*Math.pow(i, 10);
+			} catch(Exception e){
+				
+			}
+		}
+		return result;
 	}
 }

@@ -6,12 +6,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,6 +131,16 @@ public class ShowcaseMain extends JavaPlugin {
 		config = new Configuration();
 		
 		Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+		
+		if(Translation.getVersion()<1){
+			try {
+				copyFromJarToDisk("showcase-"+config.getLocale()+".csv", getDataFolder());
+				log.log(Level.INFO, "[Showcase] copied new translation file for "+config.getLocale()+" to disk.");
+				Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+			} catch (IOException e) {
+				System.out.println("Unable to copy default translation to plugin folder");
+			}
+		}
 		
 		playerListener.config = config;
 		//Register Providers _after_ loading and loading config
@@ -455,5 +468,18 @@ public class ShowcaseMain extends JavaPlugin {
 			}
 		}
 		return false;
+	}
+	
+	public void copyFromJarToDisk(String entry, File folder) throws IOException{
+		JarFile jar = new JarFile(getFile());
+		InputStream is = jar.getInputStream(jar.getJarEntry(entry));
+		OutputStream os = new FileOutputStream(new File(getDataFolder(), entry));
+		byte[] buffer = new byte[4096];
+		int length;
+		while (is!=null&&(length = is.read(buffer)) > 0) {
+		    os.write(buffer, 0, length);
+		}
+		os.close();
+		is.close();
 	}
 }
