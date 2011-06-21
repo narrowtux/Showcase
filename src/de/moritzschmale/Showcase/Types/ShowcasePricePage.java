@@ -4,13 +4,14 @@ import org.bukkit.ChatColor;
 
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.translation.Translation;
 
 public class ShowcasePricePage extends AssistantPage {
 	public double price;
 	
 	public ShowcasePricePage(Assistant assistant){
 		super(assistant);
-		setTitle("Enter the price per item.");
+		setTitle(Translation.tr("assistant.price.title"));
 		setText("");
 	}
 	
@@ -24,7 +25,7 @@ public class ShowcasePricePage extends AssistantPage {
 		if(price<0){
 			return false;
 		}
-		getAssistant().sendMessage(getAssistant().formatLine(ChatColor.YELLOW+"You selected a price of "+ChatColor.WHITE+price));
+		getAssistant().sendMessage(getAssistant().formatLine(Translation.tr("assistant.price.done", price)));
 		return true;
 	}
 	

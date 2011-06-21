@@ -57,7 +57,7 @@ public class ExchangeTypePage extends AssistantPage {
 					data = 0;
 				}
 			}
-			if(type.equals(Material.AIR)){
+			if(type==null||type.equals(Material.AIR)){
 				getAssistant().repeatCurrentPage();
 				sendMessage(getAssistant().formatLine(Translation.tr("itemExistError")));
 			} else {

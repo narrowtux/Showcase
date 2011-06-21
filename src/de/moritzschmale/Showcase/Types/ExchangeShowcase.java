@@ -73,6 +73,7 @@ public class ExchangeShowcase implements ShowcaseProvider {
 		assistant.addPage(ratePage);
 		assistant.addPage(amountPage);
 		ratePage.setTitle(Translation.tr("assistant.exchange.create.rate.title"));
+		//TODO: fix this weird bug
 		ratePage.setText(Translation.tr("assistant.exchange.create.rate.text"));
 		amountPages.put(assistant, amountPage);
 		exchangeTypePages.put(assistant, typePage);

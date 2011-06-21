@@ -62,11 +62,12 @@ public class Translation {
 		for(int i = 0; i<args.length; i++)
 		{
 			try{
-				result+=Integer.valueOf(args[args.length-i-1])*Math.pow(i, 10);
+				int v = Integer.valueOf(args[args.length-i-1]);
+				result+=v*Math.pow(i, 10);
 			} catch(Exception e){
-				
 			}
 		}
+		System.out.println(version+" "+result);
 		return result;
 	}
 }

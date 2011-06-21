@@ -43,3 +43,7 @@ assistant.exchange.create.type.selected=You selected %s.
 assistant.refill.title=Refill Assistant
 assistant.refill.finish=Refill done.
 assistant.refill.body=[YELLOW]%d[WHITE] of [YELLOW]%s[WHITE] in showcase.\nOne item costs [YELLOW]%s[WHITE].\nYou have got [YELLOW]%d[WHITE] items.\nType in a [YELLOW]positive amount (e.g. 10)[WHITE] to add items.\nType in a [YELLOW]negative amount (e.g. -6)[WHITE] to remove items.\nType [YELLOW]0 or go away[WHITE] to leave the assistant.
+assistant.amount.title=Enter the amount of items. You have got %d of %s.
+assistant.amount.add=You put in %d items.
+assistant.price.title=Enter the price per item.
+assistant.price.done=You selected a price of [YELLOW]%f.

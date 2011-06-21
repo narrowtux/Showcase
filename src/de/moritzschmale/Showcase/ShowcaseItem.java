@@ -26,8 +26,12 @@ public class ShowcaseItem {
 		setData(data);
 		setPlayer(player);
 		setType(type);
-		if(loc.getBlock().getTypeId()==20){
-			loc.getBlock().setType(Material.STEP);
+		try{
+			if(loc.getBlock().getTypeId()==20){
+				loc.getBlock().setType(Material.STEP);
+			}
+		} catch(Exception e){
+			
 		}
 		Block block;
 		try{
