@@ -112,19 +112,13 @@ public class ShowcaseItem {
 	}
 	
 	public void updatePosition() {
-		if(item!=null&&(!updatedPosition||item.getLocation().getY()<=block.getLocation().getBlockY()+0.4)){
+		if(item!=null&&(!updatedPosition||item.getLocation().getY()<=getLocation().getBlockY()+0.4)){
 			item.teleport(location);
 			item.setVelocity(new Vector(0,0.1,0));
 			updatedPosition=true;
 		}
 	}
-	
-	/**
-	 * @param block the block to set
-	 */
-	public void setBlock(Block block) {
-		this.block = block;
-	}
+
 	/**
 	 * @return the block
 	 */
