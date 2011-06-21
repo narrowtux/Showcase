@@ -21,7 +21,9 @@ public class Translation {
 		FlatFileReader reader = new FlatFileReader(file, true);
 		for(String key:reader.keys()){
 			if(!key.equals("version")){
-				translations.put(key, parseColors(reader.getString(key, "No translation for '"+key+"' found!")));
+				String trans = parseColors(reader.getString(key, "No translation for '"+key+"' found!"));
+				trans = trans.replaceAll("\\\\n", "\n");
+				translations.put(key, trans);
 			}
 		}
 		version = reader.getString("version", "0.0");

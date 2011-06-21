@@ -1,6 +1,9 @@
 package de.moritzschmale.Showcase.Types;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseItem;
@@ -28,9 +31,10 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 		if(player.getPlayer().getName().equals(showcase.getPlayer())){
 			String name = ShowcaseMain.getName(exchangeType, exchangeData);
 			int remaining = player.addItems(exchangeType, exchangeData, exchangeAmount);
-			player.sendMessage("Added "+(exchangeAmount-remaining)+" "+name+" to your inventory.");
+			player.sendMessage(Translation.tr("exchange.addexchange", exchangeAmount-remaining, name));
 			if(remaining!=0){
-				player.sendMessage("Your inventory is full, "+remaining+" items are still in the showcase.");
+				player.getPlayer().getWorld().dropItemNaturally(player.getPlayer().getLocation(), new ItemStack(exchangeType, remaining, exchangeData));
+				player.sendMessage(Translation.tr("exchange.remaining.dropped",remaining,name));
 			}
 			exchangeAmount = remaining;
 		} else {

@@ -55,7 +55,7 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return Translation.tr("types.exchange");
+		return Translation.tr("types.exchange.description");
 	}
 
 	@Override
@@ -72,8 +72,8 @@ public class ExchangeShowcase implements ShowcaseProvider {
 		assistant.addPage(typePage);
 		assistant.addPage(ratePage);
 		assistant.addPage(amountPage);
-		ratePage.setTitle("Exchange Rate");
-		ratePage.setText("Enter the exchange-rate (left:right)\nExample: 2 gold for 1 diamond = 1:2");
+		ratePage.setTitle(Translation.tr("assistant.exchange.create.rate.title"));
+		ratePage.setText(Translation.tr("assistant.exchange.create.rate.text"));
 		amountPages.put(assistant, amountPage);
 		exchangeTypePages.put(assistant, typePage);
 		ratePages.put(assistant, ratePage);

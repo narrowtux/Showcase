@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseMain;
 
@@ -14,8 +15,8 @@ public class ExchangeTypePage extends AssistantPage {
 	
 	public ExchangeTypePage(Assistant assistant){
 		super(assistant);
-		setTitle("Exchange item");
-		setText("Put the item you want to get for exchange and type ok\nOr type the item-name/id");
+		setTitle(Translation.tr("assistant.exchange.create.type.title"));
+		setText(Translation.tr("assistant.exchange.create.type.text"));
 	}
 	
 	@Override
@@ -31,7 +32,7 @@ public class ExchangeTypePage extends AssistantPage {
 				data = stack.getDurability();
 			} else {
 				getAssistant().repeatCurrentPage();
-				sendMessage(getAssistant().formatLine("You don't hold an item in your hand. Try again."));
+				sendMessage(getAssistant().formatLine(Translation.tr("noItemError")));
 			}
 			return true;
 		} else {
@@ -58,9 +59,9 @@ public class ExchangeTypePage extends AssistantPage {
 			}
 			if(type.equals(Material.AIR)){
 				getAssistant().repeatCurrentPage();
-				sendMessage(getAssistant().formatLine("This item doesn't exist. Repeat your input"));
+				sendMessage(getAssistant().formatLine(Translation.tr("itemExistError")));
 			} else {
-				sendMessage("You selected "+ShowcaseMain.getName(type, data)+".");
+				sendMessage(Translation.tr("assistant.exchange.create.type.selected", ShowcaseMain.getName(type, data)));
 			}
 			return true;
 		}

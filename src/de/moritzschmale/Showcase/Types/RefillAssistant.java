@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -56,7 +57,7 @@ public class RefillAssistant extends Assistant {
 				return true;
 			}
 		};
-		setTitle("Refill Assistant");
+		setTitle(Translation.tr("assistant.refill.title"));
 		page.setTitle("");
 		addPage(page);
 		updateText();
@@ -64,12 +65,12 @@ public class RefillAssistant extends Assistant {
 	
 	@Override
 	public void onAssistantCancel(){
-		sendMessage(formatLine("Refill done."));
+		sendMessage(formatLine(Translation.tr("assistant.refill.finish")));
 	}
 
 	@Override
 	public void onAssistantFinish(){
-		sendMessage(formatLine("Refill done."));
+		sendMessage(formatLine(Translation.tr("assistant.refill.finish")));
 	}
 	
 	public void updateText(){
@@ -77,12 +78,10 @@ public class RefillAssistant extends Assistant {
 		Material mat = showcase.getMaterial();
 		short data = showcase.getData();
 		String text = "";
-		text+=ChatColor.YELLOW.toString()+extra.getItemAmount()+ChatColor.WHITE+" of "+ChatColor.YELLOW+ShowcaseMain.getName(mat, data)+ChatColor.WHITE+" in showcase.\n";
-		text+="One item costs "+ChatColor.YELLOW+extra.getPricePerItem()+ChatColor.WHITE+".\n";
-		text+="You have got "+ChatColor.YELLOW+player.getAmountOfType(mat, data)+ChatColor.WHITE+" items.\n";
-		text+="Type in a "+ChatColor.YELLOW+"positive amount (e.g. 10)"+ChatColor.WHITE+" to add items.\n";
-		text+="Type in a "+ChatColor.YELLOW+"negative amount (e.g. -6)"+ChatColor.WHITE+" to remove items.\n";
-		text+="Type in "+ChatColor.YELLOW+"0 or go away"+ChatColor.WHITE+" to leave the assistant.";
+		String itemName = ShowcaseMain.getName(mat, data);
+		text = Translation.tr("assistant.refill.body", extra.getItemAmount(), itemName, 
+				ShowcaseMain.instance.method.format(extra.getPricePerItem()),
+				player.getAmountOfType(mat, data));
 		for(AssistantPage page:getPages()){
 			page.setText(text);
 		}
