@@ -1,4 +1,4 @@
-version=0.1
+version=1
 enableMessage=[%s] Version %s wurde aktiviert.
 diableMessage=[%s] Version %s wurde deaktiviert.
 registerShowcase=[Showcase] Registriere Typ [%s] (%d Einheiten geladen)

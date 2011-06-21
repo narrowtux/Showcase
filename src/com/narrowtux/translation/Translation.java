@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 public class Translation {
 	private static Map<String, String> translations = new HashMap<String, String>();
 	private static File file;
-	private static String version;
+	private static int version;
 	
 	public static void reload(File file){
 		Translation.file = file;
@@ -26,7 +26,7 @@ public class Translation {
 				translations.put(key, trans);
 			}
 		}
-		version = reader.getString("version", "0.0");
+		version = reader.getInteger("version", 0);
 	}
 	
 	public static String tr(String key, Object... args){
@@ -57,17 +57,6 @@ public class Translation {
 	}
 	
 	public static int getVersion(){
-		String args[] = version.split(".");
-		int result = 0;
-		for(int i = 0; i<args.length; i++)
-		{
-			try{
-				int v = Integer.valueOf(args[args.length-i-1]);
-				result+=v*Math.pow(i, 10);
-			} catch(Exception e){
-			}
-		}
-		System.out.println(version+" "+result);
-		return result;
+		return version;
 	}
 }
