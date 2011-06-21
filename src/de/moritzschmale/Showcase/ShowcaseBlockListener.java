@@ -6,6 +6,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 
+import com.narrowtux.translation.Translation;
+
 public class ShowcaseBlockListener extends BlockListener {
 	@Override
 	public void onBlockBreak(BlockBreakEvent event){
@@ -16,7 +18,7 @@ public class ShowcaseBlockListener extends BlockListener {
 		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
 			if(event.getBlock().equals(item.getBlock())){
 				event.setCancelled(true);
-				event.getPlayer().sendMessage(ChatColor.RED+"This is "+item.getPlayer()+"'s showcase.");
+				event.getPlayer().sendMessage(Translation.tr("showcaseOwner", item.getPlayer()));
 				break;
 			}
 		}

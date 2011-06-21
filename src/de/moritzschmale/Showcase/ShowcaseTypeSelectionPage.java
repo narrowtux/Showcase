@@ -4,13 +4,14 @@ import org.bukkit.ChatColor;
 
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.translation.Translation;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
 	public boolean cancel = false;
 	public ShowcaseTypeSelectionPage(ShowcasePlayer player, Assistant assistant){
 		super(assistant);
-		setTitle("Select Showcase Type");
+		setTitle(Translation.tr("assistant.creation.select.title"));
 		String text = "";
 		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
 			if(player.hasPermission(provider.getPermission(), provider.isOpMethod())){
@@ -19,18 +20,18 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			}
 		}
 		if(text.equals("")){
-			text = "You can't place any showcases!";
+			text = Translation.tr("noShowcasePermission");
 			cancel = true;
 		} else {
 			text = text.substring(0,text.length()-2)+"\n";
-			text+="Type help [typename] to get its description.";
+			text+=Translation.tr("helpDescription", Translation.tr("helpCommand"));
 		}
 		setText(text);
 	}
 
 	@Override
 	public boolean onPageInput(String text){
-		if(text.startsWith("help")){
+		if(text.startsWith(Translation.tr("helpCommand"))){
 			String args[] = text.split(" ");
 			if(args.length>=2){
 				String type = args[1];
@@ -43,7 +44,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 					getAssistant().repeatCurrentPage();
 					return true;
 				} else {
-					sendMessage("This type doesn't exist or isn't loaded.");
+					sendMessage(Translation.tr("typeNotFound"));
 					getAssistant().repeatCurrentPage();
 					return true;
 				}
@@ -67,7 +68,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			type.addPagesToCreationWizard((ShowcaseCreationAssistant) getAssistant());
 			return true;
 		} else {
-			player.sendMessage("You don't have sufficient permissions.");
+			player.sendMessage(Translation.tr("permissionsFail"));
 			return false;
 		}
 	}

@@ -14,6 +14,7 @@ public class Configuration {
 	private FlatFileReader reader;
 	private boolean basicMode;
 	private List<String> disabledTypes = new ArrayList<String>();
+	private String locale;
 	/**
 	 * @return the showcaseProtection
 	 */
@@ -60,6 +61,7 @@ public class Configuration {
 		basicMode = reader.getBoolean("basicmode", false);
 		priceForExchangeShop = reader.getDouble("priceforexchange", 0);
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
+		locale = reader.getString("locale", "en-US");
 		String list = reader.getString("disabled", "");
 		String items[] = list.split(",");
 		for(String item:items){
@@ -83,5 +85,12 @@ public class Configuration {
 	
 	public boolean isTypeEnabled(String type){
 		return !disabledTypes.contains(type);
+	}
+
+	/**
+	 * @return the locale
+	 */
+	public String getLocale() {
+		return locale;
 	}
 }

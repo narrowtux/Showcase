@@ -30,6 +30,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.narrowtux.translation.Translation;
 import com.nijiko.permissions.*;
 import com.nijikokun.bukkit.Permissions.*;
 import com.nijikokun.register.payment.Method;
@@ -61,11 +62,12 @@ public class ShowcaseMain extends JavaPlugin {
 	public void onDisable() {
 		//Read plugin file
 		PluginDescriptionFile pdfFile = this.getDescription();
-		log.log( Level.INFO, pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled!" );
+		String logText = Translation.tr("disableMessage", pdfFile.getName(), pdfFile.getVersion());
 		save();
 		for(ShowcaseItem item:showcasedItems){
 			item.remove();
 		}
+		log.log( Level.INFO, logText);
 	}
 	
 	@Override
@@ -86,7 +88,6 @@ public class ShowcaseMain extends JavaPlugin {
 		//Read plugin file
 		
 		PluginDescriptionFile pdfFile = this.getDescription();
-		log.log( Level.INFO, pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
@@ -122,6 +123,8 @@ public class ShowcaseMain extends JavaPlugin {
 
 		config = new Configuration();
 		
+		Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+		
 		playerListener.config = config;
 		//Register Providers _after_ loading and loading config
 		registerProvider(new BasicShowcase());
@@ -131,6 +134,8 @@ public class ShowcaseMain extends JavaPlugin {
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
+		String logText = Translation.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());
+		log.log( Level.INFO, logText);
 	}
 	
 	public ShowcaseItem getItemByBlock(Block b){
@@ -285,12 +290,12 @@ public class ShowcaseMain extends JavaPlugin {
 					ShowcaseMain.Permissions = ((Permissions)test).getHandler();
 				} catch(Exception e) {
 					ShowcaseMain.Permissions = null;
-					log.log(Level.WARNING, "Permissions is not enabled! All Operations are allowed!");
+					log.log(Level.WARNING, Translation.tr("permissionsUnavailable"));
 				}
 			}
 		} catch(java.lang.NoClassDefFoundError e){
 			ShowcaseMain.Permissions = null;
-			log.log(Level.WARNING, "Permissions not found! All Operations are allowed!");
+			log.log(Level.WARNING, Translation.tr("permissionsUnavailable"));
 		}
 	}
 	
@@ -382,9 +387,9 @@ public class ShowcaseMain extends JavaPlugin {
 					a++;
 				}
 			}
-			System.out.println("[Showcase] registered type ["+provider.getType()+"] ("+a+" items loaded)");
+			System.out.println(Translation.tr("registerShowcase", provider.getType(), a));
 		} else {
-			System.out.println("[Showcase] tried to register disabled type ["+provider.getType()+"]");
+			System.out.println(Translation.tr("registerFail", provider.getType()));
 		}
 	}
 }

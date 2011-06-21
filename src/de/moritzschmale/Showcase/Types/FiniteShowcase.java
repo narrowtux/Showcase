@@ -3,6 +3,8 @@ package de.moritzschmale.Showcase.Types;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.narrowtux.translation.Translation;
+
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -40,7 +42,7 @@ public class FiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return "You can sell your own items";
+		return Translation.tr("types.finite.description");
 	}
 
 	@Override

@@ -89,7 +89,7 @@ public class ShowcasePlayer {
 		MethodAccount account = getAccount();
 		if(account!=null)
 		{
-			return account.hasEnough(price);
+			return account.balance()>=price;
 		} else {
 			return false;
 		}

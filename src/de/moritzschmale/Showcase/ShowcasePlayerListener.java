@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.translation.Translation;
 
 
 public class ShowcasePlayerListener extends PlayerListener {
@@ -30,7 +31,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 				}
 				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
 					if(event.getItem()==null){
-						player.sendMessage(ChatColor.RED+"You have got to hold something in your hand!");
+						player.sendMessage(Translation.tr("noItemError"));
 						event.setCancelled(true);
 						return;
 					}
@@ -41,7 +42,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
 							ShowcaseMain.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
-							event.getPlayer().sendMessage(ChatColor.GREEN+"You created a Showcase!");
+							event.getPlayer().sendMessage(Translation.tr("basicCreationSuccess"));
 						} else {
 							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
 							assistant.start();
@@ -52,17 +53,17 @@ public class ShowcasePlayerListener extends PlayerListener {
 						if(showItem.getExtra()==null){
 							showItem.remove();
 							ShowcaseMain.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
+							event.getPlayer().sendMessage(Translation.tr("showcaseRemoveSuccess"));
 							System.out.println("null Extra");
 							return;
 						}
 						if(showItem.getExtra().onDestroy(player)){
 							showItem.remove();
 							ShowcaseMain.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(ChatColor.RED+"Removed Showcased item.");
+							event.getPlayer().sendMessage(Translation.tr("showcaseRemoveSuccess"));
 						}
 					} else {
-						event.getPlayer().sendMessage(ChatColor.RED+"This is "+showItem.getPlayer()+"'s Showcase!");
+						event.getPlayer().sendMessage(Translation.tr("showcaseOwner", showItem.getPlayer()));
 					}
 					event.setCancelled(true);
 				}

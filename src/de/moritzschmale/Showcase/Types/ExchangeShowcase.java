@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bukkit.Material;
 
 import com.narrowtux.Assistant.TextPage;
+import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
@@ -54,7 +55,7 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return "Get items for other items";
+		return Translation.tr("types.exchange");
 	}
 
 	@Override
