@@ -14,6 +14,7 @@ public class Configuration {
 	private FlatFileReader reader;
 	private boolean basicMode;
 	private List<String> disabledTypes = new ArrayList<String>();
+	private int autoSaveInterval;
 	private String locale;
 	/**
 	 * @return the showcaseProtection
@@ -62,6 +63,7 @@ public class Configuration {
 		priceForExchangeShop = reader.getDouble("priceforexchange", 0);
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
 		locale = reader.getString("locale", "en-US");
+		autoSaveInterval = reader.getInteger("autosaveinterval", 60000);
 		String list = reader.getString("disabled", "");
 		String items[] = list.split(",");
 		for(String item:items){
@@ -92,5 +94,9 @@ public class Configuration {
 	 */
 	public String getLocale() {
 		return locale;
+	}
+	
+	public int getAutosaveInterval(){
+		return autoSaveInterval;
 	}
 }

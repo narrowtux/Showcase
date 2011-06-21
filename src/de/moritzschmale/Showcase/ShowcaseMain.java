@@ -58,10 +58,12 @@ public class ShowcaseMain extends JavaPlugin {
 	public Method method = null;
 	public Configuration config;
 	public  WorldGuardPlugin worldguard;
+	public int autosaverId = -1;
 	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	
 	@Override
 	public void onDisable() {
+		getServer().getScheduler().cancelTasks(this);
 		//Read plugin file
 		PluginDescriptionFile pdfFile = this.getDescription();
 		String logText = Translation.tr("disableMessage", pdfFile.getName(), pdfFile.getVersion());
@@ -136,6 +138,18 @@ public class ShowcaseMain extends JavaPlugin {
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
+		
+		if(config.getAutosaveInterval()!=-1){
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+				
+				@Override
+				public void run() {
+					save();
+					log.log(Level.INFO, "[Showcase] Autosaved");
+				}
+			}, 0, config.getAutosaveInterval());
+		}
+		
 		String logText = Translation.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());
 		log.log( Level.INFO, logText);
 	}
