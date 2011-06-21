@@ -147,7 +147,7 @@ public class ShowcaseMain extends JavaPlugin {
 					save();
 					log.log(Level.INFO, "[Showcase] Autosaved");
 				}
-			}, 0, config.getAutosaveInterval());
+			}, 0, config.getAutosaveInterval()*20);
 		}
 		
 		String logText = Translation.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());

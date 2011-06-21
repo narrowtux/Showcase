@@ -63,7 +63,7 @@ public class Configuration {
 		priceForExchangeShop = reader.getDouble("priceforexchange", 0);
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
 		locale = reader.getString("locale", "en-US");
-		autoSaveInterval = reader.getInteger("autosaveinterval", 60000);
+		autoSaveInterval = reader.getInteger("autosaveinterval", 60);
 		String list = reader.getString("disabled", "");
 		String items[] = list.split(",");
 		for(String item:items){
