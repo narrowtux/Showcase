@@ -1,5 +1,6 @@
 package de.moritzschmale.Showcase;
 
+import org.bukkit.Material;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.WorldListener;
