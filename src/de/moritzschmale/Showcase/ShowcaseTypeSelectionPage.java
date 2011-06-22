@@ -63,6 +63,10 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		{
 			return false;
 		}
+		if(!player.canAfford(type.getPriceForCreation(player))){
+			sendMessage(getAssistant().formatLine(Translation.tr("notEnoughMoneyForShowcase")));
+			return false;
+		}
 		if(player.hasPermission(type.getPermission(), type.isOpMethod())){
 			this.assistant.type = type.getType();
 			type.addPagesToCreationWizard((ShowcaseCreationAssistant) getAssistant());

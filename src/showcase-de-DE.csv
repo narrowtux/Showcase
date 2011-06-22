@@ -1,4 +1,4 @@
-version=1
+version=2
 enableMessage=[%s] Version %s wurde aktiviert.
 diableMessage=[%s] Version %s wurde deaktiviert.
 registerShowcase=[Showcase] Registriere Typ [%s] (%d Einheiten geladen)
@@ -29,6 +29,7 @@ buyNotification=%s kaufte %d %s für insgesamt %s.
 buyMessage=Du hast %d %s für insgesamt %s gekauft.
 shopSoldOut=Dein Laden mit %s ist ausverkauft und wurde entfernt.
 notEnoughMoney=Du kannst dir so viele Items nicht leisten.
+notEnoughMoneyForShowcase=Du kannst dir diese Showcase nicht leisten.
 checkoutCancel=Bezahlvorgang abgebrochen.
 reloadSuccessful=[GREEN]Items gespeichert, Items, Einstellungen und Übersetzung geladen.
 loadSuccessful=[GREEN]Items, Einstellungen und Übersetzung geladen.

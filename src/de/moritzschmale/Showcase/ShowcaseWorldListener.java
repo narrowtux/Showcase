@@ -8,9 +8,12 @@ public class ShowcaseWorldListener extends WorldListener {
 	@Override
 	public void onChunkLoad(ChunkLoadEvent event){
 		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
-			if(event.getChunk().equals(item.getBlock().getChunk())){
-				item.respawn();
-				item.setChunkLoaded(true);
+			try{
+				if(event.getChunk().equals(item.getBlock().getChunk())){
+					item.respawn();
+					item.setChunkLoaded(true);
+				}
+			}catch(Exception e){
 			}
 		}
 	}
@@ -18,9 +21,12 @@ public class ShowcaseWorldListener extends WorldListener {
 	@Override
 	public void onChunkUnload(ChunkUnloadEvent event){
 		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
-			if(event.getChunk().equals(item.getBlock().getChunk())){
-				item.remove();
-				item.setChunkLoaded(false);
+			try{
+				if(event.getChunk().equals(item.getBlock().getChunk())){
+					item.remove();
+					item.setChunkLoaded(false);
+				}
+			}catch(Exception e){
 			}
 		}
 	}
