@@ -22,6 +22,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -204,27 +205,32 @@ public class ShowcaseMain extends JavaPlugin {
 			FileOutputStream output = new FileOutputStream(datafile.getAbsoluteFile());
 			BufferedWriter w = new BufferedWriter(new OutputStreamWriter(output));
 			for(ShowcaseItem item:showcasedItems){
-				String line = "";
-				Location loc = item.getBlock().getLocation();
-				Material type = item.getMaterial();
-				short data = item.getData();
-				String player = item.getPlayer();
-				String showtype = item.getType();
-				//Save
-				//x,y,z,itemid,player,worldname,worldenviromnent,showtype,amount,price
-				line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
-				line+=type.getId()+","+data+",";
-				line+=player+",";
-				line+=loc.getWorld().getName()+",";
-				line+=showtype+",";
-				if(item.getExtra()!=null)
-				{
-					line+=item.getExtra().save();
-				} else {
-					line+=item.getExtraLoad();
+				try{
+					String line = "";
+					Location loc = item.getBlock().getLocation();
+					Material type = item.getMaterial();
+					short data = item.getData();
+					String player = item.getPlayer();
+					String showtype = item.getType();
+					//Save
+					//x,y,z,itemid,player,worldname,worldenviromnent,showtype
+					line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
+					line+=type.getId()+","+data+",";
+					line+=player+",";
+					line+=loc.getWorld().getName()+",";
+					line+=showtype+",";
+					line+=loc.getWorld().getEnvironment().toString()+",";
+					if(item.getExtra()!=null)
+					{
+						line+=item.getExtra().save();
+					} else {
+						line+=item.getExtraLoad();
+					}
+					line+="\n";
+					w.write(line);
+				} catch(Exception e){
+					continue;
 				}
-				line+="\n";
-				w.write(line);
 			}
 			w.flush();
 			output.close();
@@ -259,6 +265,7 @@ public class ShowcaseMain extends JavaPlugin {
 					}
 					String line[] = locline.split(",");
 					if(line.length==10){
+						//New format
 						int x,y,z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
@@ -266,26 +273,20 @@ public class ShowcaseMain extends JavaPlugin {
 						Material type = Material.getMaterial(Integer.valueOf(line[3]));
 						short data = Short.valueOf(line[4]);
 						String player = line[5];
-						World world = getServer().getWorld(line[6]);
+						Environment environment = Environment.NORMAL;
+						try{
+							environment = Environment.valueOf(line[8]);
+						} catch(Exception e){
+							environment = Environment.NORMAL;
+						}
+						World world = getServer().createWorld(line[6], environment);
 						String showtype = line[7].toLowerCase();
-						if(showtype.equals("finite_shop")){
-							showtype="finite";
-						}
-						if(showtype.equals("infinite_shop")){
-							showtype="infinite";
-						}
-						int amount = Integer.valueOf(line[8]);
-						double price = Double.valueOf(line[9]);
 						Location loc = new Location(world, x, y, z);
 						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						showcasedItems.add(showItem);
-						if(showtype.equals("finite")){
-							showItem.setExtraLoad(amount+";"+price);
-						} else  if(showtype.equals("infinite")){
-							showItem.setExtraLoad(""+price);
-						}
+						String extra = line[9];
+						showItem.setExtraLoad(extra);
 					} else if(line.length==9){
-						//New format
 						int x,y,z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);

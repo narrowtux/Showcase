@@ -1,4 +1,4 @@
-version=2
+version=3
 enableMessage=[%s] version %s has been enabled.
 diableMessage=[%s] version %s has been disabled.
 registerShowcase=[Showcase] Registered type [%s] (%d items loaded)
@@ -25,7 +25,7 @@ types.infinite.description=You can sell infinite items.
 assistant.buy.title=Buy Assistant
 assistant.buy.text=Enter the number of items you want to buy.
 assistant.buy.price=[YELLOW]%s[WHITE] for [YELLOW]%s[WHITE] each.
-buyNotification=% bought %d %s for a total of %s.
+buyNotification=%s bought %d %s for a total of %s.
 buyMessage=You bought %d %s for a total of %s.
 shopSoldOut=Your shop with %s has been sold out and removed.
 notEnoughMoney=You can't afford so much items.

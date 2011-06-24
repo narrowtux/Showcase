@@ -1,4 +1,4 @@
-version=2
+version=3
 enableMessage=[%s] verze %s byl povolen.
 diableMessage=[%s] verze %s byl zakázán.
 registerShowcase=[Showcase] Registrován typ [%s] (nacteno %d itemu)
@@ -25,7 +25,7 @@ types.infinite.description=Muzes prodávat nekonecno itemu.
 assistant.buy.title=Asistent pro nákup
 assistant.buy.text=Zadej kolik itemu chces koupit.
 assistant.buy.price=[YELLOW]%s[WHITE] kazdy za [YELLOW]%s[WHITE].
-buyNotification=% koupil %d %s za celkem %s.
+buyNotification=%s koupil %d %s za celkem %s.
 buyMessage=Koupil sis %d %s za celkem %s.
 shopSoldOut=Tvuj obchod s %s byl vyprodán a odstranen.
 notEnoughMoney=Nemuzes si dovolit tolik itemu.
