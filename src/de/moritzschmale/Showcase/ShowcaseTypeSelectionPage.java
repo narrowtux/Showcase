@@ -3,6 +3,7 @@ package de.moritzschmale.Showcase;
 import org.bukkit.ChatColor;
 
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 
@@ -30,7 +31,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 	}
 
 	@Override
-	public boolean onPageInput(String text){
+	public AssistantAction onPageInput(String text){
 		if(text.startsWith(Translation.tr("helpCommand"))){
 			String args[] = text.split(" ");
 			if(args.length>=2){
@@ -42,11 +43,10 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 					msg+=provider.getDescription();
 					sendMessage(msg);
 					getAssistant().repeatCurrentPage();
-					return true;
+					return AssistantAction.CONTINUE;
 				} else {
 					sendMessage(Translation.tr("typeNotFound"));
-					getAssistant().repeatCurrentPage();
-					return true;
+					return AssistantAction.SILENT_REPEAT;
 				}
 			}
 		}
@@ -61,19 +61,19 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		}
 		if(type==null)
 		{
-			return false;
+			return AssistantAction.CANCEL;
 		}
 		if(!player.canAfford(type.getPriceForCreation(player))){
 			sendMessage(getAssistant().formatLine(Translation.tr("notEnoughMoneyForShowcase")));
-			return false;
+			return AssistantAction.CANCEL;
 		}
 		if(player.hasPermission(type.getPermission(), type.isOpMethod())){
 			this.assistant.type = type.getType();
 			type.addPagesToCreationWizard((ShowcaseCreationAssistant) getAssistant());
-			return true;
+			return AssistantAction.CONTINUE;
 		} else {
 			player.sendMessage(Translation.tr("permissionsFail"));
-			return false;
+			return AssistantAction.CANCEL;
 		}
 	}
 

@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 
 import de.moritzschmale.Showcase.ShowcaseItem;
@@ -36,7 +37,7 @@ public class ExchangeAssistant extends Assistant {
 			}
 			
 			@Override
-			public boolean onPageInput(String text){
+			public AssistantAction onPageInput(String text){
 				String itemName = ShowcaseMain.getName(showcase.getMaterial(), showcase.getData());
 				String exchangeName = ShowcaseMain.getName(extra.getExchangeType(), extra.getExchangeData());
 				int amount;
@@ -47,7 +48,7 @@ public class ExchangeAssistant extends Assistant {
 				}
 				int playeramount = player.getAmountOfType(extra.getExchangeType(), extra.getExchangeData());
 				if(amount<=0){
-					return false;
+					return AssistantAction.CANCEL;
 				}
 				//Check if amount is divisable by the rate
 				int left = extra.getExchangeRateLeft();
@@ -55,18 +56,17 @@ public class ExchangeAssistant extends Assistant {
 				if(amount%left!=0){
 					repeatCurrentPage();
 					sendMessage(formatLine("This amount isn't available."));
-					return true;
+					return AssistantAction.CONTINUE;
 				}
 				int exAmount = amount/left*right;
 				if(exAmount>playeramount){
 					repeatCurrentPage();
 					sendMessage(formatLine("You haven't got enough items for this amount."));
-					return true;
+					return AssistantAction.CONTINUE;
 				}
 				if(amount>extra.getItemAmount()){
-					repeatCurrentPage();
-					sendMessage(formatLine("This amount isn't available."));
-					return true;
+					sendMessage(formatLine("This amount isn't available. Enter again."));
+					return AssistantAction.SILENT_REPEAT;
 				}
 				player.addItems(showcase.getMaterial(), showcase.getData(), amount);
 				player.remove(extra.getExchangeType(), extra.getExchangeData(), exAmount);
@@ -75,7 +75,7 @@ public class ExchangeAssistant extends Assistant {
 				sendMessage(formatLine("You got "+amount+" "+itemName+" for "+exAmount+" "+exchangeName));
 				ShowcasePlayer owner = ShowcasePlayer.getPlayer(showcase.getPlayer());
 				owner.sendMessage(player.getPlayer().getName()+" got "+amount+" "+itemName+" for "+exAmount+" "+exchangeName);
-				return true;
+				return AssistantAction.CONTINUE;
 			}
 		};
 		

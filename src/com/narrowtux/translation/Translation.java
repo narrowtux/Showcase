@@ -34,7 +34,11 @@ public class Translation {
 			return "Can't find key "+key+" for translation!";
 		} else {
 			String trans = translations.get(key);
-			return String.format(trans, args);
+			try{
+				return String.format(trans, args);
+			} catch(Exception e){
+				return "Error formatting: "+trans;
+			}
 		}
 	}
 	

@@ -1,8 +1,7 @@
 package de.moritzschmale.Showcase.Types;
 
-import org.bukkit.ChatColor;
-
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 
@@ -16,17 +15,17 @@ public class ShowcasePricePage extends AssistantPage {
 	}
 	
 	@Override
-	public boolean onPageInput(String text){
+	public AssistantAction onPageInput(String text){
 		try{
 			price = Double.valueOf(text);
 		} catch(Exception e){
 			price = -1;
 		}
 		if(price<0){
-			return false;
+			return AssistantAction.CANCEL;
 		}
 		getAssistant().sendMessage(getAssistant().formatLine(Translation.tr("assistant.price.done", price)));
-		return true;
+		return AssistantAction.CONTINUE;
 	}
 	
 }

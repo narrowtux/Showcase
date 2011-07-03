@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 import com.nijikokun.register.payment.Method;
@@ -29,20 +30,20 @@ public class BuyAssistant extends Assistant {
 		 */
 		AssistantPage page = new AssistantPage(this){
 			@Override
-			public boolean onPageInput(String text){
+			public AssistantAction onPageInput(String text){
 				try{
 					amount = Integer.valueOf(text);
 				} catch(Exception e){
 					amount = -1;
 				}
 				if(amount<=0){
-					return false;
+					return AssistantAction.CANCEL;
 				}
 				
 				if(getAmount()<amount&&item.getType().equals("finite")){
 					amount = getAmount();
 				}
-				return true;
+				return AssistantAction.FINISH;
 			}
 		};
 		Method method = ShowcaseMain.instance.method;
@@ -53,7 +54,7 @@ public class BuyAssistant extends Assistant {
 		}
 		String itemName = ShowcaseMain.getName(item.getMaterial(), item.getData());
 		String print = "";
-		print+=Translation.tr("assistant.buy.price", itemName+itemCount, method.format(getPrice()));;
+		print+=Translation.tr("assistant.buy.price", itemName+itemCount, method.format(getPrice()));
 		page.setTitle(print);
 		addPage(page);
 	}

@@ -1,7 +1,6 @@
 package de.moritzschmale.Showcase.Types;
 
-import org.bukkit.ChatColor;
-
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 
@@ -23,7 +22,7 @@ public class ShowcaseAmountPage extends AssistantPage {
 	}
 	
 	@Override
-	public boolean onPageInput(String text){
+	public AssistantAction onPageInput(String text){
 		maximumamount = assistant.player.getAmountOfType(assistant.material, assistant.data);
 		try{
 			amount = Integer.valueOf(text);
@@ -31,12 +30,12 @@ public class ShowcaseAmountPage extends AssistantPage {
 			amount = -1;
 		}
 		if(amount<=0){
-			return false;
+			return AssistantAction.CANCEL;
 		}
 		if(amount>maximumamount){
 			amount = maximumamount;
 		}
 		assistant.sendMessage(assistant.formatLine(Translation.tr("assistant.amount.add", amount)));
-		return true;
+		return AssistantAction.CONTINUE;
 	}
 }

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 
@@ -22,7 +23,7 @@ public class RefillAssistant extends Assistant {
 		
 		AssistantPage page = new AssistantPage(this){
 			@Override
-			public boolean onPageInput(String text){
+			public AssistantAction onPageInput(String text){
 				int value = 0;
 				try{
 					value = Integer.valueOf(text);
@@ -30,7 +31,7 @@ public class RefillAssistant extends Assistant {
 					value = 0;
 				}
 				if(value==0){
-					return false;
+					return AssistantAction.CANCEL;
 				}
 				ShowcasePlayer player = ShowcasePlayer.getPlayer(getPlayer());
 				Material mat = showcase.getMaterial();
@@ -54,7 +55,7 @@ public class RefillAssistant extends Assistant {
 				}
 				updateText();
 				addPage(this);
-				return true;
+				return AssistantAction.CONTINUE;
 			}
 		};
 		setTitle(Translation.tr("assistant.refill.title"));

@@ -8,9 +8,9 @@ public class TextPage extends AssistantPage {
 	private String input = "";
 	
 	@Override
-	public boolean onPageInput(String text){
+	public AssistantAction onPageInput(String text){
 		input=text;
-		return true;
+		return AssistantAction.CONTINUE;
 	}
 	
 	public String getInput(){

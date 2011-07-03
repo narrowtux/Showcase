@@ -46,6 +46,7 @@ import de.moritzschmale.Showcase.Types.BasicShowcase;
 import de.moritzschmale.Showcase.Types.ExchangeShowcase;
 import de.moritzschmale.Showcase.Types.FiniteShowcase;
 import de.moritzschmale.Showcase.Types.InfiniteShowcase;
+import de.moritzschmale.Showcase.Types.TutorialShowcase;
 
 
 public class ShowcaseMain extends JavaPlugin {
@@ -98,7 +99,7 @@ public class ShowcaseMain extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Low, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Low, this);
 		pm.registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Lowest, this);
 		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
@@ -149,6 +150,7 @@ public class ShowcaseMain extends JavaPlugin {
 		registerProvider(new FiniteShowcase());
 		registerProvider(new InfiniteShowcase());
 		registerProvider(new ExchangeShowcase());
+		registerProvider(new TutorialShowcase());
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();

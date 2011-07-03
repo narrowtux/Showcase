@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.narrowtux.Assistant.Assistant;
+import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 
@@ -20,9 +21,9 @@ public class ExchangeTypePage extends AssistantPage {
 	}
 	
 	@Override
-	public boolean onPageInput(String text){
+	public AssistantAction onPageInput(String text){
 		if(text.equals("cancel")){
-			return false;
+			return AssistantAction.CANCEL;
 		}
 		if(text.equals("ok")){
 			ItemStack stack = getAssistant().getPlayer().getItemInHand();
@@ -31,10 +32,10 @@ public class ExchangeTypePage extends AssistantPage {
 				type = stack.getType();
 				data = stack.getDurability();
 			} else {
-				getAssistant().repeatCurrentPage();
 				sendMessage(getAssistant().formatLine(Translation.tr("noItemError")));
+				return AssistantAction.SILENT_REPEAT;
 			}
-			return true;
+			return AssistantAction.CONTINUE;
 		} else {
 			String [] args = text.split(":");
 			type = Material.AIR;
@@ -63,7 +64,7 @@ public class ExchangeTypePage extends AssistantPage {
 			} else {
 				sendMessage(Translation.tr("assistant.exchange.create.type.selected", ShowcaseMain.getName(type, data)));
 			}
-			return true;
+			return AssistantAction.CONTINUE;
 		}
 	}
 }

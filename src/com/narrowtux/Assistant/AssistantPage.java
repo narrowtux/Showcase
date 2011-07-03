@@ -37,9 +37,9 @@ public class AssistantPage {
 		return assistant;
 	}
 	
-	public boolean onPageInput(String text){
+	public AssistantAction onPageInput(String text){
 		assistant.sendMessage(assistant.formatLine(ChatColor.YELLOW+"You: "+ChatColor.WHITE+text));
-		return true;
+		return AssistantAction.CONTINUE;
 	}
 	
 	/**

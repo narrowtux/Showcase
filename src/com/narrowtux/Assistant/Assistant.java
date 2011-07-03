@@ -44,10 +44,14 @@ public class Assistant {
 		if(current.getCurrentPage()!=null)
 		{
 			event.setCancelled(true);
-			if(!current.getCurrentPage().onPageInput(text)){
+			switch(current.getCurrentPage().onPageInput(text)){
+			case CANCEL:
 				current.cancel();
 				return false;
-			} else {
+			case FINISH:
+				current.stop();
+				return true;
+			case CONTINUE:
 				current.currentPageIndex++;
 				if(current.pages.size()>current.currentPageIndex){
 					current.currentPage = current.pages.get(current.currentPageIndex);
@@ -55,8 +59,20 @@ public class Assistant {
 				} else {
 					current.stop();
 				}
+				return true;
+			case REPEAT:
+				current.repeatCurrentPage();
+				current.currentPageIndex++;
+				if(current.pages.size()>current.currentPageIndex){
+					current.currentPage = current.pages.get(current.currentPageIndex);
+					current.currentPage.play();
+				} else {
+					current.stop();
+				}
+				return true;
+			case SILENT_REPEAT:
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}

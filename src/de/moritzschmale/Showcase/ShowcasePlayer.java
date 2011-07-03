@@ -144,9 +144,9 @@ public class ShowcasePlayer {
 		while(amount>0){
 			ItemStack stack = new ItemStack(type);
 			stack.setDurability(data);
-			int max = stack.getMaxStackSize();
+			int max = ShowcaseMain.instance.config.getMaxStackSize(stack.getType());
 			if(amount>=max&&max!=-1){
-				stack.setAmount(stack.getMaxStackSize());
+				stack.setAmount(max);
 			} else {
 				stack.setAmount(amount);
 			}
