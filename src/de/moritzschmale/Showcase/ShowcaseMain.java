@@ -134,7 +134,7 @@ public class ShowcaseMain extends JavaPlugin {
 		
 		Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 		
-		if(Translation.getVersion()<2){
+		if(Translation.getVersion()<4){
 			try {
 				copyFromJarToDisk("showcase-"+config.getLocale()+".csv", getDataFolder());
 				log.log(Level.INFO, "[Showcase] copied new translation file for "+config.getLocale()+" to disk.");

@@ -41,18 +41,22 @@ public class TutorialShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return Translation.tr("type.tutorial.description");
+		return Translation.tr("types.tutorial.description");
 	}
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
 		AssistantPage page = new AssistantPage(assistant){
-			public String lines = "";
+			{
+				setTitle(Translation.tr("tutorial.title"));
+				setText(Translation.tr("tutorial.text"));
+			}
 			@Override
 			public AssistantAction onPageInput(String text){
 				if(text.equals("done")){
 					return AssistantAction.CONTINUE;
 				} else {
+					text = Translation.parseColors(text);
 					String tmp = texts.get(getAssistant());
 					if(tmp.length()>0){
 						tmp+="\n";

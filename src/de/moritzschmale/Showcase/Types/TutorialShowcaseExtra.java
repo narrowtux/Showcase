@@ -1,5 +1,7 @@
 package de.moritzschmale.Showcase.Types;
 
+import com.narrowtux.translation.Translation;
+
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcasePlayer;
@@ -22,7 +24,7 @@ public class TutorialShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public String save() {
-		return text.replace("\n", "\\n");
+		return text.replace("\n", "\\n").replace(",", ";;");
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class TutorialShowcaseExtra implements ShowcaseExtra {
 	}
 	
 	public void setText(String text){
-		this.text = text.replace("\\n", "\n");
+		this.text = text.replace("\\n", "\n").replace(";;", ",");
 	}
 	
 	public String getText(){
