@@ -6,8 +6,6 @@ import org.bukkit.inventory.ItemStack;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import com.narrowtux.translation.Translation;
-
 import de.moritzschmale.Showcase.ShowcaseMain;
 
 public class ExchangeTypePage extends AssistantPage {
@@ -16,8 +14,8 @@ public class ExchangeTypePage extends AssistantPage {
 	
 	public ExchangeTypePage(Assistant assistant){
 		super(assistant);
-		setTitle(Translation.tr("assistant.exchange.create.type.title"));
-		setText(Translation.tr("assistant.exchange.create.type.text"));
+		setTitle(ShowcaseMain.tr("assistant.exchange.create.type.title"));
+		setText(ShowcaseMain.tr("assistant.exchange.create.type.text"));
 	}
 	
 	@Override
@@ -32,7 +30,7 @@ public class ExchangeTypePage extends AssistantPage {
 				type = stack.getType();
 				data = stack.getDurability();
 			} else {
-				sendMessage(getAssistant().formatLine(Translation.tr("noItemError")));
+				sendMessage(getAssistant().formatLine(ShowcaseMain.tr("noItemError")));
 				return AssistantAction.SILENT_REPEAT;
 			}
 			return AssistantAction.CONTINUE;
@@ -60,9 +58,9 @@ public class ExchangeTypePage extends AssistantPage {
 			}
 			if(type==null||type.equals(Material.AIR)){
 				getAssistant().repeatCurrentPage();
-				sendMessage(getAssistant().formatLine(Translation.tr("itemExistError")));
+				sendMessage(getAssistant().formatLine(ShowcaseMain.tr("itemExistError")));
 			} else {
-				sendMessage(Translation.tr("assistant.exchange.create.type.selected", ShowcaseMain.getName(type, data)));
+				sendMessage(ShowcaseMain.tr("assistant.exchange.create.type.selected", ShowcaseMain.getName(type, data)));
 			}
 			return AssistantAction.CONTINUE;
 		}

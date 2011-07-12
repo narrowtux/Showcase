@@ -1,4 +1,5 @@
 package de.moritzschmale.Showcase;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,13 +67,14 @@ public class ShowcaseMain extends JavaPlugin {
 	public  WorldGuardPlugin worldguard;
 	public int autosaverId = -1;
 	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
+	private Translation trans;
 	
 	@Override
 	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
 		//Read plugin file
 		PluginDescriptionFile pdfFile = this.getDescription();
-		String logText = Translation.tr("disableMessage", pdfFile.getName(), pdfFile.getVersion());
+		String logText = tr("disableMessage", pdfFile.getName(), pdfFile.getVersion());
 		save();
 		for(ShowcaseItem item:showcasedItems){
 			item.remove();
@@ -79,8 +82,14 @@ public class ShowcaseMain extends JavaPlugin {
 		log.log( Level.INFO, logText);
 	}
 	
+	public static String tr(String string, Object ...args) {
+		return instance.trans.tr(string, args);
+	}
+
 	@Override
 	public void onEnable() {
+		checkForLibs();
+		trans = new Translation();
 		instance = this;
 		log = getServer().getLogger();
 		try{
@@ -101,10 +110,8 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Low, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Low, this);
-		pm.registerEvent(Type.PLAYER_CHAT, playerListener, Priority.Lowest, this);
 		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);
@@ -132,13 +139,13 @@ public class ShowcaseMain extends JavaPlugin {
 
 		config = new Configuration();
 		
-		Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+		trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 		
-		if(Translation.getVersion()<4){
+		if(trans.getVersion()<4){
 			try {
 				copyFromJarToDisk("showcase-"+config.getLocale()+".csv", getDataFolder());
 				log.log(Level.INFO, "[Showcase] copied new translation file for "+config.getLocale()+" to disk.");
-				Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+				trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 			} catch (IOException e) {
 				System.out.println("Unable to copy default translation to plugin folder");
 			}
@@ -166,10 +173,51 @@ public class ShowcaseMain extends JavaPlugin {
 			}, 0, config.getAutosaveInterval()*20);
 		}
 		
-		String logText = Translation.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());
+		String logText = trans.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());
 		log.log( Level.INFO, logText);
 	}
 	
+	private void checkForLibs() {
+		PluginManager pm = getServer().getPluginManager();
+		if(pm.getPlugin("NarrowtuxLib")==null){
+			try{
+				File toPut = new File("plugins/NarrowtuxLib.jar");
+				download(getServer().getLogger(), new URL("http://tetragaming.com/narrowtux/plugins/NarrowtuxLib.jar"), toPut);
+				pm.loadPlugin(toPut);
+				pm.enablePlugin(pm.getPlugin("NarrowtuxLib"));
+			} catch (Exception exception){
+				log.severe("[Showcase] could not load NarrowtuxLib, try again or install it manually.");
+				pm.disablePlugin(this);
+			}
+		}
+	}
+	
+	public static void download(Logger log, URL url, File file) throws IOException {
+	    if (!file.getParentFile().exists())
+	        file.getParentFile().mkdir();
+	    if (file.exists())
+	        file.delete();
+	    file.createNewFile();
+	    final int size = url.openConnection().getContentLength();
+	    log.info("Downloading " + file.getName() + " (" + size / 1024 + "kb) ...");
+	    final InputStream in = url.openStream();
+	    final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+	    final byte[] buffer = new byte[1024];
+	    int len, downloaded = 0, msgs = 0;
+	    final long start = System.currentTimeMillis();
+	    while ((len = in.read(buffer)) >= 0) {
+	        out.write(buffer, 0, len);
+	        downloaded += len;
+	        if ((int)((System.currentTimeMillis() - start) / 500) > msgs) {
+	            log.info((int)((double)downloaded / (double)size * 100d) + "%");
+	            msgs++;
+	        }
+	    }
+	    in.close();
+	    out.close();
+	    log.info("Download finished");
+	}
+
 	public ShowcaseItem getItemByBlock(Block b){
 		for(ShowcaseItem item:showcasedItems){
 			if(b.equals(item.getBlock())){
@@ -322,12 +370,12 @@ public class ShowcaseMain extends JavaPlugin {
 					ShowcaseMain.Permissions = ((Permissions)test).getHandler();
 				} catch(Exception e) {
 					ShowcaseMain.Permissions = null;
-					log.log(Level.WARNING, Translation.tr("permissionsUnavailable"));
+					log.log(Level.WARNING, tr("permissionsUnavailable"));
 				}
 			}
 		} catch(java.lang.NoClassDefFoundError e){
 			ShowcaseMain.Permissions = null;
-			log.log(Level.WARNING, Translation.tr("permissionsUnavailable"));
+			log.log(Level.WARNING, tr("permissionsUnavailable"));
 		}
 	}
 	
@@ -419,9 +467,9 @@ public class ShowcaseMain extends JavaPlugin {
 					a++;
 				}
 			}
-			System.out.println(Translation.tr("registerShowcase", provider.getType(), a));
+			System.out.println(tr("registerShowcase", provider.getType(), a));
 		} else {
-			System.out.println(Translation.tr("registerFail", provider.getType()));
+			System.out.println(tr("registerFail", provider.getType()));
 		}
 	}
 	
@@ -436,19 +484,19 @@ public class ShowcaseMain extends JavaPlugin {
 						}
 						showcasedItems.clear();
 						config.load();
-						Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+						trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 						load();
 						for(ShowcaseProvider provider:providers.values()){
 							registerProvider(provider);
 						}
-						sender.sendMessage(Translation.tr("reloadSuccessful"));
+						sender.sendMessage(tr("reloadSuccessful"));
 					}
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("save")){
 					if(sender.isOp()){
 						save();
-						sender.sendMessage(Translation.tr("saveSuccessful"));
+						sender.sendMessage(tr("saveSuccessful"));
 					}
 					return true;
 				}
@@ -459,12 +507,12 @@ public class ShowcaseMain extends JavaPlugin {
 						}
 						showcasedItems.clear();
 						config.load();
-						Translation.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+						trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 						load();
 						for(ShowcaseProvider provider:providers.values()){
 							registerProvider(provider);
 						}
-						sender.sendMessage(Translation.tr("loadSuccessful"));
+						sender.sendMessage(tr("loadSuccessful"));
 					}
 					return true;
 				}

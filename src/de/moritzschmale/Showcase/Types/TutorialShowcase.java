@@ -10,6 +10,7 @@ import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcaseMain;
 import de.moritzschmale.Showcase.ShowcasePlayer;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
@@ -41,15 +42,15 @@ public class TutorialShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return Translation.tr("types.tutorial.description");
+		return ShowcaseMain.tr("types.tutorial.description");
 	}
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
 		AssistantPage page = new AssistantPage(assistant){
 			{
-				setTitle(Translation.tr("tutorial.title"));
-				setText(Translation.tr("tutorial.text"));
+				setTitle(ShowcaseMain.tr("tutorial.title"));
+				setText(ShowcaseMain.tr("tutorial.text"));
 			}
 			@Override
 			public AssistantAction onPageInput(String text){

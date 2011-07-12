@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -58,7 +57,7 @@ public class RefillAssistant extends Assistant {
 				return AssistantAction.CONTINUE;
 			}
 		};
-		setTitle(Translation.tr("assistant.refill.title"));
+		setTitle(ShowcaseMain.tr("assistant.refill.title"));
 		page.setTitle("");
 		addPage(page);
 		updateText();
@@ -66,12 +65,12 @@ public class RefillAssistant extends Assistant {
 	
 	@Override
 	public void onAssistantCancel(){
-		sendMessage(formatLine(Translation.tr("assistant.refill.finish")));
+		sendMessage(formatLine(ShowcaseMain.tr("assistant.refill.finish")));
 	}
 
 	@Override
 	public void onAssistantFinish(){
-		sendMessage(formatLine(Translation.tr("assistant.refill.finish")));
+		sendMessage(formatLine(ShowcaseMain.tr("assistant.refill.finish")));
 	}
 	
 	public void updateText(){
@@ -80,7 +79,7 @@ public class RefillAssistant extends Assistant {
 		short data = showcase.getData();
 		String text = "";
 		String itemName = ShowcaseMain.getName(mat, data);
-		text = Translation.tr("assistant.refill.body", extra.getItemAmount(), itemName, 
+		text = ShowcaseMain.tr("assistant.refill.body", extra.getItemAmount(), itemName, 
 				ShowcaseMain.instance.method.format(extra.getPricePerItem()),
 				player.getAmountOfType(mat, data));
 		for(AssistantPage page:getPages()){

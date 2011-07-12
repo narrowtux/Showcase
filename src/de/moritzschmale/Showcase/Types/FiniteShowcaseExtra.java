@@ -20,15 +20,9 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 		if(!player.hasPermission("showcase.buy.finite", false)){
 			return;
 		}
-		if(player.getPlayer().getName().equals(item.getPlayer())){
-			RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
-			assistant.setAssistantStartLocation(player.getPlayer().getLocation());
-			assistant.start();
-		} else {
-			BuyAssistant assistant = new BuyAssistant(player.getPlayer(), item);
-			assistant.setAssistantStartLocation(player.getPlayer().getLocation());
-			assistant.start();
-		}
+		BuyAssistant assistant = new BuyAssistant(player.getPlayer(), item);
+		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
+		assistant.start();
 	}
 
 	@Override
@@ -67,6 +61,13 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
 		this.item = item;
+	}
+
+	@Override
+	public void onRightClick(ShowcasePlayer player) {
+		RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
+		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
+		assistant.start();
 	}
 
 }

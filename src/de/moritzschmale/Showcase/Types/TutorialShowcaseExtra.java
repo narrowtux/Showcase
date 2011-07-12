@@ -1,6 +1,5 @@
 package de.moritzschmale.Showcase.Types;
 
-import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseItem;
@@ -38,5 +37,9 @@ public class TutorialShowcaseExtra implements ShowcaseExtra {
 	
 	public String getText(){
 		return text;
+	}
+
+	@Override
+	public void onRightClick(ShowcasePlayer player) {
 	}
 }

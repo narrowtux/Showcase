@@ -9,3 +9,4 @@ commands:
          example: /showcase load
          example: /showcase save
          usage: /showcase [reload|load|save]
+soft-depends: NarrowtuxLib

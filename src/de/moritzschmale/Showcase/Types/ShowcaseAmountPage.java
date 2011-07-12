@@ -2,7 +2,6 @@ package de.moritzschmale.Showcase.Types;
 
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -16,7 +15,7 @@ public class ShowcaseAmountPage extends AssistantPage {
 		super(a);
 		assistant = a;
 		maximumamount = assistant.player.getAmountOfType(assistant.material, assistant.data);
-		String title = Translation.tr("assistant.amount.title", maximumamount, ShowcaseMain.getName(assistant.material, assistant.data));
+		String title = ShowcaseMain.tr("assistant.amount.title", maximumamount, ShowcaseMain.getName(assistant.material, assistant.data));
 		setTitle(title);
 		setText("");
 	}
@@ -35,7 +34,7 @@ public class ShowcaseAmountPage extends AssistantPage {
 		if(amount>maximumamount){
 			amount = maximumamount;
 		}
-		assistant.sendMessage(assistant.formatLine(Translation.tr("assistant.amount.add", amount)));
+		assistant.sendMessage(assistant.formatLine(ShowcaseMain.tr("assistant.amount.add", amount)));
 		return AssistantAction.CONTINUE;
 	}
 }

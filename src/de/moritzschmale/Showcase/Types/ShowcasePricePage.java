@@ -3,14 +3,15 @@ package de.moritzschmale.Showcase.Types;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import com.narrowtux.translation.Translation;
+
+import de.moritzschmale.Showcase.ShowcaseMain;
 
 public class ShowcasePricePage extends AssistantPage {
 	public double price;
 	
 	public ShowcasePricePage(Assistant assistant){
 		super(assistant);
-		setTitle(Translation.tr("assistant.price.title"));
+		setTitle(ShowcaseMain.tr("assistant.price.title"));
 		setText("");
 	}
 	
@@ -24,7 +25,7 @@ public class ShowcasePricePage extends AssistantPage {
 		if(price<0){
 			return AssistantAction.CANCEL;
 		}
-		getAssistant().sendMessage(getAssistant().formatLine(Translation.tr("assistant.price.done", price)));
+		getAssistant().sendMessage(getAssistant().formatLine(ShowcaseMain.tr("assistant.price.done", price)));
 		return AssistantAction.CONTINUE;
 	}
 	

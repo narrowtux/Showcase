@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import com.narrowtux.translation.Translation;
 import com.nijikokun.register.payment.Method;
 
 import de.moritzschmale.Showcase.ShowcaseItem;
@@ -19,7 +18,7 @@ public class BuyAssistant extends Assistant {
 	public BuyAssistant(Player p, final ShowcaseItem item) {
 		super(p);
 		this.item = item;
-		setTitle(Translation.tr("assistant.buy.title"));
+		setTitle(ShowcaseMain.tr("assistant.buy.title"));
 		/*
 		 Method method = ShowcaseMain.instance.method;
 		if(method==null){
@@ -47,14 +46,14 @@ public class BuyAssistant extends Assistant {
 			}
 		};
 		Method method = ShowcaseMain.instance.method;
-		page.setText(Translation.tr("assistant.buy.text"));
+		page.setText(ShowcaseMain.tr("assistant.buy.text"));
 		String itemCount = "";
 		if(item.getType().equals("finite")){
 			itemCount = ChatColor.YELLOW+" ("+ChatColor.WHITE+"x"+getAmount()+ChatColor.YELLOW+")";
 		}
 		String itemName = ShowcaseMain.getName(item.getMaterial(), item.getData());
 		String print = "";
-		print+=Translation.tr("assistant.buy.price", itemName+itemCount, method.format(getPrice()));
+		print+=ShowcaseMain.tr("assistant.buy.price", itemName+itemCount, method.format(getPrice()));
 		page.setTitle(print);
 		addPage(page);
 	}
@@ -78,25 +77,25 @@ public class BuyAssistant extends Assistant {
 				extra.setItemAmount(getAmount()-amount);
 				ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
 				owner.giveMoney(totalamount);
-				owner.sendMessage(Translation.tr("buyNotification", player.getPlayer().getName(), amount, itemName, total));
+				owner.sendMessage(ShowcaseMain.tr("buyNotification", player.getPlayer().getName(), amount, itemName, total));
 			}
 			String text = "";
-			text+=Translation.tr("buyMessage", amount, itemName, total);
+			text+=ShowcaseMain.tr("buyMessage", amount, itemName, total);
 			sendMessage(formatLine(text));
 			if(getAmount()==0&&item.getType().equals("finite")&&ShowcaseMain.instance.config.isRemoveWhenEmpty()){
 				item.remove();
 				ShowcaseMain.instance.showcasedItems.remove(item);
 				ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
-				owner.sendMessage(Translation.tr("shopSoldOut", itemName));
+				owner.sendMessage(ShowcaseMain.tr("shopSoldOut", itemName));
 			}
 		} else {
-			sendMessage(formatLine(Translation.tr("notEnoughMoney")));
+			sendMessage(formatLine(ShowcaseMain.tr("notEnoughMoney")));
 		}
 	}
 	
 	@Override
 	public void onAssistantCancel(){
-		sendMessage(formatLine(Translation.tr("checkoutCancel")));
+		sendMessage(formatLine(ShowcaseMain.tr("checkoutCancel")));
 	}
 	
 	public int getAmount(){

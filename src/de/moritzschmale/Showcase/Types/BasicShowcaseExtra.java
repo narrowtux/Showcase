@@ -24,4 +24,8 @@ public class BasicShowcaseExtra implements ShowcaseExtra {
 	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
 	}
+
+	@Override
+	public void onRightClick(ShowcasePlayer player) {
+	}
 }

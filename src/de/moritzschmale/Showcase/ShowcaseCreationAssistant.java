@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.narrowtux.Assistant.*;
-import com.narrowtux.translation.Translation;
 import com.nijikokun.register.payment.Method;
 public class ShowcaseCreationAssistant extends Assistant {
 	public String type = "";
@@ -22,7 +21,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 		super(p);
 
 		player = ShowcasePlayer.getPlayer(getPlayer());
-		setTitle(Translation.tr("assistant.creation.title"));
+		setTitle(ShowcaseMain.tr("assistant.creation.title"));
 		ShowcaseTypeSelectionPage page = new ShowcaseTypeSelectionPage(player, this);
 		page.assistant = this;
 		addPage(page);
@@ -33,12 +32,12 @@ public class ShowcaseCreationAssistant extends Assistant {
 	
 	@Override
 	public void onAssistantCancel(){
-		sendMessage(formatLine(Translation.tr("assistant.creation.cancel")));
+		sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.cancel")));
 	}
 	
 	@Override
 	public void onAssistantFinish(){
-		sendMessage(formatLine(Translation.tr("assistant.creation.finish")));
+		sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.finish")));
 		ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type);
 		ShowcaseMain.instance.showcasedItems.add(item);
 		ShowcaseProvider provider = ShowcaseMain.instance.providers.get(type);

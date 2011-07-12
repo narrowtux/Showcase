@@ -3,10 +3,10 @@ package de.moritzschmale.Showcase.Types;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.narrowtux.translation.Translation;
 
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
+import de.moritzschmale.Showcase.ShowcaseMain;
 import de.moritzschmale.Showcase.ShowcasePlayer;
 import de.moritzschmale.Showcase.ShowcaseProvider;
 
@@ -37,7 +37,7 @@ public class InfiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return Translation.tr("types.infinite.description");
+		return ShowcaseMain.tr("types.infinite.description");
 	}
 
 	@Override

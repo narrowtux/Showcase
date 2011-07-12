@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.narrowtux.Assistant.Assistant;
-import com.narrowtux.translation.Translation;
 
 
 public class ShowcasePlayerListener extends PlayerListener {
@@ -23,14 +22,20 @@ public class ShowcasePlayerListener extends PlayerListener {
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
 				if(!event.getPlayer().isSneaking()){
-					return;
+					if(showItem!=null)
+					{
+						showItem.getExtra().onRightClick(player);
+						return;
+					} else {
+						return;
+					}
 				}
 				if(event.getPlayer().getLocation().getBlock().getFace(BlockFace.DOWN).getTypeId()==0){
 					return;
 				}
 				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
 					if(event.getItem()==null){
-						player.sendMessage(Translation.tr("noItemError"));
+						player.sendMessage(ShowcaseMain.tr("noItemError"));
 						event.setCancelled(true);
 						return;
 					}
@@ -41,7 +46,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
 							ShowcaseMain.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
-							event.getPlayer().sendMessage(Translation.tr("basicCreationSuccess"));
+							event.getPlayer().sendMessage(ShowcaseMain.tr("basicCreationSuccess"));
 						} else {
 							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
 							assistant.start();
@@ -52,17 +57,17 @@ public class ShowcasePlayerListener extends PlayerListener {
 						if(showItem.getExtra()==null){
 							showItem.remove();
 							ShowcaseMain.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(Translation.tr("showcaseRemoveSuccess"));
+							event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseRemoveSuccess"));
 							System.out.println("null Extra");
 							return;
 						}
 						if(showItem.getExtra().onDestroy(player)){
 							showItem.remove();
 							ShowcaseMain.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(Translation.tr("showcaseRemoveSuccess"));
+							event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseRemoveSuccess"));
 						}
 					} else {
-						event.getPlayer().sendMessage(Translation.tr("showcaseOwner", showItem.getPlayer()));
+						event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseOwner", showItem.getPlayer()));
 					}
 					event.setCancelled(true);
 				}

@@ -3,8 +3,6 @@ package de.moritzschmale.Showcase.Types;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.narrowtux.translation.Translation;
-
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -31,10 +29,10 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 		if(player.getPlayer().getName().equals(showcase.getPlayer())){
 			String name = ShowcaseMain.getName(exchangeType, exchangeData);
 			int remaining = player.addItems(exchangeType, exchangeData, exchangeAmount);
-			player.sendMessage(Translation.tr("exchange.addexchange", exchangeAmount-remaining, name));
+			player.sendMessage(ShowcaseMain.tr("exchange.addexchange", exchangeAmount-remaining, name));
 			if(remaining!=0){
 				player.getPlayer().getWorld().dropItemNaturally(player.getPlayer().getLocation(), new ItemStack(exchangeType, remaining, exchangeData));
-				player.sendMessage(Translation.tr("exchange.remaining.dropped",remaining,name));
+				player.sendMessage(ShowcaseMain.tr("exchange.remaining.dropped",remaining,name));
 			}
 			exchangeAmount = remaining;
 		} else {
@@ -146,6 +144,12 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	
 	public void addExchanges(int amount){
 		exchangeAmount+=amount;
+	}
+
+	@Override
+	public void onRightClick(ShowcasePlayer player) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

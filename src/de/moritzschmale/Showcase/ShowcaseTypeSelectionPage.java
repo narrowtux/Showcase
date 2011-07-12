@@ -5,14 +5,13 @@ import org.bukkit.ChatColor;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import com.narrowtux.translation.Translation;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
 	public boolean cancel = false;
 	public ShowcaseTypeSelectionPage(ShowcasePlayer player, Assistant assistant){
 		super(assistant);
-		setTitle(Translation.tr("assistant.creation.select.title"));
+		setTitle(ShowcaseMain.tr("assistant.creation.select.title"));
 		String text = "";
 		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
 			if(player.hasPermission(provider.getPermission(), provider.isOpMethod())){
@@ -21,18 +20,18 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			}
 		}
 		if(text.equals("")){
-			text = Translation.tr("noShowcasePermission");
+			text = ShowcaseMain.tr("noShowcasePermission");
 			cancel = true;
 		} else {
 			text = text.substring(0,text.length()-2)+"\n";
-			text+=Translation.tr("helpDescription", Translation.tr("helpCommand"));
+			text+=ShowcaseMain.tr("helpDescription", ShowcaseMain.tr("helpCommand"));
 		}
 		setText(text);
 	}
 
 	@Override
 	public AssistantAction onPageInput(String text){
-		if(text.startsWith(Translation.tr("helpCommand"))){
+		if(text.startsWith(ShowcaseMain.tr("helpCommand"))){
 			String args[] = text.split(" ");
 			if(args.length>=2){
 				String type = args[1];
@@ -45,7 +44,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 					getAssistant().repeatCurrentPage();
 					return AssistantAction.CONTINUE;
 				} else {
-					sendMessage(Translation.tr("typeNotFound"));
+					sendMessage(ShowcaseMain.tr("typeNotFound"));
 					return AssistantAction.SILENT_REPEAT;
 				}
 			}
@@ -64,7 +63,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			return AssistantAction.CANCEL;
 		}
 		if(!player.canAfford(type.getPriceForCreation(player))){
-			sendMessage(getAssistant().formatLine(Translation.tr("notEnoughMoneyForShowcase")));
+			sendMessage(getAssistant().formatLine(ShowcaseMain.tr("notEnoughMoneyForShowcase")));
 			return AssistantAction.CANCEL;
 		}
 		if(player.hasPermission(type.getPermission(), type.isOpMethod())){
@@ -72,7 +71,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			type.addPagesToCreationWizard((ShowcaseCreationAssistant) getAssistant());
 			return AssistantAction.CONTINUE;
 		} else {
-			player.sendMessage(Translation.tr("permissionsFail"));
+			player.sendMessage(ShowcaseMain.tr("permissionsFail"));
 			return AssistantAction.CANCEL;
 		}
 	}

@@ -1,7 +1,5 @@
 package de.moritzschmale.Showcase.Types;
 
-import com.narrowtux.translation.Translation;
-
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -32,7 +30,7 @@ public class BasicShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return Translation.tr("types.basic.description");
+		return ShowcaseMain.tr("types.basic.description");
 	}
 
 	@Override

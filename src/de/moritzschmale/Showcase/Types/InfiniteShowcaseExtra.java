@@ -49,4 +49,8 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 		return price;
 	}
 
+	@Override
+	public void onRightClick(ShowcasePlayer player) {
+	}
+
 }

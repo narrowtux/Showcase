@@ -6,8 +6,6 @@ import java.util.Map;
 import org.bukkit.Material;
 
 import com.narrowtux.Assistant.TextPage;
-import com.narrowtux.translation.Translation;
-
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -55,7 +53,7 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return Translation.tr("types.exchange.description");
+		return ShowcaseMain.tr("types.exchange.description");
 	}
 
 	@Override
@@ -72,9 +70,9 @@ public class ExchangeShowcase implements ShowcaseProvider {
 		assistant.addPage(typePage);
 		assistant.addPage(ratePage);
 		assistant.addPage(amountPage);
-		ratePage.setTitle(Translation.tr("assistant.exchange.create.rate.title"));
+		ratePage.setTitle(ShowcaseMain.tr("assistant.exchange.create.rate.title"));
 		//TODO: fix this weird bug
-		ratePage.setText(Translation.tr("assistant.exchange.create.rate.text"));
+		ratePage.setText(ShowcaseMain.tr("assistant.exchange.create.rate.text"));
 		amountPages.put(assistant, amountPage);
 		exchangeTypePages.put(assistant, typePage);
 		ratePages.put(assistant, ratePage);
