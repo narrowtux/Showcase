@@ -77,7 +77,7 @@ public class BuyAssistant extends Assistant {
 				extra.setItemAmount(getAmount()-amount);
 				ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
 				owner.giveMoney(totalamount);
-				owner.sendMessage(ShowcaseMain.tr("buyNotification", player.getPlayer().getName(), amount, itemName, total));
+				owner.sendNotification("Showcase", ShowcaseMain.tr("buyNotification", player.getPlayer().getName(), amount, itemName, total));
 			}
 			String text = "";
 			text+=ShowcaseMain.tr("buyMessage", amount, itemName, total);
@@ -86,7 +86,7 @@ public class BuyAssistant extends Assistant {
 				item.remove();
 				ShowcaseMain.instance.showcasedItems.remove(item);
 				ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
-				owner.sendMessage(ShowcaseMain.tr("shopSoldOut", itemName));
+				owner.sendNotification("Showcase", ShowcaseMain.tr("shopSoldOut", itemName));
 			}
 		} else {
 			sendMessage(formatLine(ShowcaseMain.tr("notEnoughMoney")));

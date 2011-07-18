@@ -65,6 +65,9 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void onRightClick(ShowcasePlayer player) {
+		if(!player.getPlayer().getName().equals(item.getPlayer())){
+			return;
+		}
 		RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
 		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
 		assistant.start();

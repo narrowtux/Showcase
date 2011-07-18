@@ -37,6 +37,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkitcontrib.BukkitContrib;
+import org.bukkitcontrib.inventory.ItemManager;
 
 import com.narrowtux.translation.Translation;
 import com.nijiko.permissions.*;
@@ -393,68 +395,14 @@ public class ShowcaseMain extends JavaPlugin {
 	}
 
 	public static String getName(Material type, short data){
-		String ret = type.toString().toLowerCase();
-		ret = ret.replace("_", " ");
-		if(type.equals(Material.WOOL)){
-			DyeColor color = DyeColor.getByData((byte) data);
-			ret = color.toString().toLowerCase().replace("_", " ")+" Wool";
+		ItemManager itemManager = BukkitContrib.getItemManager();
+		String custom = itemManager.getCustomItemName(type, (byte)data);
+		if(custom==null)
+		{
+			return itemManager.getItemName(type, (byte) data);
+		} else {
+			return custom;
 		}
-		if(type.equals(Material.INK_SACK)){
-			DyeColor color = DyeColor.getByData((byte) (15-data));
-			ret = color.toString().toLowerCase().replace("_", " ")+" Dye";
-		}
-		if(type.equals(Material.STEP)){
-			switch(data){
-			case 0:
-				ret = "Stone Slab";
-				break;
-			case 1:
-				ret = "Sandstone Slab";
-				break;
-			case 2:
-				ret = "Wooden Slab";
-				break;
-			case 3:
-				ret = "Cobblestone Slab";
-				break;
-			}
-		}
-		if(type.equals(Material.COAL)){
-			switch(data){
-			case 0:
-				ret = "Coal";
-				break;
-			case 1:
-				ret = "Charcoal";
-				break;
-			}
-		}
-		if(type.equals(Material.LOG)||type.equals(Material.SAPLING)||type.equals(Material.LEAVES)){
-			ret = "";
-			switch(data){
-			case 0:
-				ret = "";
-				break;
-			case 1:
-				ret = "Spruce ";
-				break;
-			case 2:
-				ret = "Birch ";
-				break;
-			}
-			switch(type){
-			case LOG:
-				ret+="Log";
-				break;
-			case SAPLING:
-				ret+="Sapling";
-				break;
-			case LEAVES:
-				ret+="Leaves";
-				break;
-			}
-		}
-		return ret;
 	}
 	
 	public void registerProvider(ShowcaseProvider provider){

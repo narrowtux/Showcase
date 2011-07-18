@@ -41,5 +41,6 @@ public class TutorialShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void onRightClick(ShowcasePlayer player) {
+		
 	}
 }

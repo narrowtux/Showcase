@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Method.MethodAccount;
 
@@ -166,5 +167,9 @@ public class ShowcasePlayer {
 		} else {
 			return true;
 		}
+	}
+	
+	public void sendNotification(String title, String text){
+		NarrowtuxLib.getNotificationManager().sendNotification(player, title, text);
 	}
 }
