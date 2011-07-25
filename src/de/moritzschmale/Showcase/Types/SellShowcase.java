@@ -1,5 +1,11 @@
 package de.moritzschmale.Showcase.Types;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.narrowtux.Assistant.Accuracy;
+import com.narrowtux.Assistant.NumberPage;
+
 import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.Showcase.ShowcaseExtra;
 import de.moritzschmale.Showcase.ShowcasePlayer;
@@ -7,6 +13,9 @@ import de.moritzschmale.Showcase.ShowcaseProvider;
 
 public class SellShowcase implements ShowcaseProvider {
 
+	private Map<ShowcaseCreationAssistant, ShowcasePricePage> pricePages = new HashMap<ShowcaseCreationAssistant, ShowcasePricePage>();
+	private Map<ShowcaseCreationAssistant, NumberPage> amountPages = new HashMap<ShowcaseCreationAssistant, NumberPage>();
+	
 	@Override
 	public String getType() {
 		return "finitesell";
@@ -43,13 +52,27 @@ public class SellShowcase implements ShowcaseProvider {
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		// TODO Add some pages here!
+		ShowcasePricePage price = new ShowcasePricePage(assistant);
+		pricePages.put(assistant, price);
+		assistant.addPage(price);
+		NumberPage amount = new NumberPage(assistant, Accuracy.INT);
+		//TODO: Translation!
+		amount.setTitle("Item amount");
+		amount.setText("How many items do you want to buy?");
+		amount.setMinimum(0);
+		amount.setMaximum(Integer.MAX_VALUE);
+		amountPages.put(assistant, amount);
+		assistant.addPage(amount);
 	}
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
-		// TODO Use the pages!
-		return new SellShowcaseExtra();
+		SellShowcaseExtra extra = new SellShowcaseExtra();
+		ShowcasePricePage price = pricePages.get(assistant);
+		extra.setPricePerItem(price.price);
+		NumberPage amount = amountPages.get(assistant);
+		extra.setAmountLeft((int) amount.getValue());
+		return extra;
 	}
 
 	@Override
