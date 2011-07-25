@@ -59,13 +59,11 @@ public class ShowcaseMain extends JavaPlugin {
 	private Logger log;
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
-	private ShowcaseServerListener serverListener = new ShowcaseServerListener();
 	private ShowcaseWorldListener worldListener = new ShowcaseWorldListener();
 	private DropChestListener dclistener;
 	public static ShowcaseMain instance;
 	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
 	private ItemWatcher watcher = new ItemWatcher();
-	public Method method = null;
 	public Configuration config;
 	public  WorldGuardPlugin worldguard;
 	public int autosaverId = -1;
@@ -113,8 +111,6 @@ public class ShowcaseMain extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Low, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Low, this);
-		pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Normal, this);
-		pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);

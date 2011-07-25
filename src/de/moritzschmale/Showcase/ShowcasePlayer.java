@@ -120,7 +120,7 @@ public class ShowcasePlayer {
 	}
 	
 	public MethodAccount getAccount(){
-		Method method = ShowcaseMain.instance.method;
+		Method method = NarrowtuxLib.getMethod();
 		if(method!=null)
 		{
 			if(method.hasAccount(player)){

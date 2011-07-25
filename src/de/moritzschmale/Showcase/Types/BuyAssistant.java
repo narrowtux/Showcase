@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 
 import de.moritzschmale.Showcase.ShowcaseItem;
@@ -45,7 +46,7 @@ public class BuyAssistant extends Assistant {
 				return AssistantAction.FINISH;
 			}
 		};
-		Method method = ShowcaseMain.instance.method;
+		Method method = NarrowtuxLib.getMethod();
 		page.setText(ShowcaseMain.tr("assistant.buy.text"));
 		String itemCount = "";
 		if(item.getType().equals("finite")){
@@ -70,7 +71,7 @@ public class BuyAssistant extends Assistant {
 				amount = amount-remaining;
 			}
 			String itemName = ShowcaseMain.getName(item.getMaterial(), item.getData());
-			String total = ShowcaseMain.instance.method.format(totalamount);
+			String total = NarrowtuxLib.getMethod().format(totalamount);
 			player.takeMoney(totalamount);
 			if(item.getType().equals("finite")){
 				FiniteShowcaseExtra extra = (FiniteShowcaseExtra)item.getExtra();

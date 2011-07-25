@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.Main.NarrowtuxLib;
 
 import de.moritzschmale.Showcase.ShowcaseItem;
 import de.moritzschmale.Showcase.ShowcaseMain;
@@ -80,7 +81,7 @@ public class RefillAssistant extends Assistant {
 		String text = "";
 		String itemName = ShowcaseMain.getName(mat, data);
 		text = ShowcaseMain.tr("assistant.refill.body", extra.getItemAmount(), itemName, 
-				ShowcaseMain.instance.method.format(extra.getPricePerItem()),
+				NarrowtuxLib.getMethod().format(extra.getPricePerItem()),
 				player.getAmountOfType(mat, data));
 		for(AssistantPage page:getPages()){
 			page.setText(text);

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.narrowtux.Assistant.*;
+import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 public class ShowcaseCreationAssistant extends Assistant {
 	public String type = "";
@@ -18,7 +19,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 
 	public ShowcasePlayer player;
 	public Configuration config = ShowcaseMain.instance.config;
-	public Method method = ShowcaseMain.instance.method;
+	public Method method = NarrowtuxLib.getMethod();
 	
 	public ShowcaseCreationAssistant(Player p, ItemStack item, Location loc) {
 		super(p);

@@ -1,5 +1,6 @@
 package de.moritzschmale.Showcase.Types;
 
+import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 
 import de.moritzschmale.Showcase.ShowcaseExtra;
@@ -18,7 +19,7 @@ public class SellShowcaseExtra implements ShowcaseExtra {
 		double amount = amountLeft*pricePerItem;
 		player.giveMoney(amount);
 		player.addItems(showcase.getMaterial(), showcase.getData(), amountOfItems);
-		Method method = ShowcaseMain.instance.method;
+		Method method = NarrowtuxLib.getMethod();
 		//TODO: put a string in all translation files!
 		player.sendMessage(ShowcaseMain.tr("sell.moneygiveback", method.format(amount)));
 		return true;

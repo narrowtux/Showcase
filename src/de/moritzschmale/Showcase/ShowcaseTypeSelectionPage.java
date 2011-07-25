@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
+import com.narrowtux.Main.NarrowtuxLib;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;
@@ -77,9 +78,9 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 	}
 
 	private String getPrice(double price){
-		if(ShowcaseMain.instance.method!=null)
+		if(NarrowtuxLib.getMethod()!=null)
 		{
-			return ShowcaseMain.instance.method.format(price);
+			return NarrowtuxLib.getMethod().format(price);
 		} else {
 			return price+" $";
 		}
