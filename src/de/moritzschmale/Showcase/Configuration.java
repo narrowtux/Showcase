@@ -23,6 +23,7 @@ public class Configuration {
 	private boolean basicMode;
 	private List<String> disabledTypes = new ArrayList<String>();
 	private int autoSaveInterval;
+	private boolean showAutosaveNotification = false;
 	private String locale;
 	private Map<Material, Integer> maxStackSize = new HashMap<Material, Integer>();
 	/**
@@ -73,6 +74,7 @@ public class Configuration {
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
 		locale = reader.getString("locale", "en-US");
 		autoSaveInterval = reader.getInteger("autosaveinterval", 60);
+		showAutosaveNotification = reader.getBoolean("autosavenotification", false);
 		maxStackSize.clear();
 		loadMaxStackSize();
 		String list = reader.getString("disabled", "");
@@ -151,5 +153,9 @@ public class Configuration {
 		} else {
 			return 64;
 		}
+	}
+	
+	public boolean isShowingAutosaveNotification(){
+		return showAutosaveNotification;
 	}
 }

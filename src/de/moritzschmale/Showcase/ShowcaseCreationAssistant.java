@@ -1,5 +1,8 @@
 package de.moritzschmale.Showcase;
 
+import info.somethingodd.bukkit.OddItem.OddItem;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,11 +25,36 @@ public class ShowcaseCreationAssistant extends Assistant {
 
 		player = ShowcasePlayer.getPlayer(getPlayer());
 		setTitle(ShowcaseMain.tr("assistant.creation.title"));
-		ShowcaseTypeSelectionPage page = new ShowcaseTypeSelectionPage(player, this);
-		page.assistant = this;
-		addPage(page);
-		material = item.getType();
-		data = item.getDurability();
+		ShowcaseTypeSelectionPage typeSelectionPage = new ShowcaseTypeSelectionPage(player, this);
+		typeSelectionPage.assistant = this;
+		if(item==null)
+		{
+			addPage(new AssistantPage(this){
+				{
+					setTitle(ShowcaseMain.tr("creation.item.title"));
+					setText(ShowcaseMain.tr("creation.item.text"));
+				}
+				
+				@Override
+				public AssistantAction onPageInput(String text){
+					ItemStack result = null;
+					OddItem odd = (OddItem)Bukkit.getServer().getPluginManager().getPlugin("OddItem");
+					try{
+						result = odd.getItemStack(text);
+					} catch(IllegalArgumentException e){
+						sendMessage(formatLine(ShowcaseMain.tr("creation.item.notfound", e.getMessage())));
+						return AssistantAction.SILENT_REPEAT;
+					}
+					material = result.getType();
+					data = result.getDurability();
+					return AssistantAction.CONTINUE;
+				}
+			});
+		} else {
+			material = item.getType();
+			data = item.getDurability();
+		}
+		addPage(typeSelectionPage);
 		this.loc = loc;
 	}
 	

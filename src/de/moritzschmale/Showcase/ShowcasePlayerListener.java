@@ -30,15 +30,15 @@ public class ShowcasePlayerListener extends PlayerListener {
 						return;
 					}
 				}
-				if(event.getPlayer().getLocation().getBlock().getFace(BlockFace.DOWN).getTypeId()==0){
+				if(event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN).getTypeId()==0){
 					return;
 				}
 				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
-					if(event.getItem()==null){
+					/*if(event.getItem()==null){
 						player.sendMessage(ShowcaseMain.tr("noItemError"));
 						event.setCancelled(true);
 						return;
-					}
+					}*/
 					if(event.getClickedBlock().getType().equals(Material.STEP)){
 						event.setCancelled(true);
 						if(ShowcaseMain.instance.providers.size()==1&&ShowcaseMain.instance.providers.containsKey("basic")){

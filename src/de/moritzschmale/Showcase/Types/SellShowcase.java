@@ -24,30 +24,37 @@ public class SellShowcase implements ShowcaseProvider {
 
 	@Override
 	public ShowcaseExtra loadShowcase(String values) {
-		// TODO Auto-generated method stub
+		SellShowcaseExtra extra = new SellShowcaseExtra();
+		String args [] = values.split(";");
+		if(args.length>=3){
+			extra.setAmountLeft(Integer.valueOf(args[0]));
+			extra.setPricePerItem(Double.valueOf(args[1]));
+			extra.setAmountOfItems(Integer.valueOf(args[2]));
+			return extra;
+		}
 		return null;
 	}
 
 	@Override
 	public String getDescription() {
+		//TODO: actually use translation
 		return "Drop some money in the sell showcase, other players can sell their items there and get this money.";
 	}
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		// TODO Auto-generated method stub
-
+		// TODO Add some pages here!
 	}
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Use the pages!
+		return new SellShowcaseExtra();
 	}
 
 	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
+		// TODO Generate Config value
 		return 0;
 	}
 

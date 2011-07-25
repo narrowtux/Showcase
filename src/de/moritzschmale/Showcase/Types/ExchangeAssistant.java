@@ -23,6 +23,7 @@ public class ExchangeAssistant extends Assistant {
 		extra = (ExchangeShowcaseExtra)showcase.getExtra();
 		AssistantPage page = new AssistantPage(this){
 			{
+				//TODO: Add translation!!!
 				setTitle("How many items you want to get?");
 				String text = "";
 				String itemName = ShowcaseMain.getName(showcase.getMaterial(), showcase.getData());

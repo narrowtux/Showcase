@@ -50,6 +50,7 @@ import de.moritzschmale.Showcase.Types.BasicShowcase;
 import de.moritzschmale.Showcase.Types.ExchangeShowcase;
 import de.moritzschmale.Showcase.Types.FiniteShowcase;
 import de.moritzschmale.Showcase.Types.InfiniteShowcase;
+import de.moritzschmale.Showcase.Types.SellShowcase;
 import de.moritzschmale.Showcase.Types.TutorialShowcase;
 
 
@@ -143,7 +144,7 @@ public class ShowcaseMain extends JavaPlugin {
 		
 		trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 		
-		if(trans.getVersion()<4){
+		if(trans.getVersion()<5){
 			try {
 				copyFromJarToDisk("showcase-"+config.getLocale()+".csv", getDataFolder());
 				log.log(Level.INFO, "[Showcase] copied new translation file for "+config.getLocale()+" to disk.");
@@ -160,6 +161,7 @@ public class ShowcaseMain extends JavaPlugin {
 		registerProvider(new InfiniteShowcase());
 		registerProvider(new ExchangeShowcase());
 		registerProvider(new TutorialShowcase());
+		registerProvider(new SellShowcase());
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();
@@ -170,7 +172,9 @@ public class ShowcaseMain extends JavaPlugin {
 				@Override
 				public void run() {
 					save();
-					log.log(Level.INFO, "[Showcase] Autosaved");
+					if(config.isShowingAutosaveNotification()){
+						log.log(Level.INFO, "[Showcase] Autosaved");
+					}
 				}
 			}, 0, config.getAutosaveInterval()*20);
 		}

@@ -16,6 +16,7 @@ public class ItemWatcher implements Runnable {
 			}
 			item.updatePosition();
 			
+			/*
 			if(item.getMaterial().equals(Material.TORCH)){
 				//try to make it glow
 				int x,y,z;
@@ -24,7 +25,8 @@ public class ItemWatcher implements Runnable {
 				z = item.getBlock().getZ();
 				CraftWorld world = (CraftWorld)item.getBlock().getWorld();
 				world.getHandle().b(EnumSkyBlock.BLOCK, x, y, z, 14);
-			} //Doesn't work.
+			}*/
+			//Doesn't work.
 			/*CraftItem citem = (CraftItem)item.getItem();
 			EntityItem eitem = (EntityItem) citem.getHandle();
 			eitem.b = 0;*/ //This is a bad idea, the client won't display the items nicely then.
