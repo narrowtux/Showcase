@@ -27,12 +27,12 @@ public class SellShowcaseExtra implements ShowcaseExtra {
 	
 	@Override
 	public void onClick(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
+		//TODO: Sell assistant
 	}
 
 	@Override
 	public void onRightClick(ShowcasePlayer player) {
-		// TODO Auto-generated method stub
+		//TODO: Refill assistant (maybe later)
 	}
 
 	@Override

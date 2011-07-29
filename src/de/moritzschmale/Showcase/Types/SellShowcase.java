@@ -58,7 +58,7 @@ public class SellShowcase implements ShowcaseProvider {
 		NumberPage amount = new NumberPage(assistant, Accuracy.INT);
 		//TODO: Translation!
 		amount.setTitle("Item amount");
-		amount.setText("How many items do you want to buy?");
+		amount.setText("How many items do you want to buy?\nPlease note: amount*price is taken from your balance after setup!");
 		amount.setMinimum(0);
 		amount.setMaximum(Integer.MAX_VALUE);
 		amountPages.put(assistant, amount);
@@ -72,6 +72,15 @@ public class SellShowcase implements ShowcaseProvider {
 		extra.setPricePerItem(price.price);
 		NumberPage amount = amountPages.get(assistant);
 		extra.setAmountLeft((int) amount.getValue());
+		double totalPrice = extra.getAmountLeft()*extra.getPricePerItem();
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant.getPlayer());
+		if(!player.canAfford(totalPrice)){
+			//TODO: actual translation
+			player.sendMessage("You can't afford so many items. Try again!");
+			return null;
+		} else {
+			player.takeMoney(totalPrice);
+		}
 		return extra;
 	}
 

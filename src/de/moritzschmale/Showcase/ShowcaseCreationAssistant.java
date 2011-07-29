@@ -66,15 +66,19 @@ public class ShowcaseCreationAssistant extends Assistant {
 	
 	@Override
 	public void onAssistantFinish(){
-		sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.finish")));
-		ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type);
-		ShowcaseMain.instance.showcasedItems.add(item);
 		ShowcaseProvider provider = ShowcaseMain.instance.providers.get(type);
-		item.setExtra(provider.createShowcase(this));
-		if(method!=null)
-		{
-			method.getAccount(getPlayer().getName()).subtract(provider.getPriceForCreation(player));
+		ShowcaseExtra extra = provider.createShowcase(this);
+		if(extra!=null){
+			sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.finish")));
+			ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type);
+			ShowcaseMain.instance.showcasedItems.add(item);
+			item.setExtra(extra);
+			if(method!=null)
+			{
+				method.getAccount(getPlayer().getName()).subtract(provider.getPriceForCreation(player));
+			}
+		} else {
+			sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.cancel")));
 		}
 	}
-
 }
