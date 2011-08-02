@@ -43,7 +43,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 					try{
 						result = odd.getItemStack(text);
 					} catch(IllegalArgumentException e){
-						sendMessage(formatLine(ShowcaseMain.tr("creation.item.notfound", e.getMessage())));
+						ShowcaseCreationAssistant.this.sendMessage(Icon.WARNING, "Showcase", ShowcaseMain.tr("creation.item.notfound", e.getMessage()));
 						return AssistantAction.SILENT_REPEAT;
 					}
 					material = result.getType();
@@ -61,7 +61,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 	
 	@Override
 	public void onAssistantCancel(){
-		sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.cancel")));
+		sendMessage(Icon.WARNING, "Showcase", ShowcaseMain.tr("assistant.creation.cancel"));
 	}
 	
 	@Override
@@ -69,7 +69,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 		ShowcaseProvider provider = ShowcaseMain.instance.providers.get(type);
 		ShowcaseExtra extra = provider.createShowcase(this);
 		if(extra!=null){
-			sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.finish")));
+			sendMessage(Icon.INFORMATION, "Showcase", ShowcaseMain.tr("assistant.creation.finish"));
 			ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type);
 			ShowcaseMain.instance.showcasedItems.add(item);
 			item.setExtra(extra);
@@ -78,7 +78,7 @@ public class ShowcaseCreationAssistant extends Assistant {
 				method.getAccount(getPlayer().getName()).subtract(provider.getPriceForCreation(player));
 			}
 		} else {
-			sendMessage(formatLine(ShowcaseMain.tr("assistant.creation.cancel")));
+			sendMessage(Icon.WARNING, "Showcase", ShowcaseMain.tr("assistant.creation.cancel"));
 		}
 	}
 }

@@ -37,8 +37,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkitcontrib.BukkitContrib;
-import org.bukkitcontrib.inventory.ItemManager;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.inventory.ItemManager;
 
 import com.narrowtux.translation.Translation;
 import com.nijiko.permissions.*;
@@ -395,7 +395,7 @@ public class ShowcaseMain extends JavaPlugin {
 	}
 
 	public static String getName(Material type, short data){
-		ItemManager itemManager = BukkitContrib.getItemManager();
+		ItemManager itemManager = SpoutManager.getItemManager();
 		String custom = itemManager.getCustomItemName(type, (byte)data);
 		if(custom==null)
 		{

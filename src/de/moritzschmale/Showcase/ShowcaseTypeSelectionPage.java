@@ -42,8 +42,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 					msg+=provider.getType()+"\n";
 					msg+=provider.getDescription();
 					sendMessage(msg);
-					getAssistant().repeatCurrentPage();
-					return AssistantAction.CONTINUE;
+					return AssistantAction.REPEAT;
 				} else {
 					sendMessage(ShowcaseMain.tr("typeNotFound"));
 					return AssistantAction.SILENT_REPEAT;
