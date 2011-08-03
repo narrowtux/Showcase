@@ -157,7 +157,7 @@ public class ShowcaseMain extends JavaPlugin {
 		registerProvider(new InfiniteShowcase());
 		registerProvider(new ExchangeShowcase());
 		registerProvider(new TutorialShowcase());
-		registerProvider(new SellShowcase());
+		//registerProvider(new SellShowcase());
 		
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
 		setupPermissions();

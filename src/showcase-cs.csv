@@ -1,4 +1,4 @@
-version=4
+version=5
 enableMessage=[%s] verze %s byl povolen.
 diableMessage=[%s] verze %s byl zakázán.
 registerShowcase=[Showcase] Registrován typ [%s] (nacteno %d itemu)

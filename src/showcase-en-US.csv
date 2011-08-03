@@ -1,4 +1,4 @@
-version=4
+version=5
 enableMessage=[%s] version %s has been enabled.
 diableMessage=[%s] version %s has been disabled.
 registerShowcase=[Showcase] Registered type [%s] (%d items loaded)
