@@ -87,4 +87,9 @@ public class RefillAssistant extends Assistant {
 			page.setText(text);
 		}
 	}
+
+	@Override
+	public boolean useGUI() {
+		return false;
+	}
 }

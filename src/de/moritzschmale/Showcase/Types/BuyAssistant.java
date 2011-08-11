@@ -119,4 +119,9 @@ public class BuyAssistant extends Assistant {
 			return 0;
 		}
 	}
+
+	@Override
+	public boolean useGUI() {
+		return false;
+	}
 }

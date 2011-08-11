@@ -81,4 +81,9 @@ public class ShowcaseCreationAssistant extends Assistant {
 			sendMessage(Icon.WARNING, "Showcase", ShowcaseMain.tr("assistant.creation.cancel"));
 		}
 	}
+
+	@Override
+	public boolean useGUI() {
+		return false;
+	}
 }

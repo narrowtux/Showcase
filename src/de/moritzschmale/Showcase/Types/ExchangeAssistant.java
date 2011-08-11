@@ -92,4 +92,9 @@ public class ExchangeAssistant extends Assistant {
 		sendMessage(formatLine("Assistant aborted"));
 	}
 
+	@Override
+	public boolean useGUI() {
+		return false;
+	}
+
 }
