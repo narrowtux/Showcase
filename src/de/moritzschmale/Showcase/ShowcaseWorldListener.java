@@ -1,8 +1,11 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.WorldListener;
+
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 public class ShowcaseWorldListener extends WorldListener {
 	@Override

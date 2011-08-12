@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,9 @@ import org.bukkit.inventory.PlayerInventory;
 import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 import com.nijikokun.register.payment.Method.MethodAccount;
+
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayer;
 
 public class ShowcasePlayer {
 	private String player;

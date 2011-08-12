@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,11 +6,15 @@ import java.util.Map;
 import org.bukkit.Material;
 
 import com.narrowtux.Assistant.TextPage;
-import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
-import de.moritzschmale.Showcase.ShowcaseExtra;
-import de.moritzschmale.Showcase.ShowcaseMain;
-import de.moritzschmale.Showcase.ShowcasePlayer;
-import de.moritzschmale.Showcase.ShowcaseProvider;
+
+import de.moritzschmale.showcase.Types.ExchangeShowcaseExtra;
+import de.moritzschmale.showcase.Types.ExchangeTypePage;
+import de.moritzschmale.showcase.Types.ShowcaseAmountPage;
+import de.moritzschmale.showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.ShowcaseProvider;
 
 public class ExchangeShowcase implements ShowcaseProvider {
 

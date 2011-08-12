@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
 
@@ -11,6 +11,15 @@ import org.bukkit.inventory.ItemStack;
 import com.narrowtux.Assistant.*;
 import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
+
+import de.moritzschmale.showcase.Configuration;
+import de.moritzschmale.showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.ShowcaseProvider;
+import de.moritzschmale.showcase.ShowcaseTypeSelectionPage;
 public class ShowcaseCreationAssistant extends Assistant {
 	public String type = "";
 	public Material material;

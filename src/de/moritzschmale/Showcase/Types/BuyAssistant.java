@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,9 +9,11 @@ import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 
-import de.moritzschmale.Showcase.ShowcaseItem;
-import de.moritzschmale.Showcase.ShowcaseMain;
-import de.moritzschmale.Showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.Types.FiniteShowcaseExtra;
+import de.moritzschmale.showcase.Types.InfiniteShowcaseExtra;
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayer;
 
 public class BuyAssistant extends Assistant {
 	public int amount;

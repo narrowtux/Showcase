@@ -1,5 +1,8 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 import com.narrowtux.DropChest.API.DropChestSuckEvent;
+
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 
 

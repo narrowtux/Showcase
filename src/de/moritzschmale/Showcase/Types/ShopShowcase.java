@@ -1,22 +1,20 @@
 package de.moritzschmale.showcase.Types;
 
-import de.moritzschmale.showcase.Types.BasicShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
-import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;
 import de.moritzschmale.showcase.ShowcaseProvider;
 
-public class BasicShowcase implements ShowcaseProvider {
+public class ShopShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getType() {
-		return "basic";
+		return "shop";
 	}
 
 	@Override
 	public String getPermission() {
-		return "showcase.basic";
+		return "showcase.shop";
 	}
 
 	@Override
@@ -26,25 +24,30 @@ public class BasicShowcase implements ShowcaseProvider {
 
 	@Override
 	public ShowcaseExtra loadShowcase(String values) {
-		return new BasicShowcaseExtra();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String getDescription() {
-		return ShowcaseMain.tr("types.basic.description");
+		return "Buy, Sell and Exchange in one!";
 	}
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
-		return new BasicShowcaseExtra();
+		return new ShopShowcaseExtra();
 	}
 
 	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
-		return ShowcaseMain.instance.config.getPriceForBasic();
+		// TODO Auto-generated method stub
+		return 0;
 	}
+
 }

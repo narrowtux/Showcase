@@ -1,4 +1,7 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
+
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcasePlayer;
 
 public interface ShowcaseExtra {
 	public boolean onDestroy(ShowcasePlayer player);

@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -8,6 +8,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import de.moritzschmale.showcase.ShowcaseExtra;
 
 public class ShowcaseItem {
 	private Item item;

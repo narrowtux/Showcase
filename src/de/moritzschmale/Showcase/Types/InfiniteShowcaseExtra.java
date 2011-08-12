@@ -1,8 +1,9 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
-import de.moritzschmale.Showcase.ShowcaseExtra;
-import de.moritzschmale.Showcase.ShowcaseItem;
-import de.moritzschmale.Showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.Types.BuyAssistant;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcasePlayer;
 
 public class InfiniteShowcaseExtra implements ShowcaseExtra {
 

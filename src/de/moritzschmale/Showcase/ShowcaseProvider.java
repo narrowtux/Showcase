@@ -1,4 +1,8 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
+
+import de.moritzschmale.showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcasePlayer;
 
 public interface ShowcaseProvider {
 	public String getType();

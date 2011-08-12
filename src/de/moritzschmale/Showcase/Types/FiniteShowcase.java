@@ -1,13 +1,16 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
-import de.moritzschmale.Showcase.ShowcaseExtra;
-import de.moritzschmale.Showcase.ShowcaseMain;
-import de.moritzschmale.Showcase.ShowcasePlayer;
-import de.moritzschmale.Showcase.ShowcaseProvider;
+import de.moritzschmale.showcase.Types.FiniteShowcaseExtra;
+import de.moritzschmale.showcase.Types.ShowcaseAmountPage;
+import de.moritzschmale.showcase.Types.ShowcasePricePage;
+import de.moritzschmale.showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.ShowcaseProvider;
 
 public class FiniteShowcase implements ShowcaseProvider {
 	private Map<ShowcaseCreationAssistant, ShowcasePricePage> pricePages = new HashMap<ShowcaseCreationAssistant, ShowcasePricePage>();

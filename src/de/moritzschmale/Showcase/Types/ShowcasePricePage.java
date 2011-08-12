@@ -1,10 +1,10 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 
-import de.moritzschmale.Showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 public class ShowcasePricePage extends AssistantPage {
 	public double price;

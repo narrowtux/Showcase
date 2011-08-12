@@ -1,9 +1,12 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
+
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 public class ShowcaseBlockListener extends BlockListener {
 	@Override

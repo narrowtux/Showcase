@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,10 +6,12 @@ import java.util.Map;
 import com.narrowtux.Assistant.Accuracy;
 import com.narrowtux.Assistant.NumberPage;
 
-import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
-import de.moritzschmale.Showcase.ShowcaseExtra;
-import de.moritzschmale.Showcase.ShowcasePlayer;
-import de.moritzschmale.Showcase.ShowcaseProvider;
+import de.moritzschmale.showcase.Types.SellShowcaseExtra;
+import de.moritzschmale.showcase.Types.ShowcasePricePage;
+import de.moritzschmale.showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.ShowcaseProvider;
 
 public class SellShowcase implements ShowcaseProvider {
 

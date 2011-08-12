@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +11,9 @@ import java.util.Map;
 import org.bukkit.Material;
 
 import com.narrowtux.Utils.FileUtils;
+
+import de.moritzschmale.showcase.FlatFileReader;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 public class Configuration {
 	private boolean showcaseProtection = true;

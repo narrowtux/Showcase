@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

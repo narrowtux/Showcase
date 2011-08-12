@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -6,7 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
-import de.moritzschmale.Showcase.ShowcaseMain;
+
+import de.moritzschmale.showcase.ShowcaseMain;
 
 public class ExchangeTypePage extends AssistantPage {
 	public Material type;

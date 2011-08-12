@@ -1,12 +1,12 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 
-import de.moritzschmale.Showcase.ShowcaseExtra;
-import de.moritzschmale.Showcase.ShowcaseItem;
-import de.moritzschmale.Showcase.ShowcaseMain;
-import de.moritzschmale.Showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.ShowcaseExtra;
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayer;
 
 public class SellShowcaseExtra implements ShowcaseExtra {
 	private ShowcaseItem showcase;

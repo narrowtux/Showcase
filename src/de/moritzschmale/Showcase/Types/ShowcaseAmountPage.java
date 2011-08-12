@@ -1,10 +1,10 @@
-package de.moritzschmale.Showcase.Types;
+package de.moritzschmale.showcase.Types;
 
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 
-import de.moritzschmale.Showcase.ShowcaseCreationAssistant;
-import de.moritzschmale.Showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 public class ShowcaseAmountPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;

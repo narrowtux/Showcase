@@ -1,9 +1,12 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 
 import net.minecraft.server.EnumSkyBlock;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftWorld;
+
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
 
 
 public class ItemWatcher implements Runnable {

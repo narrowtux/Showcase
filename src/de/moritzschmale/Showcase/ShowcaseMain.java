@@ -1,4 +1,4 @@
-package de.moritzschmale.Showcase;
+package de.moritzschmale.showcase;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -46,12 +46,21 @@ import com.nijikokun.bukkit.Permissions.*;
 import com.nijikokun.register.payment.Method;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
-import de.moritzschmale.Showcase.Types.BasicShowcase;
-import de.moritzschmale.Showcase.Types.ExchangeShowcase;
-import de.moritzschmale.Showcase.Types.FiniteShowcase;
-import de.moritzschmale.Showcase.Types.InfiniteShowcase;
-import de.moritzschmale.Showcase.Types.SellShowcase;
-import de.moritzschmale.Showcase.Types.TutorialShowcase;
+import de.moritzschmale.showcase.Configuration;
+import de.moritzschmale.showcase.DropChestListener;
+import de.moritzschmale.showcase.ItemWatcher;
+import de.moritzschmale.showcase.ShowcaseBlockListener;
+import de.moritzschmale.showcase.ShowcaseItem;
+import de.moritzschmale.showcase.ShowcaseMain;
+import de.moritzschmale.showcase.ShowcasePlayerListener;
+import de.moritzschmale.showcase.ShowcaseProvider;
+import de.moritzschmale.showcase.ShowcaseWorldListener;
+import de.moritzschmale.showcase.Types.BasicShowcase;
+import de.moritzschmale.showcase.Types.ExchangeShowcase;
+import de.moritzschmale.showcase.Types.FiniteShowcase;
+import de.moritzschmale.showcase.Types.InfiniteShowcase;
+import de.moritzschmale.showcase.Types.SellShowcase;
+import de.moritzschmale.showcase.Types.TutorialShowcase;
 
 
 public class ShowcaseMain extends JavaPlugin {
