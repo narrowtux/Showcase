@@ -1,6 +1,6 @@
 package de.moritzschmale.showcase.types;
 
-import de.moritzschmale.showcase.types.BuyAssistant;
+import de.moritzschmale.showcase.assistants.BuyAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseItem;
 import de.moritzschmale.showcase.ShowcasePlayer;

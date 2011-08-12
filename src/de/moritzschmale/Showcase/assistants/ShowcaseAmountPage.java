@@ -1,9 +1,8 @@
-package de.moritzschmale.showcase.types;
+package de.moritzschmale.showcase.assistants;
 
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseMain;
 
 public class ShowcaseAmountPage extends AssistantPage {

@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase;
+package de.moritzschmale.showcase.assistants;
 
 import org.bukkit.ChatColor;
 
@@ -7,7 +7,6 @@ import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.Main.NarrowtuxLib;
 
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;
 import de.moritzschmale.showcase.ShowcaseProvider;

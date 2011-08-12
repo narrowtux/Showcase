@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase;
+package de.moritzschmale.showcase.assistants;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
 
@@ -13,13 +13,12 @@ import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 
 import de.moritzschmale.showcase.Configuration;
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseItem;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;
 import de.moritzschmale.showcase.ShowcaseProvider;
-import de.moritzschmale.showcase.ShowcaseTypeSelectionPage;
+import de.moritzschmale.showcase.assistants.ShowcaseCreationAssistant;
 public class ShowcaseCreationAssistant extends Assistant {
 	public String type = "";
 	public Material material;

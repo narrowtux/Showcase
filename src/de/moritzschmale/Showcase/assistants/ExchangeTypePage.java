@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase.types;
+package de.moritzschmale.showcase.assistants;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

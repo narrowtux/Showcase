@@ -6,9 +6,9 @@ import java.util.Map;
 import com.narrowtux.Assistant.Accuracy;
 import com.narrowtux.Assistant.NumberPage;
 
+import de.moritzschmale.showcase.assistants.ShowcaseCreationAssistant;
+import de.moritzschmale.showcase.assistants.ShowcasePricePage;
 import de.moritzschmale.showcase.types.SellShowcaseExtra;
-import de.moritzschmale.showcase.types.ShowcasePricePage;
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcasePlayer;
 import de.moritzschmale.showcase.ShowcaseProvider;

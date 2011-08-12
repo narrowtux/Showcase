@@ -1,7 +1,7 @@
 package de.moritzschmale.showcase.types;
 
+import de.moritzschmale.showcase.assistants.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.types.BasicShowcaseExtra;
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;

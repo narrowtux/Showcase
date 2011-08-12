@@ -12,10 +12,10 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import com.narrowtux.Assistant.Assistant;
 
 import de.moritzschmale.showcase.Configuration;
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseItem;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.assistants.ShowcaseCreationAssistant;
 
 
 public class ShowcasePlayerListener extends PlayerListener {

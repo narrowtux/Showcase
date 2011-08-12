@@ -7,10 +7,10 @@ import org.bukkit.Material;
 
 import com.narrowtux.Assistant.TextPage;
 
+import de.moritzschmale.showcase.assistants.ExchangeTypePage;
+import de.moritzschmale.showcase.assistants.ShowcaseAmountPage;
+import de.moritzschmale.showcase.assistants.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.types.ExchangeShowcaseExtra;
-import de.moritzschmale.showcase.types.ExchangeTypePage;
-import de.moritzschmale.showcase.types.ShowcaseAmountPage;
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;

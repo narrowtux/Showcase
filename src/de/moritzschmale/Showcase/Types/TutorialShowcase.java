@@ -8,8 +8,8 @@ import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.translation.Translation;
 
+import de.moritzschmale.showcase.assistants.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.types.TutorialShowcaseExtra;
-import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;
