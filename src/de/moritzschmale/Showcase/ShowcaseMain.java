@@ -55,12 +55,12 @@ import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayerListener;
 import de.moritzschmale.showcase.ShowcaseProvider;
 import de.moritzschmale.showcase.ShowcaseWorldListener;
-import de.moritzschmale.showcase.Types.BasicShowcase;
-import de.moritzschmale.showcase.Types.ExchangeShowcase;
-import de.moritzschmale.showcase.Types.FiniteShowcase;
-import de.moritzschmale.showcase.Types.InfiniteShowcase;
-import de.moritzschmale.showcase.Types.SellShowcase;
-import de.moritzschmale.showcase.Types.TutorialShowcase;
+import de.moritzschmale.showcase.types.BasicShowcase;
+import de.moritzschmale.showcase.types.ExchangeShowcase;
+import de.moritzschmale.showcase.types.FiniteShowcase;
+import de.moritzschmale.showcase.types.InfiniteShowcase;
+import de.moritzschmale.showcase.types.SellShowcase;
+import de.moritzschmale.showcase.types.TutorialShowcase;
 
 
 public class ShowcaseMain extends JavaPlugin {

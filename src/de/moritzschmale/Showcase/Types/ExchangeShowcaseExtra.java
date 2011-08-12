@@ -1,9 +1,9 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import de.moritzschmale.showcase.Types.ExchangeAssistant;
+import de.moritzschmale.showcase.types.ExchangeAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseItem;
 import de.moritzschmale.showcase.ShowcaseMain;

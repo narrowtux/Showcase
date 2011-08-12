@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,7 +7,7 @@ import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;
 import com.narrowtux.Assistant.AssistantPage;
 
-import de.moritzschmale.showcase.Types.ExchangeShowcaseExtra;
+import de.moritzschmale.showcase.types.ExchangeShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseItem;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;

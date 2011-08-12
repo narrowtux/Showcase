@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import com.narrowtux.Assistant.Assistant;
 import com.narrowtux.Assistant.AssistantAction;

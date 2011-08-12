@@ -1,11 +1,11 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import de.moritzschmale.showcase.Types.FiniteShowcaseExtra;
-import de.moritzschmale.showcase.Types.ShowcaseAmountPage;
-import de.moritzschmale.showcase.Types.ShowcasePricePage;
+import de.moritzschmale.showcase.types.FiniteShowcaseExtra;
+import de.moritzschmale.showcase.types.ShowcaseAmountPage;
+import de.moritzschmale.showcase.types.ShowcasePricePage;
 import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseMain;

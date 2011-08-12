@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,8 +6,8 @@ import java.util.Map;
 import com.narrowtux.Assistant.Accuracy;
 import com.narrowtux.Assistant.NumberPage;
 
-import de.moritzschmale.showcase.Types.SellShowcaseExtra;
-import de.moritzschmale.showcase.Types.ShowcasePricePage;
+import de.moritzschmale.showcase.types.SellShowcaseExtra;
+import de.moritzschmale.showcase.types.ShowcasePricePage;
 import de.moritzschmale.showcase.ShowcaseCreationAssistant;
 import de.moritzschmale.showcase.ShowcaseExtra;
 import de.moritzschmale.showcase.ShowcasePlayer;

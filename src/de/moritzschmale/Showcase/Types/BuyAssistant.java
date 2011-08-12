@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,8 +9,8 @@ import com.narrowtux.Assistant.AssistantPage;
 import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
 
-import de.moritzschmale.showcase.Types.FiniteShowcaseExtra;
-import de.moritzschmale.showcase.Types.InfiniteShowcaseExtra;
+import de.moritzschmale.showcase.types.FiniteShowcaseExtra;
+import de.moritzschmale.showcase.types.InfiniteShowcaseExtra;
 import de.moritzschmale.showcase.ShowcaseItem;
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;

@@ -1,4 +1,4 @@
-package de.moritzschmale.showcase.Types;
+package de.moritzschmale.showcase.types;
 
 import com.narrowtux.Main.NarrowtuxLib;
 import com.nijikokun.register.payment.Method;
