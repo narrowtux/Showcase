@@ -16,6 +16,7 @@ import com.nijikokun.register.payment.Method.MethodAccount;
 
 import de.moritzschmale.showcase.ShowcaseMain;
 import de.moritzschmale.showcase.ShowcasePlayer;
+import de.moritzschmale.showcase.util.Item;
 
 public class ShowcasePlayer {
 	private String player;
@@ -174,5 +175,13 @@ public class ShowcasePlayer {
 	
 	public void sendNotification(String title, String text){
 		NarrowtuxLib.getNotificationManager().sendNotification(player, title, text);
+	}
+
+	public int getAmountOfType(Item stack) {
+		return getAmountOfType(stack.getMaterial(), stack.getData());
+	}
+
+	public int addItems(Item stack) {
+		return addItems(stack.getMaterial(), stack.getData(), stack.getAmount());
 	}
 }

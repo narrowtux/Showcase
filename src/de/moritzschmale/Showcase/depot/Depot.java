@@ -5,7 +5,7 @@ import de.moritzschmale.showcase.ShowcasePlayer;
 public abstract class Depot {
 	/**
 	 * Add something to the depot (like money or items)
-	 * @param amount the amount to multiply the default value with.
+	 * @param amount to multiply the default value with.
 	 */
 	public abstract void addToDepot(int amount);
 	/**
@@ -14,6 +14,14 @@ public abstract class Depot {
 	 * @return if the transaction has been successful
 	 */
 	public abstract boolean giveDepot(ShowcasePlayer player);
+	
+	/**
+	 * Transfers values from the given player to the depot
+	 * @param amount to multiply the default value with.
+	 * @param player from which the values are taken
+	 * @return if the transaction has been successful
+	 */
+	public abstract boolean addToDepot(int amount, ShowcasePlayer player);
 	
 	@Override
 	public abstract String toString();
