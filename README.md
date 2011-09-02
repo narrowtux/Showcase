@@ -24,11 +24,11 @@ Showcase requires Bukkit and other plugins (preferrably the latest versions or s
 * Checkout this repo and run: `mvn clean`
 
 Other required plugins:  
-* NarrowtuxLib
-* DropChest
-* SpoutAPI
-* Permissions
-* WorldGuard
+* NarrowtuxLib  
+* DropChest  
+* SpoutAPI  
+* Permissions  
+* WorldGuard  
 * OddItem
 
 Coding and Pull Request Formatting
