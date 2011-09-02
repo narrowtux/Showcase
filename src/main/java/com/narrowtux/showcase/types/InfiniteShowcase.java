@@ -53,7 +53,7 @@ public class InfiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return ShowcaseMain.tr("types.infinite.description");
+		return Showcase.tr("types.infinite.description");
 	}
 
 	@Override

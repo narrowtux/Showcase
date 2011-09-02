@@ -46,7 +46,7 @@ public class BasicShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return ShowcaseMain.tr("types.basic.description");
+		return Showcase.tr("types.basic.description");
 	}
 
 	@Override
@@ -60,6 +60,6 @@ public class BasicShowcase implements ShowcaseProvider {
 
 	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
-		return ShowcaseMain.instance.config.getPriceForBasic();
+		return Showcase.instance.config.getPriceForBasic();
 	}
 }

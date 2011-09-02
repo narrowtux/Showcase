@@ -43,12 +43,12 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	@Override
 	public void onClick(ShowcasePlayer player) {
 		if(player.getPlayer().getName().equals(showcase.getPlayer())){
-			String name = ShowcaseMain.getName(exchangeType, exchangeData);
+			String name = Showcase.getName(exchangeType, exchangeData);
 			int remaining = player.addItems(exchangeType, exchangeData, exchangeAmount);
-			player.sendMessage(ShowcaseMain.tr("exchange.addexchange", exchangeAmount-remaining, name));
+			player.sendMessage(Showcase.tr("exchange.addexchange", exchangeAmount-remaining, name));
 			if(remaining!=0){
 				player.getPlayer().getWorld().dropItemNaturally(player.getPlayer().getLocation(), new ItemStack(exchangeType, remaining, exchangeData));
-				player.sendMessage(ShowcaseMain.tr("exchange.remaining.dropped",remaining,name));
+				player.sendMessage(Showcase.tr("exchange.remaining.dropped",remaining,name));
 			}
 			exchangeAmount = remaining;
 		} else {

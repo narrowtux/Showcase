@@ -31,8 +31,8 @@ public class ExchangeTypePage extends AssistantPage {
 
 	public ExchangeTypePage(Assistant assistant){
 		super(assistant);
-		setTitle(ShowcaseMain.tr("assistant.exchange.create.type.title"));
-		setText(ShowcaseMain.tr("assistant.exchange.create.type.text"));
+		setTitle(Showcase.tr("assistant.exchange.create.type.title"));
+		setText(Showcase.tr("assistant.exchange.create.type.text"));
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class ExchangeTypePage extends AssistantPage {
 				type = stack.getType();
 				data = stack.getDurability();
 			} else {
-				sendMessage(getAssistant().formatLine(ShowcaseMain.tr("noItemError")));
+				sendMessage(getAssistant().formatLine(Showcase.tr("noItemError")));
 				return AssistantAction.SILENT_REPEAT;
 			}
 			return AssistantAction.CONTINUE;
@@ -75,9 +75,9 @@ public class ExchangeTypePage extends AssistantPage {
 			}
 			if(type==null||type.equals(Material.AIR)){
 				getAssistant().repeatCurrentPage();
-				sendMessage(getAssistant().formatLine(ShowcaseMain.tr("itemExistError")));
+				sendMessage(getAssistant().formatLine(Showcase.tr("itemExistError")));
 			} else {
-				sendMessage(ShowcaseMain.tr("assistant.exchange.create.type.selected", ShowcaseMain.getName(type, data)));
+				sendMessage(Showcase.tr("assistant.exchange.create.type.selected", Showcase.getName(type, data)));
 			}
 			return AssistantAction.CONTINUE;
 		}

@@ -75,7 +75,7 @@ public class Configuration {
 		return maximumPerUser;
 	}
 	public Configuration(){
-		File pluginFolder = ShowcaseMain.instance.getDataFolder();
+		File pluginFolder = Showcase.instance.getDataFolder();
 		reader = new FlatFileReader(new File(pluginFolder.getAbsolutePath()+"/showcase.cfg"), false);
 		load();
 		reader.write();
@@ -102,10 +102,10 @@ public class Configuration {
 	}
 
 	private void loadMaxStackSize() {
-		File file = new File(ShowcaseMain.instance.getDataFolder(), "stacks.csv");
+		File file = new File(Showcase.instance.getDataFolder(), "stacks.csv");
 		if(!file.exists()){
 			try {
-				ShowcaseMain.instance.copyFromJarToDisk("stacks.csv", ShowcaseMain.instance.getDataFolder());
+				Showcase.instance.copyFromJarToDisk("stacks.csv", Showcase.instance.getDataFolder());
 			} catch (IOException e) {
 				return ;
 			}

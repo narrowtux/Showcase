@@ -34,7 +34,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(event.hasBlock()&&event.getClickedBlock().getType().equals(Material.STEP)){
-			ShowcaseItem showItem = ShowcaseMain.instance.getItemByBlock(event.getClickedBlock());
+			ShowcaseItem showItem = Showcase.instance.getItemByBlock(event.getClickedBlock());
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
 			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
 				if(!event.getPlayer().isSneaking()){
@@ -51,18 +51,18 @@ public class ShowcasePlayerListener extends PlayerListener {
 				}
 				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
 					/*if(event.getItem()==null){
-						player.sendMessage(ShowcaseMain.tr("noItemError"));
+						player.sendMessage(Showcase.tr("noItemError"));
 						event.setCancelled(true);
 						return;
 					}*/
 					if(event.getClickedBlock().getType().equals(Material.STEP)){
 						event.setCancelled(true);
-						if(ShowcaseMain.instance.providers.size()==1&&ShowcaseMain.instance.providers.containsKey("basic")){
+						if(Showcase.instance.providers.size()==1&&Showcase.instance.providers.containsKey("basic")){
 							Location loc = event.getClickedBlock().getLocation();
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
-							ShowcaseMain.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
-							event.getPlayer().sendMessage(ShowcaseMain.tr("basicCreationSuccess"));
+							Showcase.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
+							event.getPlayer().sendMessage(Showcase.tr("basicCreationSuccess"));
 						} else {
 							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
 							assistant.start();
@@ -72,18 +72,18 @@ public class ShowcasePlayerListener extends PlayerListener {
 					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)){
 						if(showItem.getExtra()==null){
 							showItem.remove();
-							ShowcaseMain.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseRemoveSuccess"));
+							Showcase.instance.showcasedItems.remove(showItem);
+							event.getPlayer().sendMessage(Showcase.tr("showcaseRemoveSuccess"));
 							System.out.println("null Extra");
 							return;
 						}
 						if(showItem.getExtra().onDestroy(player)){
 							showItem.remove();
-							ShowcaseMain.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseRemoveSuccess"));
+							Showcase.instance.showcasedItems.remove(showItem);
+							event.getPlayer().sendMessage(Showcase.tr("showcaseRemoveSuccess"));
 						}
 					} else {
-						event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseOwner", showItem.getPlayer()));
+						event.getPlayer().sendMessage(Showcase.tr("showcaseOwner", showItem.getPlayer()));
 					}
 					event.setCancelled(true);
 				}
@@ -99,7 +99,7 @@ public class ShowcasePlayerListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerPickupItem(PlayerPickupItemEvent event){
-		ShowcaseItem shit = ShowcaseMain.instance.getItemByDrop(event.getItem());
+		ShowcaseItem shit = Showcase.instance.getItemByDrop(event.getItem());
 		if(shit!=null)
 		{
 			event.setCancelled(true);

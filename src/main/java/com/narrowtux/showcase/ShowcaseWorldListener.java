@@ -24,7 +24,7 @@ import org.bukkit.event.world.WorldListener;
 public class ShowcaseWorldListener extends WorldListener {
 	@Override
 	public void onChunkLoad(ChunkLoadEvent event){
-		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
+		for(ShowcaseItem item:Showcase.instance.showcasedItems){
 			try{
 				if(event.getChunk().equals(item.getBlock().getChunk())){
 					item.respawn();
@@ -37,7 +37,7 @@ public class ShowcaseWorldListener extends WorldListener {
 
 	@Override
 	public void onChunkUnload(ChunkUnloadEvent event){
-		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
+		for(ShowcaseItem item:Showcase.instance.showcasedItems){
 			try{
 				if(event.getChunk().equals(item.getBlock().getChunk())){
 					item.remove();

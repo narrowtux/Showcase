@@ -29,39 +29,39 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public boolean cancel = false;
 	public ShowcaseTypeSelectionPage(ShowcasePlayer player, Assistant assistant){
 		super(assistant);
-		setTitle(ShowcaseMain.tr("assistant.creation.select.title"));
+		setTitle(Showcase.tr("assistant.creation.select.title"));
 		String text = "";
-		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
+		for(ShowcaseProvider provider:Showcase.instance.providers.values()){
 			if(player.hasPermission(provider.getPermission(), provider.isOpMethod())){
 				text+=ChatColor.YELLOW+provider.getType()+ChatColor.WHITE;
 				text+=" ("+ChatColor.YELLOW+getPrice(provider.getPriceForCreation(player))+ChatColor.WHITE+"), ";
 			}
 		}
 		if(text.equals("")){
-			text = ShowcaseMain.tr("noShowcasePermission");
+			text = Showcase.tr("noShowcasePermission");
 			cancel = true;
 		} else {
 			text = text.substring(0,text.length()-2)+"\n";
-			text+=ShowcaseMain.tr("helpDescription", ShowcaseMain.tr("helpCommand"));
+			text+=Showcase.tr("helpDescription", Showcase.tr("helpCommand"));
 		}
 		setText(text);
 	}
 
 	@Override
 	public AssistantAction onPageInput(String text){
-		if(text.startsWith(ShowcaseMain.tr("helpCommand"))){
+		if(text.startsWith(Showcase.tr("helpCommand"))){
 			String args[] = text.split(" ");
 			if(args.length>=2){
 				String type = args[1];
-				if(ShowcaseMain.instance.providers.containsKey(type)){
-					ShowcaseProvider provider = ShowcaseMain.instance.providers.get(type);
+				if(Showcase.instance.providers.containsKey(type)){
+					ShowcaseProvider provider = Showcase.instance.providers.get(type);
 					String msg = "";
 					msg+=provider.getType()+"\n";
 					msg+=provider.getDescription();
 					sendMessage(msg);
 					return AssistantAction.REPEAT;
 				} else {
-					sendMessage(ShowcaseMain.tr("typeNotFound"));
+					sendMessage(Showcase.tr("typeNotFound"));
 					return AssistantAction.SILENT_REPEAT;
 				}
 			}
@@ -69,7 +69,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		ShowcasePlayer player = ShowcasePlayer.getPlayer(getAssistant().getPlayer());
 		text = text.toLowerCase();
 		ShowcaseProvider type = null;
-		for(ShowcaseProvider provider:ShowcaseMain.instance.providers.values()){
+		for(ShowcaseProvider provider:Showcase.instance.providers.values()){
 			if(text.equals(provider.getType())){
 				//Selected this type
 				type = provider;
@@ -80,7 +80,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			return AssistantAction.CANCEL;
 		}
 		if(!player.canAfford(type.getPriceForCreation(player))){
-			sendMessage(getAssistant().formatLine(ShowcaseMain.tr("notEnoughMoneyForShowcase")));
+			sendMessage(getAssistant().formatLine(Showcase.tr("notEnoughMoneyForShowcase")));
 			return AssistantAction.CANCEL;
 		}
 		if(player.hasPermission(type.getPermission(), type.isOpMethod())){
@@ -88,7 +88,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			type.addPagesToCreationWizard((ShowcaseCreationAssistant) getAssistant());
 			return AssistantAction.CONTINUE;
 		} else {
-			player.sendMessage(ShowcaseMain.tr("permissionsFail"));
+			player.sendMessage(Showcase.tr("permissionsFail"));
 			return AssistantAction.CANCEL;
 		}
 	}

@@ -57,7 +57,7 @@ public class FiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return ShowcaseMain.tr("types.finite.description");
+		return Showcase.tr("types.finite.description");
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class FiniteShowcase implements ShowcaseProvider {
 
 	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
-		return ShowcaseMain.instance.config.getPriceForFiniteShop();
+		return Showcase.instance.config.getPriceForFiniteShop();
 	}
 
 }

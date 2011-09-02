@@ -38,7 +38,7 @@ public class SellShowcaseExtra implements ShowcaseExtra {
 		player.addItems(showcase.getMaterial(), showcase.getData(), amountOfItems);
 		Method method = NarrowtuxLib.getMethod();
 		//TODO: put a string in all translation files!
-		player.sendMessage(ShowcaseMain.tr("sell.moneygiveback", method.format(amount)));
+		player.sendMessage(Showcase.tr("sell.moneygiveback", method.format(amount)));
 		return true;
 	}
 

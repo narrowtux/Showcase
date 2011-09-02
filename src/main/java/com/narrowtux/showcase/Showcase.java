@@ -72,14 +72,14 @@ import com.narrowtux.showcase.types.InfiniteShowcase;
 import com.narrowtux.showcase.types.SellShowcase;
 import com.narrowtux.showcase.types.TutorialShowcase;
 
-public class ShowcaseMain extends JavaPlugin {
+public class Showcase extends JavaPlugin {
 	private static PermissionHandler Permissions = null;
 	private Logger log;
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
 	private ShowcaseWorldListener worldListener = new ShowcaseWorldListener();
 	private DropChestListener dclistener;
-	public static ShowcaseMain instance;
+	public static Showcase instance;
 	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
 	private ItemWatcher watcher = new ItemWatcher();
 	public Configuration config;
@@ -384,16 +384,16 @@ public class ShowcaseMain extends JavaPlugin {
 		try{
 			Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
 
-			if(ShowcaseMain.Permissions == null) {
+			if(Showcase.Permissions == null) {
 				try{
-					ShowcaseMain.Permissions = ((Permissions)test).getHandler();
+					Showcase.Permissions = ((Permissions)test).getHandler();
 				} catch(Exception e) {
-					ShowcaseMain.Permissions = null;
+					Showcase.Permissions = null;
 					log.log(Level.WARNING, tr("permissionsUnavailable"));
 				}
 			}
 		} catch(java.lang.NoClassDefFoundError e){
-			ShowcaseMain.Permissions = null;
+			Showcase.Permissions = null;
 			log.log(Level.WARNING, tr("permissionsUnavailable"));
 		}
 	}

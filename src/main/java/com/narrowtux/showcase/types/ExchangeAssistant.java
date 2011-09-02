@@ -43,8 +43,8 @@ public class ExchangeAssistant extends Assistant {
 				//TODO: Add translation!!!
 				setTitle("How many items you want to get?");
 				String text = "";
-				String itemName = ShowcaseMain.getName(showcase.getMaterial(), showcase.getData());
-				String exchangeName = ShowcaseMain.getName(extra.getExchangeType(), extra.getExchangeData());
+				String itemName = Showcase.getName(showcase.getMaterial(), showcase.getData());
+				String exchangeName = Showcase.getName(extra.getExchangeType(), extra.getExchangeData());
 				text+="Get "+ChatColor.YELLOW+extra.getExchangeRateLeft()+" "+itemName+ChatColor.WHITE;
 				text+=" for "+ChatColor.YELLOW+extra.getExchangeRateRight()+" "+exchangeName+"\n";
 				int playeramount = player.getAmountOfType(extra.getExchangeType(), extra.getExchangeData());
@@ -56,8 +56,8 @@ public class ExchangeAssistant extends Assistant {
 
 			@Override
 			public AssistantAction onPageInput(String text){
-				String itemName = ShowcaseMain.getName(showcase.getMaterial(), showcase.getData());
-				String exchangeName = ShowcaseMain.getName(extra.getExchangeType(), extra.getExchangeData());
+				String itemName = Showcase.getName(showcase.getMaterial(), showcase.getData());
+				String exchangeName = Showcase.getName(extra.getExchangeType(), extra.getExchangeData());
 				int amount;
 				try{
 					amount = Integer.valueOf(text);

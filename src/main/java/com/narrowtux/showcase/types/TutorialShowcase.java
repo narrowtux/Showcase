@@ -59,15 +59,15 @@ public class TutorialShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return ShowcaseMain.tr("types.tutorial.description");
+		return Showcase.tr("types.tutorial.description");
 	}
 
 	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
 		AssistantPage page = new AssistantPage(assistant){
 			{
-				setTitle(ShowcaseMain.tr("tutorial.title"));
-				setText(ShowcaseMain.tr("tutorial.text"));
+				setTitle(Showcase.tr("tutorial.title"));
+				setText(Showcase.tr("tutorial.text"));
 			}
 			@Override
 			public AssistantAction onPageInput(String text){

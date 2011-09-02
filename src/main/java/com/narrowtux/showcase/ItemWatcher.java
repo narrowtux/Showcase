@@ -25,7 +25,7 @@ import org.bukkit.craftbukkit.CraftWorld;
 public class ItemWatcher implements Runnable {
 	@Override
 	public void run() {
-		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
+		for(ShowcaseItem item:Showcase.instance.showcasedItems){
 			if(item.getItem()==null||item.getItem().isDead()){
 				item.respawn();
 			}

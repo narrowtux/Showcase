@@ -75,7 +75,7 @@ public class RefillAssistant extends Assistant {
 				return AssistantAction.CONTINUE;
 			}
 		};
-		setTitle(ShowcaseMain.tr("assistant.refill.title"));
+		setTitle(Showcase.tr("assistant.refill.title"));
 		page.setTitle("");
 		addPage(page);
 		updateText();
@@ -83,12 +83,12 @@ public class RefillAssistant extends Assistant {
 
 	@Override
 	public void onAssistantCancel(){
-		sendMessage(formatLine(ShowcaseMain.tr("assistant.refill.finish")));
+		sendMessage(formatLine(Showcase.tr("assistant.refill.finish")));
 	}
 
 	@Override
 	public void onAssistantFinish(){
-		sendMessage(formatLine(ShowcaseMain.tr("assistant.refill.finish")));
+		sendMessage(formatLine(Showcase.tr("assistant.refill.finish")));
 	}
 
 	public void updateText(){
@@ -96,8 +96,8 @@ public class RefillAssistant extends Assistant {
 		Material mat = showcase.getMaterial();
 		short data = showcase.getData();
 		String text = "";
-		String itemName = ShowcaseMain.getName(mat, data);
-		text = ShowcaseMain.tr("assistant.refill.body", extra.getItemAmount(), itemName,
+		String itemName = Showcase.getName(mat, data);
+		text = Showcase.tr("assistant.refill.body", extra.getItemAmount(), itemName,
 				NarrowtuxLib.getMethod().format(extra.getPricePerItem()),
 				player.getAmountOfType(mat, data));
 		for(AssistantPage page:getPages()){

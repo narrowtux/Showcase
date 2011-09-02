@@ -29,7 +29,7 @@ public class ShowcasePricePage extends AssistantPage {
 
 	public ShowcasePricePage(Assistant assistant){
 		super(assistant);
-		setTitle(ShowcaseMain.tr("assistant.price.title"));
+		setTitle(Showcase.tr("assistant.price.title"));
 		setText("");
 	}
 
@@ -43,7 +43,7 @@ public class ShowcasePricePage extends AssistantPage {
 		if(price<0){
 			return AssistantAction.CANCEL;
 		}
-		getAssistant().sendMessage(getAssistant().formatLine(ShowcaseMain.tr("assistant.price.done", price)));
+		getAssistant().sendMessage(getAssistant().formatLine(Showcase.tr("assistant.price.done", price)));
 		return AssistantAction.CONTINUE;
 	}
 }

@@ -69,7 +69,7 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public String getDescription() {
-		return ShowcaseMain.tr("types.exchange.description");
+		return Showcase.tr("types.exchange.description");
 	}
 
 	@Override
@@ -86,9 +86,9 @@ public class ExchangeShowcase implements ShowcaseProvider {
 		assistant.addPage(typePage);
 		assistant.addPage(ratePage);
 		assistant.addPage(amountPage);
-		ratePage.setTitle(ShowcaseMain.tr("assistant.exchange.create.rate.title"));
+		ratePage.setTitle(Showcase.tr("assistant.exchange.create.rate.title"));
 		//TODO: fix this weird bug
-		ratePage.setText(ShowcaseMain.tr("assistant.exchange.create.rate.text"));
+		ratePage.setText(Showcase.tr("assistant.exchange.create.rate.text"));
 		amountPages.put(assistant, amountPage);
 		exchangeTypePages.put(assistant, typePage);
 		ratePages.put(assistant, ratePage);
@@ -130,6 +130,6 @@ public class ExchangeShowcase implements ShowcaseProvider {
 
 	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
-		return ShowcaseMain.instance.config.getPriceForExchangeShop();
+		return Showcase.instance.config.getPriceForExchangeShop();
 	}
 }

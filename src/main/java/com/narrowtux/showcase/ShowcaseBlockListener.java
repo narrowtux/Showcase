@@ -29,10 +29,10 @@ public class ShowcaseBlockListener extends BlockListener {
 			//nothing to do for us.
 			return;
 		}
-		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
+		for(ShowcaseItem item:Showcase.instance.showcasedItems){
 			if(event.getBlock().equals(item.getBlock())){
 				event.setCancelled(true);
-				event.getPlayer().sendMessage(ShowcaseMain.tr("showcaseOwner", item.getPlayer()));
+				event.getPlayer().sendMessage(Showcase.tr("showcaseOwner", item.getPlayer()));
 				break;
 			}
 		}
@@ -43,7 +43,7 @@ public class ShowcaseBlockListener extends BlockListener {
 
 	@Override
 	public void onBlockPhysics(BlockPhysicsEvent event){
-		if(ShowcaseMain.instance.getItemByBlock(event.getBlock())!=null){
+		if(Showcase.instance.getItemByBlock(event.getBlock())!=null){
 			if(event.getChangedType().equals(Material.STEP)){
 				event.setCancelled(true);
 			}

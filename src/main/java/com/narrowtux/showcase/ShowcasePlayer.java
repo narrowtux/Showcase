@@ -53,12 +53,12 @@ public class ShowcasePlayer {
 	}
 
 	public Player getPlayer(){
-		Player ret = ShowcaseMain.instance.getServer().getPlayer(player);
+		Player ret = Showcase.instance.getServer().getPlayer(player);
 		return ret;
 	}
 
 	public boolean hasPermission(String node, boolean adminMethod){
-		return ShowcaseMain.hasPermission(getPlayer(), node, adminMethod);
+		return Showcase.hasPermission(getPlayer(), node, adminMethod);
 	}
 
 	public void sendMessage(String message){
@@ -162,7 +162,7 @@ public class ShowcasePlayer {
 		while(amount>0){
 			ItemStack stack = new ItemStack(type);
 			stack.setDurability(data);
-			int max = ShowcaseMain.instance.config.getMaxStackSize(stack.getType());
+			int max = Showcase.instance.config.getMaxStackSize(stack.getType());
 			if(amount>=max&&max!=-1){
 				stack.setAmount(max);
 			} else {
@@ -179,8 +179,8 @@ public class ShowcasePlayer {
 	}
 
 	public boolean mayCreateHere(Block b){
-		if(ShowcaseMain.instance.worldguard!=null){
-			return ShowcaseMain.instance.worldguard.canBuild(getPlayer(), b);
+		if(Showcase.instance.worldguard!=null){
+			return Showcase.instance.worldguard.canBuild(getPlayer(), b);
 		} else {
 			return true;
 		}

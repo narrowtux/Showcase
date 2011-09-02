@@ -23,7 +23,7 @@ public class DropChestListener extends
 		com.narrowtux.dropchest.api.DropChestListener {
 	@Override
 	public void onDropChestSuck(DropChestSuckEvent event){
-		for(ShowcaseItem item:ShowcaseMain.instance.showcasedItems){
+		for(ShowcaseItem item:Showcase.instance.showcasedItems){
 			if(item.getItem().equals(event.getItem())){
 				event.setCancelled(true);
 				return;
