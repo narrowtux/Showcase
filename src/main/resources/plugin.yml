@@ -3,8 +3,6 @@ version: 0.7.4.${build.number}
 author: narrowtux
 description: 
 
-main: de.moritzschmale.Showcase.ShowcaseMain
-
 main: com.narrowtux.showcase.Showcase
 softdepend: [NarrowtuxLib, Spout]
 
