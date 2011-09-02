@@ -1,0 +1,18 @@
+name: Showcase
+version: 0.7.4.${build.number}
+author: narrowtux
+description: 
+
+main: de.moritzschmale.Showcase.ShowcaseMain
+
+main: com.narrowtux.showcase.Showcase
+softdepend: [NarrowtuxLib, Spout]
+
+commands:
+  showcase:
+    description: Showcase related commands.
+      usage: |
+        /<command> <reload|load|save>
+        Example: /<command> reload
+        Example: /<command> load
+        Example: /<command> save
