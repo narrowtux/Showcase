@@ -17,6 +17,8 @@
 
 package com.narrowtux.showcase;
 
+import info.somethingodd.bukkit.odd.item.OddItem;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,7 +40,6 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -55,22 +56,19 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.inventory.ItemManager;
 
+import com.narrowtux.narrowtuxlib.NarrowtuxLib;
 import com.narrowtux.narrowtuxlib.translation.Translation;
-import com.nijiko.permissions.*;
-import com.nijikokun.bukkit.Permissions.*;
-import com.nijikokun.register.payment.Method;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
 import com.narrowtux.showcase.types.BasicShowcase;
 import com.narrowtux.showcase.types.ExchangeShowcase;
 import com.narrowtux.showcase.types.FiniteShowcase;
 import com.narrowtux.showcase.types.InfiniteShowcase;
-import com.narrowtux.showcase.types.SellShowcase;
 import com.narrowtux.showcase.types.TutorialShowcase;
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class Showcase extends JavaPlugin {
 	private static PermissionHandler Permissions = null;
@@ -87,6 +85,7 @@ public class Showcase extends JavaPlugin {
 	public int autosaverId = -1;
 	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	private Translation trans;
+	private OddItem odditem = null;
 
 	@Override
 	public void onDisable() {
@@ -154,6 +153,18 @@ public class Showcase extends JavaPlugin {
 		load();
 
 		config = new Configuration();
+		
+		if(pm.getPlugin("Spout") != null){
+			config.setUseSpout(true);
+		}
+		
+		if(config.useSpout()){
+			if(!NarrowtuxLib.getInstance().installSpout()){
+				config.setUseSpout(false);
+			}
+		}
+		
+		odditem = (OddItem) pm.getPlugin("OddItem");
 
 		trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
 
@@ -412,13 +423,17 @@ public class Showcase extends JavaPlugin {
 	}
 
 	public static String getName(Material type, short data){
-		ItemManager itemManager = SpoutManager.getItemManager();
-		String custom = itemManager.getCustomItemName(type, (byte)data);
-		if(custom==null)
-		{
-			return itemManager.getItemName(type, (byte) data);
+		if(instance.config.useSpout()){
+			ItemManager itemManager = SpoutManager.getItemManager();
+			String custom = itemManager.getCustomItemName(type, (byte)data);
+			if(custom==null)
+			{
+				return itemManager.getItemName(type, (byte) data);
+			} else {
+				return custom;
+			}
 		} else {
-			return custom;
+			return type.toString().toLowerCase();
 		}
 	}
 
@@ -497,5 +512,9 @@ public class Showcase extends JavaPlugin {
 		}
 		os.close();
 		is.close();
+	}
+	
+	public static boolean hasOddItem(){
+		return instance.odditem!=null;
 	}
 }

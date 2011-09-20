@@ -22,7 +22,6 @@ import java.util.Map;
 
 import com.narrowtux.narrowtuxlib.assistant.Accuracy;
 import com.narrowtux.narrowtuxlib.assistant.NumberPage;
-
 import com.narrowtux.showcase.ShowcaseCreationAssistant;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcasePlayer;

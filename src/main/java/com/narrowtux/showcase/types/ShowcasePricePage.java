@@ -21,7 +21,6 @@ package com.narrowtux.showcase.types;
 import com.narrowtux.narrowtuxlib.assistant.Assistant;
 import com.narrowtux.narrowtuxlib.assistant.AssistantAction;
 import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
-
 import com.narrowtux.showcase.Showcase;
 
 public class ShowcasePricePage extends AssistantPage {

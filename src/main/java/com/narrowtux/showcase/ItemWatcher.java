@@ -17,10 +17,6 @@
 
 package com.narrowtux.showcase;
 
-import net.minecraft.server.EnumSkyBlock;
-
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.CraftWorld;
 
 public class ItemWatcher implements Runnable {
 	@Override

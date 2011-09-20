@@ -19,9 +19,8 @@ package com.narrowtux.showcase.types;
 
 import com.narrowtux.narrowtuxlib.assistant.AssistantAction;
 import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
-
-import com.narrowtux.showcase.ShowcaseCreationAssistant;
 import com.narrowtux.showcase.Showcase;
+import com.narrowtux.showcase.ShowcaseCreationAssistant;
 
 public class ShowcaseAmountPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;

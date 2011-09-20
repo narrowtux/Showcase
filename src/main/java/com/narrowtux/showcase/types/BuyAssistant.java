@@ -20,15 +20,14 @@ package com.narrowtux.showcase.types;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.narrowtux.narrowtuxlib.NarrowtuxLib;
 import com.narrowtux.narrowtuxlib.assistant.Assistant;
 import com.narrowtux.narrowtuxlib.assistant.AssistantAction;
 import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
-import com.narrowtux.narrowtuxlib.NarrowtuxLib;
-import com.nijikokun.register.payment.Method;
-
-import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.Showcase;
+import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.ShowcasePlayer;
+import com.nijikokun.register.payment.Method;
 
 public class BuyAssistant extends Assistant {
 	public int amount;

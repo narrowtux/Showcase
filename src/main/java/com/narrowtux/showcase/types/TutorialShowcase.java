@@ -24,7 +24,6 @@ import com.narrowtux.narrowtuxlib.assistant.Assistant;
 import com.narrowtux.narrowtuxlib.assistant.AssistantAction;
 import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
 import com.narrowtux.narrowtuxlib.translation.Translation;
-
 import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseCreationAssistant;
 import com.narrowtux.showcase.ShowcaseExtra;

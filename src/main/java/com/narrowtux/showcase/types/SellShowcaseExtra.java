@@ -18,12 +18,11 @@
 package com.narrowtux.showcase.types;
 
 import com.narrowtux.narrowtuxlib.NarrowtuxLib;
-import com.nijikokun.register.payment.Method;
-
+import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcaseItem;
-import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcasePlayer;
+import com.nijikokun.register.payment.Method;
 
 public class SellShowcaseExtra implements ShowcaseExtra {
 	private ShowcaseItem showcase;

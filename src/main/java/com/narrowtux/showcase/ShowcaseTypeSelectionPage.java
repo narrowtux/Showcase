@@ -19,10 +19,10 @@ package com.narrowtux.showcase;
 
 import org.bukkit.ChatColor;
 
+import com.narrowtux.narrowtuxlib.NarrowtuxLib;
 import com.narrowtux.narrowtuxlib.assistant.Assistant;
 import com.narrowtux.narrowtuxlib.assistant.AssistantAction;
 import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
-import com.narrowtux.narrowtuxlib.NarrowtuxLib;
 
 public class ShowcaseTypeSelectionPage extends AssistantPage {
 	public ShowcaseCreationAssistant assistant;

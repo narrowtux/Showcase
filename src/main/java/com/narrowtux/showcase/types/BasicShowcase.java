@@ -17,9 +17,9 @@
 
 package com.narrowtux.showcase.types;
 
+import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseCreationAssistant;
 import com.narrowtux.showcase.ShowcaseExtra;
-import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcasePlayer;
 import com.narrowtux.showcase.ShowcaseProvider;
 

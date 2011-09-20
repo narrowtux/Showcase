@@ -50,11 +50,11 @@ public class ShowcasePlayerListener extends PlayerListener {
 					return;
 				}
 				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
-					/*if(event.getItem()==null){
+					if(event.getItem()==null && !Showcase.hasOddItem()){
 						player.sendMessage(Showcase.tr("noItemError"));
 						event.setCancelled(true);
 						return;
-					}*/
+					}
 					if(event.getClickedBlock().getType().equals(Material.STEP)){
 						event.setCancelled(true);
 						if(Showcase.instance.providers.size()==1&&Showcase.instance.providers.containsKey("basic")){

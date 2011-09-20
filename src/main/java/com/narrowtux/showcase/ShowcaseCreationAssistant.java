@@ -17,17 +17,20 @@
 
 package com.narrowtux.showcase;
 
+import info.somethingodd.bukkit.OddItem.OddItem;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.narrowtux.narrowtuxlib.assistant.*;
 import com.narrowtux.narrowtuxlib.NarrowtuxLib;
+import com.narrowtux.narrowtuxlib.assistant.Assistant;
+import com.narrowtux.narrowtuxlib.assistant.AssistantAction;
+import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
+import com.narrowtux.narrowtuxlib.assistant.Icon;
 import com.nijikokun.register.payment.Method;
-
-import info.somethingodd.bukkit.OddItem.OddItem;
 
 public class ShowcaseCreationAssistant extends Assistant {
 	public String type = "";
