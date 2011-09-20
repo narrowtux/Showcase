@@ -17,7 +17,7 @@
 
 package com.narrowtux.showcase;
 
-import info.somethingodd.bukkit.odd.item.OddItem;
+import info.somethingodd.bukkit.OddItem.OddItem;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
