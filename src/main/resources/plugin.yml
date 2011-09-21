@@ -9,8 +9,8 @@ softdepend: [NarrowtuxLib, Spout]
 commands:
   showcase:
     description: Showcase related commands.
-      usage: |
-        /<command> <reload|load|save>
-        Example: /<command> reload
-        Example: /<command> load
-        Example: /<command> save
+    usage: |
+      /<command> <reload|load|save>
+      Example: /<command> reload
+      Example: /<command> load
+      Example: /<command> save
