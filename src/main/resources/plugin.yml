@@ -1,5 +1,5 @@
 name: Showcase
-version: 0.7.5.${build.number}
+version: 0.7.6.${build.number}
 author: narrowtux
 description: 
 

@@ -64,8 +64,14 @@ public class ShowcasePlayerListener extends PlayerListener {
 							Showcase.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
 							event.getPlayer().sendMessage(Showcase.tr("basicCreationSuccess"));
 						} else {
-							ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
-							assistant.start();
+							try{
+								ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
+								assistant.start();
+							} catch(NoClassDefFoundError e){
+								for(StackTraceElement element:e.getCause().getStackTrace()){
+									System.out.println(element.getFileName()+" line "+element.getLineNumber());
+								}
+							}
 						}
 					}
 				} else if(showItem!=null){
