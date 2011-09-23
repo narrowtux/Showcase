@@ -55,6 +55,10 @@ public class BasicShowcase implements ShowcaseProvider {
 
 	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
+		if(Showcase.instance.config.isBasicUseItem()){
+			ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant.getPlayer());
+			player.remove(assistant.material, assistant.data, 1);
+		}
 		return new BasicShowcaseExtra();
 	}
 

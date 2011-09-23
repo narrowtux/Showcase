@@ -44,6 +44,7 @@ public class Configuration {
 	private String locale;
 	private Map<Material, Integer> maxStackSize = new HashMap<Material, Integer>();
 	private boolean useSpout = false;
+	private boolean basicUsesItem = false;
 	/**
 	 * @return the showcaseProtection
 	 */
@@ -94,6 +95,7 @@ public class Configuration {
 		autoSaveInterval = reader.getInteger("autosaveinterval", 60);
 		showAutosaveNotification = reader.getBoolean("autosavenotification", false);
 		useSpout = reader.getBoolean("usespout", false);
+		basicUsesItem = reader.getBoolean("basicusesitem", false);
 		maxStackSize.clear();
 		loadMaxStackSize();
 		String list = reader.getString("disabled", "");
@@ -183,5 +185,9 @@ public class Configuration {
 
 	public void setUseSpout(boolean b) {
 		useSpout = false;
+	}
+	
+	public boolean isBasicUseItem() {
+		return basicUsesItem;
 	}
 }

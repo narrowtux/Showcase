@@ -17,13 +17,18 @@
 
 package com.narrowtux.showcase.types;
 
+import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.ShowcasePlayer;
 
 public class BasicShowcaseExtra implements ShowcaseExtra {
+	ShowcaseItem item = null;
 	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
+		if(Showcase.instance.config.isBasicUseItem()){
+			player.addItems(item.getMaterial(), item.getData(), 1);
+		}
 		return true;
 	}
 
@@ -39,6 +44,7 @@ public class BasicShowcaseExtra implements ShowcaseExtra {
 
 	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
+		this.item = item;
 	}
 
 	@Override
