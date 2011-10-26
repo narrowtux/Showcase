@@ -14,7 +14,7 @@
     <version>dev-SNAPSHOT</version>
     <name>Showcase</name>
     <url>http://www.narrowtux.com</url>
-    <description></description>
+    <description>Item showcasing and visual shop plugin for Bukkit-based Minecraft servers.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,9 +47,6 @@
         <repository>
             <id>craftfire-repo</id>
             <url>http://repo.craftfire.com</url>
-            <releases>
-                <updatePolicy>daily</updatePolicy>
-            </releases>
             <snapshots>
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
@@ -57,16 +54,9 @@
         <repository>
             <id>spout-repo</id>
             <url>http://repo.getspout.org</url>
-            <releases>
-                <updatePolicy>daily</updatePolicy>
-            </releases>
             <snapshots>
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
-        </repository>
-        <repository>
-            <id>craftfire-dbrepo</id>
-            <url>http://db.craftfire.com/repo</url>
         </repository>
         <repository>
             <id>sk89q-repo</id>
@@ -82,39 +72,37 @@
             <artifactId>bukkit</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!-- CraftBukkit -->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <!-- My plugins -->
-        <dependency>
-            <groupId>com.narrowtux</groupId>
-            <artifactId>narrowtuxlib</artifactId>
-            <version>dev-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.narrowtux</groupId>
-            <artifactId>dropchest</artifactId>
-            <version>dev-SNAPSHOT</version>
-        </dependency>
-        <!-- Third-party plugins -->
+        <!-- SpoutAPI -->
         <dependency>
             <groupId>org.getspout</groupId>
             <artifactId>spoutapi</artifactId>
             <version>dev-SNAPSHOT</version>
         </dependency>
+        <!-- NarrowtuxLib -->
+        <dependency>
+            <groupId>com.narrowtux</groupId>
+            <artifactId>narrowtuxlib</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+        <!-- DropChest -->
+        <dependency>
+            <groupId>com.narrowtux</groupId>
+            <artifactId>dropchest</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+        <!-- Permissions 3.x -->
         <dependency>
             <groupId>com.nijikokun.bukkit</groupId>
             <artifactId>permissions</artifactId>
             <version>3.1.6</version>
         </dependency>
+        <!-- OddItem -->
         <dependency>
             <groupId>info.somethingodd.bukkit</groupId>
             <artifactId>OddItem</artifactId>
             <version>0.7.3.1</version>
         </dependency>
+        <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
@@ -123,7 +111,7 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean</defaultGoal>
+        <defaultGoal>clean package</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <!-- Resources -->
         <resources>
@@ -132,8 +120,15 @@
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
-                    <include>LICENSE.txt</include>
                     <include>plugin.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>LICENSE.txt</include>
                     <include>*.csv</include>
                     <include>*.properties</include>
                 </includes>
