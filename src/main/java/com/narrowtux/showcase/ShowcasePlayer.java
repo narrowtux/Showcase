@@ -28,8 +28,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.narrowtux.narrowtuxlib.NarrowtuxLib;
-import com.nijikokun.register.payment.Method;
-import com.nijikokun.register.payment.Method.MethodAccount;
+import com.nijikokun.register.narrowtuxlib.payment.Method;
+import com.nijikokun.register.narrowtuxlib.payment.Method.MethodAccount;
 
 public class ShowcasePlayer {
 	private String player;

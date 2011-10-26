@@ -27,7 +27,7 @@ import com.narrowtux.narrowtuxlib.assistant.AssistantPage;
 import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.ShowcasePlayer;
-import com.nijikokun.register.payment.Method;
+import com.nijikokun.register.narrowtuxlib.payment.Method;
 
 public class BuyAssistant extends Assistant {
 	public int amount;
