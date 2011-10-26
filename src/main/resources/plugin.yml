@@ -1,7 +1,7 @@
 name: Showcase
-version: 0.7.8.${build.number}
+version: 0.7.8
 author: narrowtux
-description: 
+description: Item showcasing and visual shop plugin for Bukkit-based Minecraft servers.
 
 main: com.narrowtux.showcase.Showcase
 softdepend: [NarrowtuxLib, Spout]
