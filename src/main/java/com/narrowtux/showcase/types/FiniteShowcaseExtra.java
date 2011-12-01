@@ -29,6 +29,7 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	public boolean onDestroy(ShowcasePlayer player) {
 		ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
 		owner.addItems(item.getMaterial(), item.getData(), itemAmount);
+		itemAmount = 0;
 		return true;
 	}
 
