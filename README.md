@@ -2,7 +2,7 @@
 Showcase
 ========
 
-Copyright &copy; 2011, Moritz Schmale <narrow.m@gmail.com>  
+Copyright (c) 2011-2012, Moritz Schmale <narrow.m@gmail.com>  
 Showcase is licensed under [GNU GENERAL PUBLIC LICENSE Version 3][License]
 
 Get support on my [Bukkit forum thread][Forum].  
@@ -19,32 +19,26 @@ Compiling
 ---------
 Showcase uses Maven to handle its dependencies.
 
-Showcase requires Bukkit and other plugins (preferrably the latest versions or source).  
 * Install [Maven 2 or 3](http://maven.apache.org/download.html)  
 * Checkout this repo and run: `mvn clean`
 
-Other required plugins:  
-* NarrowtuxLib  
-* DropChest  
-* SpoutAPI  
-* Permissions  
-* WorldGuard  
-* OddItem
-
 Coding and Pull Request Formatting
 ----------------------------------
-* Generally follows the Oracle coding standards.
-* Showcase uses tabs, no spaces.
+* Generally follow the Oracle coding standards.
+* Use tabs, no spaces.
+* No trailing whitespaces.
 * No 80 column limit or midstatement newlines.
 * Pull requests must compile and work.
 * Pull requests must be formatted properly.
+* Number of commits in a pull request should be kept to a minimum.
+* No merges should be included in pull requests unless the pull request's purpose is a merge.
 
-Please follow the above conventions if you want your pull requests accepted.
+**Please follow the above conventions if you want your pull request(s) accepted.**
 
 [Project Logo]: http://www.gravatar.com/avatar/f110a5b8feacea25275521f4efd0d7f2?s=148
 [License]: http://www.gnu.org/licenses/gpl.html
 [Forum]: http://forums.bukkit.org/threads/3835/
 [GitHub]: https://github.com/narrowtux/Showcase
-[Jenkins]: http://ci.craftfire.com/job/Showcase
+[Jenkins]: http://ci.spout.org/job/Showcase
 [Issues]: https://github.com/narrowtux/Showcase/issues
 [Twitter]: http://twitter.com/narrowtux
