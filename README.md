@@ -37,7 +37,7 @@ Coding and Pull Request Formatting
 
 [Project Logo]: http://www.gravatar.com/avatar/f110a5b8feacea25275521f4efd0d7f2?s=148
 [License]: http://www.gnu.org/licenses/gpl.html
-[Forum]: http://forums.bukkit.org/threads/3835/
+[Forum]: http://forums.bukkit.org/threads/17672/
 [GitHub]: https://github.com/narrowtux/Showcase
 [Jenkins]: http://ci.spout.org/job/Showcase
 [Issues]: https://github.com/narrowtux/Showcase/issues
