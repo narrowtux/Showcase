@@ -21,6 +21,8 @@ import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.util.Vector;
 
 public class ShowcaseBlockListener extends BlockListener {
 	@Override
@@ -36,15 +38,16 @@ public class ShowcaseBlockListener extends BlockListener {
 		}
 		if (event.isCancelled()) {
 			event.getPlayer().sendBlockChange(event.getBlock().getLocation(), event.getBlock().getType(), event.getBlock().getData());
+			if(item != null) {
+				item.getItem().setVelocity(new Vector(0, 0.2, 0));
+			}
 		}
 	}
-
+	
 	@Override
-	public void onBlockPhysics(BlockPhysicsEvent event) {
-		if (Showcase.instance.getItemByBlock(event.getBlock()) != null) {
-			if (event.getChangedType().equals(Material.STEP)) {
-				event.setCancelled(true);
-			}
+	public void onBlockPlace(BlockPlaceEvent event) {
+		if(Showcase.instance.getItemByBlock(event.getBlock()) != null) {
+			event.setCancelled(true);
 		}
 	}
 }

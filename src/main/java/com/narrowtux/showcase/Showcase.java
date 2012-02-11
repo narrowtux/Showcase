@@ -82,6 +82,7 @@ public class Showcase extends JavaPlugin {
 
 	List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>(INITIAL_CAPACITY);
 	HashMap<Integer, ShowcaseItem> itemsByDrop = new HashMap<Integer, ShowcaseItem>(INITIAL_CAPACITY);
+	HashMap<Block, ShowcaseItem> itemsByBlock = new HashMap<Block, ShowcaseItem>(INITIAL_CAPACITY);
 	private ItemWatcher watcher = new ItemWatcher();
 	public Configuration config;
 	WorldGuardPlugin worldguard;
@@ -134,7 +135,7 @@ public class Showcase extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);
-		pm.registerEvent(Type.BLOCK_PHYSICS, blockListener, Priority.Normal, this);
+		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
 		if (dclistener != null) {
 			// Listen for dropchest-suck events
 			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
@@ -252,12 +253,7 @@ public class Showcase extends JavaPlugin {
 	}
 
 	public ShowcaseItem getItemByBlock(Block b) {
-		for (ShowcaseItem item : showcasedItems) {
-			if (b.equals(item.getBlock())) {
-				return item;
-			}
-		}
-		return null;
+		return itemsByBlock.get(b);
 	}
 
 	public ShowcaseItem getItemByDrop(Item i) {
@@ -511,6 +507,7 @@ public class Showcase extends JavaPlugin {
 		if (item.isChunkLoaded() && item.getItem() != null) {
 			itemsByDrop.put(item.getItem().getEntityId(), item);
 		}
+		itemsByBlock.put(item.getBlock(), item);
 		showcasedItems.add(item);
 	}
 
@@ -519,6 +516,7 @@ public class Showcase extends JavaPlugin {
 	}
 
 	public void removeShowcase(ShowcaseItem showItem) {
+		itemsByBlock.remove(showItem.getBlock());
 		itemsByDrop.remove(showItem.getItem().getEntityId());
 		showcasedItems.remove(showItem);
 	}
