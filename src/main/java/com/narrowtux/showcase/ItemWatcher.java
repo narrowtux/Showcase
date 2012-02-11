@@ -17,6 +17,8 @@
 
 package com.narrowtux.showcase;
 
+import org.bukkit.Material;
+
 public class ItemWatcher implements Runnable {
 	public void run() {
 		for (ShowcaseItem item : Showcase.instance.showcasedItems) {
@@ -24,6 +26,11 @@ public class ItemWatcher implements Runnable {
 				item.respawn();
 			}
 			item.updatePosition();
+			if(item.isChunkLoaded()) {
+				if(item.getBlock().getType() != Material.STEP) {
+					item.getBlock().setType(Material.STEP);
+				}
+			}
 		}
 	}
 }
