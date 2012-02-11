@@ -33,13 +33,14 @@ import com.nijikokun.register.narrowtuxlib.payment.Method.MethodAccount;
 
 public class ShowcasePlayer {
 	private String player;
-	private static Map<String,ShowcasePlayer> instances = new HashMap<String, ShowcasePlayer>();
-	private ShowcasePlayer(String player){
+	private static Map<String, ShowcasePlayer> instances = new HashMap<String, ShowcasePlayer>();
+
+	private ShowcasePlayer(String player) {
 		this.player = player;
 	}
 
-	public static ShowcasePlayer getPlayer(String name){
-		if(instances.containsKey(name)){
+	public static ShowcasePlayer getPlayer(String name) {
+		if (instances.containsKey(name)) {
 			return instances.get(name);
 		} else {
 			ShowcasePlayer player = new ShowcasePlayer(name);
@@ -48,36 +49,36 @@ public class ShowcasePlayer {
 		}
 	}
 
-	public static ShowcasePlayer getPlayer(Player player){
+	public static ShowcasePlayer getPlayer(Player player) {
 		return getPlayer(player.getName());
 	}
 
-	public Player getPlayer(){
+	public Player getPlayer() {
 		Player ret = Showcase.instance.getServer().getPlayer(player);
 		return ret;
 	}
 
-	public boolean hasPermission(String node, boolean adminMethod){
+	public boolean hasPermission(String node, boolean adminMethod) {
 		return Showcase.hasPermission(getPlayer(), node, adminMethod);
 	}
 
-	public void sendMessage(String message){
-		if(getPlayer()==null)
-		{
+	public void sendMessage(String message) {
+		if (getPlayer() == null) {
 			return;
 		}
-		for(String line:message.split("\n")){
+		for (String line : message.split("\n")) {
 			getPlayer().sendMessage(line);
 		}
 	}
 
-	public int getAmountOfType(Material mat, short data){
+	public int getAmountOfType(Material mat, short data) {
 		Inventory inv = getPlayer().getInventory();
 		int ret = 0;
-		for(int i = 0; i<inv.getSize();i++){
+		for (int i = 0; i < inv.getSize(); i++) {
 			ItemStack stack = inv.getItem(i);
-			if(stack!=null&&stack.getType().equals(mat)&&stack.getDurability()==data){
-				ret+=stack.getAmount();
+			if (stack != null && stack.getType().equals(mat)
+					&& stack.getDurability() == data) {
+				ret += stack.getAmount();
 			}
 		}
 		return ret;
@@ -85,39 +86,37 @@ public class ShowcasePlayer {
 
 	public void remove(Material mat, short data, int amount) {
 		Inventory inv = getPlayer().getInventory();
-		for(int i = 0; i<inv.getSize();i++){
+		for (int i = 0; i < inv.getSize(); i++) {
 			ItemStack stack = inv.getItem(i).clone();
-			if(stack.getType().equals(mat)&&stack.getDurability()==data){
-				if(stack.getAmount()>amount){
-					stack.setAmount(stack.getAmount()-amount);
+			if (stack.getType().equals(mat) && stack.getDurability() == data) {
+				if (stack.getAmount() > amount) {
+					stack.setAmount(stack.getAmount() - amount);
 					inv.setItem(i, stack);
 					return;
 				} else {
-					amount-=stack.getAmount();
+					amount -= stack.getAmount();
 					inv.setItem(i, null);
 				}
 			}
 		}
 	}
 
-	public boolean canAfford(double price){
-		if(price<=0){
+	public boolean canAfford(double price) {
+		if (price <= 0) {
 			return true;
 		}
 		MethodAccount account = getAccount();
-		if(account!=null)
-		{
-			return account.balance()>=price;
+		if (account != null) {
+			return account.balance() >= price;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean takeMoney(double price){
-		if(canAfford(price)){
+	public boolean takeMoney(double price) {
+		if (canAfford(price)) {
 			MethodAccount account = getAccount();
-			if(account!=null)
-			{
+			if (account != null) {
 				account.subtract(price);
 				return true;
 			} else {
@@ -128,19 +127,17 @@ public class ShowcasePlayer {
 		}
 	}
 
-	public void giveMoney(double amount){
+	public void giveMoney(double amount) {
 		MethodAccount account = getAccount();
-		if(account!=null)
-		{
+		if (account != null) {
 			account.add(amount);
 		}
 	}
 
-	public MethodAccount getAccount(){
+	public MethodAccount getAccount() {
 		Method method = NarrowtuxLib.getMethod();
-		if(method!=null)
-		{
-			if(method.hasAccount(player)){
+		if (method != null) {
+			if (method.hasAccount(player)) {
 				return method.getAccount(player);
 			} else {
 				return null;
@@ -150,43 +147,43 @@ public class ShowcasePlayer {
 		}
 	}
 
-
-	public int addItems(Material type, short data, int amount){
-		//returns the number of items that did not fit.
-		if(getPlayer()==null)
-		{
-			System.out.println("[Showcase] someone removed the items of "+player);
+	public int addItems(Material type, short data, int amount) {
+		// returns the number of items that did not fit.
+		if (getPlayer() == null) {
+			System.out.println("[Showcase] someone removed the items of "
+					+ player);
 			return 0;
 		}
 		PlayerInventory inv = getPlayer().getInventory();
-		while(amount>0){
+		while (amount > 0) {
 			ItemStack stack = new ItemStack(type);
 			stack.setDurability(data);
 			int max = Showcase.instance.config.getMaxStackSize(stack.getType());
-			if(amount>=max&&max!=-1){
+			if (amount >= max && max != -1) {
 				stack.setAmount(max);
 			} else {
 				stack.setAmount(amount);
 			}
-			amount-=stack.getAmount();
+			amount -= stack.getAmount();
 			Map<Integer, ItemStack> notFitting = inv.addItem(stack);
-			if(notFitting.size()>0){
-				amount+=notFitting.get(0).getAmount();
+			if (notFitting.size() > 0) {
+				amount += notFitting.get(0).getAmount();
 				break;
 			}
 		}
 		return amount;
 	}
 
-	public boolean mayCreateHere(Block b){
-		if(Showcase.instance.worldguard!=null){
+	public boolean mayCreateHere(Block b) {
+		if (Showcase.instance.worldguard != null) {
 			return Showcase.instance.worldguard.canBuild(getPlayer(), b);
 		} else {
 			return true;
 		}
 	}
 
-	public void sendNotification(String title, String text){
-		NarrowtuxLib.getNotificationManager().sendNotification(player, title, text);
+	public void sendNotification(String title, String text) {
+		NarrowtuxLib.getNotificationManager().sendNotification(player, title,
+				text);
 	}
 }

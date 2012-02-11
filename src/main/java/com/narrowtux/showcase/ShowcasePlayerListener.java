@@ -31,95 +31,114 @@ import com.narrowtux.narrowtuxlib.assistant.Assistant;
 
 public class ShowcasePlayerListener extends PlayerListener {
 	public Configuration config = null;
+
 	@Override
-	public void onPlayerInteract(PlayerInteractEvent event){
-		if(event.hasBlock()&&event.getClickedBlock().getType().equals(Material.STEP)){
-			ShowcaseItem showItem = Showcase.instance.getItemByBlock(event.getClickedBlock());
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (event.hasBlock()
+				&& event.getClickedBlock().getType().equals(Material.STEP)) {
+			ShowcaseItem showItem = Showcase.instance.getItemByBlock(event
+					.getClickedBlock());
 			ShowcasePlayer player = ShowcasePlayer.getPlayer(event.getPlayer());
-			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-				if(!event.getPlayer().isSneaking()){
-					if(showItem!=null)
-					{
+			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+				if (!event.getPlayer().isSneaking()) {
+					if (showItem != null) {
 						showItem.getExtra().onRightClick(player);
 						return;
 					} else {
 						return;
 					}
 				}
-				if(event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN).getTypeId()==0){
+				if (event.getPlayer().getLocation().getBlock()
+						.getRelative(BlockFace.DOWN).getTypeId() == 0) {
 					return;
 				}
-				if(event.hasBlock()&&showItem == null&&player.mayCreateHere(event.getClickedBlock())){
-					if(event.getItem()==null && !Showcase.hasOddItem()){
+				if (event.hasBlock() && showItem == null
+						&& player.mayCreateHere(event.getClickedBlock())) {
+					if (event.getItem() == null && !Showcase.hasOddItem()) {
 						player.sendMessage(Showcase.tr("noItemError"));
 						event.setCancelled(true);
 						return;
 					}
-					if(event.getClickedBlock().getType().equals(Material.STEP)){
+					if (event.getClickedBlock().getType().equals(Material.STEP)) {
 						event.setCancelled(true);
-						if(Showcase.instance.providers.size()==1&&Showcase.instance.providers.containsKey("basic")){
-							Location loc = event.getClickedBlock().getLocation();
+						if (Showcase.instance.providers.size() == 1
+								&& Showcase.instance.providers
+										.containsKey("basic")) {
+							Location loc = event.getClickedBlock()
+									.getLocation();
 							Material mat = event.getItem().getType();
 							short data = event.getItem().getDurability();
-							Showcase.instance.showcasedItems.add(new ShowcaseItem(loc, mat, data, event.getPlayer().getName(), "basic"));
-							event.getPlayer().sendMessage(Showcase.tr("basicCreationSuccess"));
+							Showcase.instance.addShowcase(new ShowcaseItem(loc,
+									mat, data, event.getPlayer().getName(),
+									"basic"));
+							event.getPlayer().sendMessage(
+									Showcase.tr("basicCreationSuccess"));
 						} else {
-							try{
-								ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(event.getPlayer(), event.getItem(), event.getClickedBlock().getLocation());
+							try {
+								ShowcaseCreationAssistant assistant = new ShowcaseCreationAssistant(
+										event.getPlayer(), event.getItem(),
+										event.getClickedBlock().getLocation());
 								assistant.start();
-							} catch(NoClassDefFoundError e){
-								for(StackTraceElement element:e.getCause().getStackTrace()){
-									System.out.println(element.getFileName()+" line "+element.getLineNumber());
+							} catch (NoClassDefFoundError e) {
+								for (StackTraceElement element : e.getCause()
+										.getStackTrace()) {
+									System.out.println(element.getFileName()
+											+ " line "
+											+ element.getLineNumber());
 								}
 							}
 						}
 					}
-				} else if(showItem!=null){
-					if(showItem.getPlayer().equals(event.getPlayer().getName())||player.hasPermission("showcase.admin", true)){
-						if(showItem.getExtra()==null){
+				} else if (showItem != null) {
+					if (showItem.getPlayer()
+							.equals(event.getPlayer().getName())
+							|| player.hasPermission("showcase.admin", true)) {
+						if (showItem.getExtra() == null) {
 							showItem.remove();
-							Showcase.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(Showcase.tr("showcaseRemoveSuccess"));
+							Showcase.instance.removeShowcase(showItem);
+							event.getPlayer().sendMessage(
+									Showcase.tr("showcaseRemoveSuccess"));
 							System.out.println("null Extra");
 							return;
 						}
-						if(showItem.getExtra().onDestroy(player)){
+						if (showItem.getExtra().onDestroy(player)) {
 							showItem.remove();
-							Showcase.instance.showcasedItems.remove(showItem);
-							event.getPlayer().sendMessage(Showcase.tr("showcaseRemoveSuccess"));
+							Showcase.instance.removeShowcase(showItem);
+							event.getPlayer().sendMessage(
+									Showcase.tr("showcaseRemoveSuccess"));
 						}
 					} else {
-						event.getPlayer().sendMessage(Showcase.tr("showcaseOwner", showItem.getPlayer()));
+						event.getPlayer().sendMessage(
+								Showcase.tr("showcaseOwner",
+										showItem.getPlayer()));
 					}
 					event.setCancelled(true);
 				}
 			}
-			if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-				if(showItem!=null){
-					if(showItem.getExtra()!=null)
+			if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+				if (showItem != null) {
+					if (showItem.getExtra() != null)
 						showItem.getExtra().onClick(player);
 				}
 			}
 		}
 	}
-	
+
 	@Override
-	public void onPlayerPickupItem(PlayerPickupItemEvent event){
-		ShowcaseItem shit = Showcase.instance.getItemByDrop(event.getItem());
-		if(shit!=null)
-		{
+	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+		if (Showcase.instance.isShowcaseItem(event.getItem())) {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@Override
-	public void onPlayerChat(PlayerChatEvent event){
-		//Cool, not?
+	public void onPlayerChat(PlayerChatEvent event) {
+		// Cool, not?
 		Assistant.onPlayerChat(event);
 	}
-	
+
 	@Override
-	public void onPlayerMove(PlayerMoveEvent event){
+	public void onPlayerMove(PlayerMoveEvent event) {
 		Assistant.onPlayerMove(event);
 	}
 }

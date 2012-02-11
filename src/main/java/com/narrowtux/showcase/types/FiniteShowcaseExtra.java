@@ -25,7 +25,7 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	private int itemAmount = 0;
 	private double pricePerItem = 0.0D;
 	private ShowcaseItem item = null;
-	@Override
+
 	public boolean onDestroy(ShowcasePlayer player) {
 		ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
 		owner.addItems(item.getMaterial(), item.getData(), itemAmount);
@@ -33,9 +33,8 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 		return true;
 	}
 
-	@Override
 	public void onClick(ShowcasePlayer player) {
-		if(!player.hasPermission("showcase.buy.finite", false)){
+		if (!player.hasPermission("showcase.buy.finite", false)) {
 			return;
 		}
 		BuyAssistant assistant = new BuyAssistant(player.getPlayer(), item);
@@ -43,13 +42,13 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 		assistant.start();
 	}
 
-	@Override
 	public String save() {
-		return itemAmount+";"+pricePerItem;
+		return itemAmount + ";" + pricePerItem;
 	}
 
 	/**
-	 * @param itemAmount the itemAmount to set
+	 * @param itemAmount
+	 *            the itemAmount to set
 	 */
 	public void setItemAmount(int itemAmount) {
 		this.itemAmount = itemAmount;
@@ -63,7 +62,8 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	}
 
 	/**
-	 * @param pricePerItem the pricePerItem to set
+	 * @param pricePerItem
+	 *            the pricePerItem to set
 	 */
 	public void setPricePerItem(double pricePerItem) {
 		this.pricePerItem = pricePerItem;
@@ -76,17 +76,16 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 		return pricePerItem;
 	}
 
-	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
 		this.item = item;
 	}
 
-	@Override
 	public void onRightClick(ShowcasePlayer player) {
-		if(!player.getPlayer().getName().equals(item.getPlayer())){
+		if (!player.getPlayer().getName().equals(item.getPlayer())) {
 			return;
 		}
-		RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
+		RefillAssistant assistant = new RefillAssistant(player.getPlayer(),
+				item);
 		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
 		assistant.start();
 	}

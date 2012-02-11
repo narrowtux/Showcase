@@ -45,6 +45,7 @@ public class Configuration {
 	private Map<Material, Integer> maxStackSize = new HashMap<Material, Integer>();
 	private boolean useSpout = false;
 	private boolean basicUsesItem = false;
+
 	/**
 	 * @return the showcaseProtection
 	 */
@@ -66,7 +67,7 @@ public class Configuration {
 		return priceForFiniteShop;
 	}
 
-	public double getPriceForExchangeShop(){
+	public double getPriceForExchangeShop() {
 		return priceForExchangeShop;
 	}
 
@@ -76,14 +77,16 @@ public class Configuration {
 	public int getMaximumPerUser() {
 		return maximumPerUser;
 	}
-	public Configuration(){
+
+	public Configuration() {
 		File pluginFolder = Showcase.instance.getDataFolder();
-		reader = new FlatFileReader(new File(pluginFolder.getAbsolutePath()+"/showcase.cfg"), false);
+		reader = new FlatFileReader(new File(pluginFolder.getAbsolutePath()
+				+ "/showcase.cfg"), false);
 		load();
 		reader.write();
 	}
 
-	public void load(){
+	public void load() {
 		disabledTypes.clear();
 		showcaseProtection = reader.getBoolean("showcaseprotection", true);
 		priceForBasic = reader.getDouble("priceforbasic", 0);
@@ -93,44 +96,46 @@ public class Configuration {
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
 		locale = reader.getString("locale", "en-US");
 		autoSaveInterval = reader.getInteger("autosaveinterval", 60);
-		showAutosaveNotification = reader.getBoolean("autosavenotification", false);
+		showAutosaveNotification = reader.getBoolean("autosavenotification",
+				false);
 		useSpout = reader.getBoolean("usespout", false);
 		basicUsesItem = reader.getBoolean("basicusesitem", false);
 		maxStackSize.clear();
 		loadMaxStackSize();
 		String list = reader.getString("disabled", "");
 		String items[] = list.split(",");
-		for(String item:items){
+		for (String item : items) {
 			disabledTypes.add(item);
 		}
 	}
 
 	private void loadMaxStackSize() {
 		File file = new File(Showcase.instance.getDataFolder(), "stacks.csv");
-		if(!file.exists()){
+		if (!file.exists()) {
 			try {
-				Showcase.instance.copyFromJarToDisk("stacks.csv", Showcase.instance.getDataFolder());
+				Showcase.instance.copyFromJarToDisk("stacks.csv",
+						Showcase.instance.getDataFolder());
 			} catch (IOException e) {
-				return ;
+				return;
 			}
 		}
 		try {
 			String cnt = FileUtils.getContents(file);
-			for(String line:cnt.split("\n")){
-				if(line.startsWith("#")||line.startsWith("//")){
+			for (String line : cnt.split("\n")) {
+				if (line.startsWith("#") || line.startsWith("//")) {
 					continue;
 				}
 				String args[] = line.split(",");
-				if(args.length==2){
+				if (args.length == 2) {
 					Material type;
 					int count;
-					try{
+					try {
 						type = Material.matchMaterial(args[0]);
 						count = Integer.valueOf(args[1]);
 					} catch (Exception e) {
 						continue;
 					}
-					maxStackSize.put(type,count);
+					maxStackSize.put(type, count);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -152,7 +157,7 @@ public class Configuration {
 		return basicMode;
 	}
 
-	public boolean isTypeEnabled(String type){
+	public boolean isTypeEnabled(String type) {
 		return !disabledTypes.contains(type);
 	}
 
@@ -163,30 +168,30 @@ public class Configuration {
 		return locale;
 	}
 
-	public int getAutosaveInterval(){
+	public int getAutosaveInterval() {
 		return autoSaveInterval;
 	}
 
-	public int getMaxStackSize(Material type){
-		if(maxStackSize.containsKey(type)){
+	public int getMaxStackSize(Material type) {
+		if (maxStackSize.containsKey(type)) {
 			return maxStackSize.get(type);
 		} else {
 			return 64;
 		}
 	}
 
-	public boolean isShowingAutosaveNotification(){
+	public boolean isShowingAutosaveNotification() {
 		return showAutosaveNotification;
 	}
-	
-	public boolean useSpout(){
+
+	public boolean useSpout() {
 		return useSpout;
 	}
 
 	public void setUseSpout(boolean b) {
 		useSpout = false;
 	}
-	
+
 	public boolean isBasicUseItem() {
 		return basicUsesItem;
 	}

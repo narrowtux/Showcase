@@ -22,12 +22,9 @@ import com.narrowtux.dropchest.api.DropChestSuckEvent;
 public class DropChestListener extends
 		com.narrowtux.dropchest.api.DropChestListener {
 	@Override
-	public void onDropChestSuck(DropChestSuckEvent event){
-		for(ShowcaseItem item:Showcase.instance.showcasedItems){
-			if(item.getItem().equals(event.getItem())){
-				event.setCancelled(true);
-				return;
-			}
+	public void onDropChestSuck(DropChestSuckEvent event) {
+		if (Showcase.instance.isShowcaseItem(event.getItem())) {
+			event.setCancelled(true);
 		}
 	}
 }

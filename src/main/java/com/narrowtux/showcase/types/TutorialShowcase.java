@@ -34,51 +34,45 @@ public class TutorialShowcase implements ShowcaseProvider {
 
 	private Map<Assistant, String> texts = new HashMap<Assistant, String>();
 
-	@Override
 	public String getType() {
 		return "tutorial";
 	}
 
-	@Override
 	public String getPermission() {
 		return "showcase.tutorial";
 	}
 
-	@Override
 	public boolean isOpMethod() {
 		return false;
 	}
 
-	@Override
 	public ShowcaseExtra loadShowcase(String values) {
 		TutorialShowcaseExtra extra = new TutorialShowcaseExtra();
 		extra.setText(values);
 		return extra;
 	}
 
-	@Override
 	public String getDescription() {
 		return Showcase.tr("types.tutorial.description");
 	}
 
-	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
-		AssistantPage page = new AssistantPage(assistant){
+		AssistantPage page = new AssistantPage(assistant) {
 			{
 				setTitle(Showcase.tr("tutorial.title"));
 				setText(Showcase.tr("tutorial.text"));
 			}
-			@Override
-			public AssistantAction onPageInput(String text){
-				if(text.equals("done")){
+
+			public AssistantAction onPageInput(String text) {
+				if (text.equals("done")) {
 					return AssistantAction.CONTINUE;
 				} else {
 					text = Translation.parseColors(text);
 					String tmp = texts.get(getAssistant());
-					if(tmp.length()>0){
-						tmp+="\n";
+					if (tmp.length() > 0) {
+						tmp += "\n";
 					}
-					tmp+=text;
+					tmp += text;
 					sendMessage(text);
 					texts.remove(getAssistant());
 					texts.put(getAssistant(), tmp);
@@ -90,14 +84,12 @@ public class TutorialShowcase implements ShowcaseProvider {
 		texts.put(assistant, "");
 	}
 
-	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		TutorialShowcaseExtra extra = new TutorialShowcaseExtra();
 		extra.setText(texts.get(assistant));
 		return extra;
 	}
 
-	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
 		// TODO Auto-generated method stub
 		return 0;

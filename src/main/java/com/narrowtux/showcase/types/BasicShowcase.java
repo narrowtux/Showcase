@@ -24,45 +24,38 @@ import com.narrowtux.showcase.ShowcasePlayer;
 import com.narrowtux.showcase.ShowcaseProvider;
 
 public class BasicShowcase implements ShowcaseProvider {
-	@Override
 	public String getType() {
 		return "basic";
 	}
 
-	@Override
 	public String getPermission() {
 		return "showcase.basic";
 	}
 
-	@Override
 	public boolean isOpMethod() {
 		return false;
 	}
 
-	@Override
 	public ShowcaseExtra loadShowcase(String values) {
 		return new BasicShowcaseExtra();
 	}
 
-	@Override
 	public String getDescription() {
 		return Showcase.tr("types.basic.description");
 	}
 
-	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
 	}
 
-	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
-		if(Showcase.instance.config.isBasicUseItem()){
-			ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant.getPlayer());
+		if (Showcase.instance.config.isBasicUseItem()) {
+			ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant
+					.getPlayer());
 			player.remove(assistant.material, assistant.data, 1);
 		}
 		return new BasicShowcaseExtra();
 	}
 
-	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
 		return Showcase.instance.config.getPriceForBasic();
 	}

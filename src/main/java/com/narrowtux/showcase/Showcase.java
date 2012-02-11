@@ -56,8 +56,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.inventory.ItemManager;
+import org.getspout.spoutapi.material.MaterialData;
 
 import com.narrowtux.narrowtuxlib.NarrowtuxLib;
 import com.narrowtux.narrowtuxlib.translation.Translation;
@@ -78,50 +77,57 @@ public class Showcase extends JavaPlugin {
 	private ShowcaseWorldListener worldListener = new ShowcaseWorldListener();
 	private DropChestListener dclistener;
 	public static Showcase instance;
-	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>();
+
+	private final static int INITIAL_CAPACITY = 500;
+
+	List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>(
+			INITIAL_CAPACITY);
+	HashMap<Integer, ShowcaseItem> itemsByDrop = new HashMap<Integer, ShowcaseItem>(
+			INITIAL_CAPACITY);
 	private ItemWatcher watcher = new ItemWatcher();
 	public Configuration config;
-	public  WorldGuardPlugin worldguard;
+	public WorldGuardPlugin worldguard;
 	public int autosaverId = -1;
 	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	private Translation trans;
 	private OddItem odditem = null;
 
-	@Override
 	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
-		//Read plugin file
+		// Read plugin file
 		PluginDescriptionFile pdfFile = this.getDescription();
-		String logText = tr("disableMessage", pdfFile.getName(), pdfFile.getVersion());
+		String logText = tr("disableMessage", pdfFile.getName(),
+				pdfFile.getVersion());
 		save();
-		for(ShowcaseItem item:showcasedItems){
+		for (ShowcaseItem item : showcasedItems) {
 			item.remove();
 		}
-		log.log( Level.INFO, logText);
+		itemsByDrop.clear();
+		log.log(Level.INFO, logText);
 	}
 
-	public static String tr(String string, Object ...args) {
+	public static String tr(String string, Object... args) {
 		return instance.trans.tr(string, args);
 	}
 
-	@Override
 	public void onEnable() {
 		checkForLibs();
 		trans = new Translation();
 		instance = this;
 		log = getServer().getLogger();
-		try{
+		try {
 			dclistener = new DropChestListener();
-		} catch(NoClassDefFoundError e){
+		} catch (NoClassDefFoundError e) {
 			dclistener = null;
 		}
-		try{
-			worldguard = (WorldGuardPlugin)getServer().getPluginManager().getPlugin("WorldGuard");
-		}catch(Exception e){
+		try {
+			worldguard = (WorldGuardPlugin) getServer().getPluginManager()
+					.getPlugin("WorldGuard");
+		} catch (Exception e) {
 			worldguard = null;
 		}
 
-		//Read plugin file
+		// Read plugin file
 
 		PluginDescriptionFile pdfFile = this.getDescription();
 		PluginManager pm = getServer().getPluginManager();
@@ -132,18 +138,19 @@ public class Showcase extends JavaPlugin {
 		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
 		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);
 		pm.registerEvent(Type.BLOCK_PHYSICS, blockListener, Priority.Normal, this);
-		if(dclistener!=null){
-			//Listen for dropchest-suck events
+		if (dclistener != null) {
+			// Listen for dropchest-suck events
 			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
 		}
 
-		//Remove probably duplicated items
-		for(World w:getServer().getWorlds()){
-			for(Entity e:w.getEntities()){
-				if(e instanceof Item){
+		// Remove probably duplicated items
+		for (World w : getServer().getWorlds()) {
+			for (Entity e : w.getEntities()) {
+				if (e instanceof Item) {
 					Location loc = e.getLocation();
 					Block b = loc.getBlock();
-					if(b.getType().equals(Material.GLASS)||b.getType().equals(Material.STEP)){
+					if (b.getType().equals(Material.GLASS)
+							|| b.getType().equals(Material.STEP)) {
 						e.remove();
 					}
 				}
@@ -153,69 +160,80 @@ public class Showcase extends JavaPlugin {
 		load();
 
 		config = new Configuration();
-		
-		if(pm.getPlugin("Spout") != null){
+
+		if (pm.getPlugin("Spout") != null) {
 			config.setUseSpout(true);
 		}
-		
-		if(config.useSpout()){
-			if(!NarrowtuxLib.getInstance().installSpout()){
+
+		if (config.useSpout()) {
+			if (!NarrowtuxLib.getInstance().installSpout()) {
 				config.setUseSpout(false);
 			}
 		}
-		
+
 		odditem = (OddItem) pm.getPlugin("OddItem");
 
-		trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+		trans.reload(new File(getDataFolder(), "showcase-" + config.getLocale()
+				+ ".csv"));
 
-		if(trans.getVersion()<5){
+		if (trans.getVersion() < 5) {
 			try {
-				copyFromJarToDisk("showcase-"+config.getLocale()+".csv", getDataFolder());
-				log.log(Level.INFO, "[Showcase] copied new translation file for "+config.getLocale()+" to disk.");
-				trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+				copyFromJarToDisk("showcase-" + config.getLocale() + ".csv",
+						getDataFolder());
+				log.log(Level.INFO,
+						"[Showcase] copied new translation file for "
+								+ config.getLocale() + " to disk.");
+				trans.reload(new File(getDataFolder(), "showcase-"
+						+ config.getLocale() + ".csv"));
 			} catch (IOException e) {
-				System.out.println("Unable to copy default translation to plugin folder");
+				System.out
+						.println("Unable to copy default translation to plugin folder");
 			}
 		}
 
 		playerListener.config = config;
-		//Register Providers _after_ loading and loading config
+		// Register Providers _after_ loading and loading config
 		registerProvider(new BasicShowcase());
 		registerProvider(new FiniteShowcase());
 		registerProvider(new InfiniteShowcase());
 		registerProvider(new ExchangeShowcase());
 		registerProvider(new TutorialShowcase());
-		//registerProvider(new SellShowcase());
+		// registerProvider(new SellShowcase());
 
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0, 40);
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0,
+				40);
 		setupPermissions();
 
-		if(config.getAutosaveInterval()!=-1){
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-
-				@Override
-				public void run() {
-					save();
-					if(config.isShowingAutosaveNotification()){
-						log.log(Level.INFO, "[Showcase] Autosaved");
-					}
-				}
-			}, 0, config.getAutosaveInterval()*20);
+		if (config.getAutosaveInterval() != -1) {
+			getServer().getScheduler().scheduleSyncRepeatingTask(this,
+					new Runnable() {
+						public void run() {
+							save();
+							if (config.isShowingAutosaveNotification()) {
+								log.log(Level.INFO, "[Showcase] Autosaved");
+							}
+						}
+					}, 0, config.getAutosaveInterval() * 20);
 		}
 
-		String logText = trans.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());
-		log.log( Level.INFO, logText);
+		String logText = trans.tr("enableMessage", pdfFile.getName(),
+				pdfFile.getVersion());
+		log.log(Level.INFO, logText);
 	}
 
 	private void checkForLibs() {
 		PluginManager pm = getServer().getPluginManager();
-		if(pm.getPlugin("NarrowtuxLib")==null){
-			try{
+		if (pm.getPlugin("NarrowtuxLib") == null) {
+			try {
 				File toPut = new File("plugins/NarrowtuxLib.jar");
-				download(getServer().getLogger(), new URL("http://tetragaming.com/narrowtux/plugins/NarrowtuxLib.jar"), toPut);
+				download(
+						getServer().getLogger(),
+						new URL(
+								"http://tetragaming.com/narrowtux/plugins/NarrowtuxLib.jar"),
+						toPut);
 				pm.loadPlugin(toPut);
 				pm.enablePlugin(pm.getPlugin("NarrowtuxLib"));
-			} catch (Exception exception){
+			} catch (Exception exception) {
 				log.severe("[Showcase] could not load NarrowtuxLib, try again or install it manually.");
 				pm.disablePlugin(this);
 			}
@@ -238,8 +256,9 @@ public class Showcase extends JavaPlugin {
 		while ((len = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, len);
 			downloaded += len;
-			if ((int)((System.currentTimeMillis() - start) / 500) > msgs) {
-				log.info((int)((double)downloaded / (double)size * 100d) + "%");
+			if ((int) ((System.currentTimeMillis() - start) / 500) > msgs) {
+				log.info((int) ((double) downloaded / (double) size * 100d)
+						+ "%");
 				msgs++;
 			}
 		}
@@ -248,67 +267,65 @@ public class Showcase extends JavaPlugin {
 		log.info("Download finished");
 	}
 
-	public ShowcaseItem getItemByBlock(Block b){
-		for(ShowcaseItem item:showcasedItems){
-			if(b.equals(item.getBlock())){
+	public ShowcaseItem getItemByBlock(Block b) {
+		for (ShowcaseItem item : showcasedItems) {
+			if (b.equals(item.getBlock())) {
 				return item;
 			}
 		}
 		return null;
 	}
 
-	public ShowcaseItem getItemByDrop(Item i){
-		for(ShowcaseItem item: showcasedItems){
-			if(item.getItem().equals(i)){
-				return item;
-			}
-		}
-		return null;
+	public ShowcaseItem getItemByDrop(Item i) {
+		return itemsByDrop.get(i.getEntityId());
 	}
 
-	public void save(){
+	public void save() {
 		File folder = getDataFolder();
-		if(!folder.exists()){
-			//Create the folder
+		if (!folder.exists()) {
+			// Create the folder
 			folder.mkdir();
 		}
-		File datafile = new File(folder.getAbsolutePath()+"/showcases.csv");
-		if(!datafile.exists()){
+		File datafile = new File(folder.getAbsolutePath() + "/showcases.csv");
+		if (!datafile.exists()) {
 			try {
 				datafile.createNewFile();
 			} catch (IOException e) {
-				System.out.println("Could not create Datafile ("+e.getCause()+"). Aborting.");
+				System.out.println("Could not create Datafile (" + e.getCause()
+						+ "). Aborting.");
 				return;
 			}
 		}
 		try {
-			FileOutputStream output = new FileOutputStream(datafile.getAbsoluteFile());
-			BufferedWriter w = new BufferedWriter(new OutputStreamWriter(output));
-			for(ShowcaseItem item:showcasedItems){
-				try{
+			FileOutputStream output = new FileOutputStream(
+					datafile.getAbsoluteFile());
+			BufferedWriter w = new BufferedWriter(
+					new OutputStreamWriter(output));
+			for (ShowcaseItem item : showcasedItems) {
+				try {
 					String line = "";
 					Location loc = item.getBlock().getLocation();
 					Material type = item.getMaterial();
 					short data = item.getData();
 					String player = item.getPlayer();
 					String showtype = item.getType();
-					//Save
-					//x,y,z,itemid,player,worldname,worldenviromnent,showtype
-					line+=loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ()+",";
-					line+=type.getId()+","+data+",";
-					line+=player+",";
-					line+=loc.getWorld().getName()+",";
-					line+=showtype+",";
-					line+=loc.getWorld().getEnvironment().toString()+",";
-					if(item.getExtra()!=null)
-					{
-						line+=item.getExtra().save();
+					// Save
+					// x,y,z,itemid,player,worldname,worldenviromnent,showtype
+					line += loc.getBlockX() + "," + loc.getBlockY() + ","
+							+ loc.getBlockZ() + ",";
+					line += type.getId() + "," + data + ",";
+					line += player + ",";
+					line += loc.getWorld().getName() + ",";
+					line += showtype + ",";
+					line += loc.getWorld().getEnvironment().toString() + ",";
+					if (item.getExtra() != null) {
+						line += item.getExtra().save();
 					} else {
-						line+=item.getExtraLoad();
+						line += item.getExtraLoad();
 					}
-					line+="\n";
+					line += "\n";
 					w.write(line);
-				} catch(Exception e){
+				} catch (Exception e) {
 					continue;
 				}
 			}
@@ -323,98 +340,103 @@ public class Showcase extends JavaPlugin {
 		}
 	}
 
-	public void load(){
+	public void load() {
 		File folder = getDataFolder();
-		if(!folder.exists()){
-			//Create the folder
+		if (!folder.exists()) {
+			// Create the folder
 			folder.mkdir();
 		}
-		File datafile = new File(folder.getAbsolutePath()+"/showcases.csv");
-		if(datafile.exists()){
+		File datafile = new File(folder.getAbsolutePath() + "/showcases.csv");
+		if (datafile.exists()) {
 			FileInputStream input;
 			try {
 				input = new FileInputStream(datafile.getAbsoluteFile());
 				InputStreamReader ir = new InputStreamReader(input);
 				BufferedReader r = new BufferedReader(ir);
 				String locline;
-				while(true){
+				while (true) {
 					locline = r.readLine();
-					if(locline==null)
-					{
+					if (locline == null) {
 						break;
 					}
 					String line[] = locline.split(",");
-					if(line.length==10){
-						//New format
-						int x,y,z;
+					if (line.length == 10) {
+						// New format
+						int x, y, z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
 						z = Integer.valueOf(line[2]);
-						Material type = Material.getMaterial(Integer.valueOf(line[3]));
+						Material type = Material.getMaterial(Integer
+								.valueOf(line[3]));
 						short data = Short.valueOf(line[4]);
 						String player = line[5];
 						Environment environment = Environment.NORMAL;
-						try{
+						try {
 							environment = Environment.valueOf(line[8]);
-						} catch(Exception e){
+						} catch (Exception e) {
 							environment = Environment.NORMAL;
 						}
-						World world = getServer().createWorld(line[6], environment);
+						World world = getServer().createWorld(line[6],
+								environment);
 						String showtype = line[7].toLowerCase();
 						Location loc = new Location(world, x, y, z);
-						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
-						showcasedItems.add(showItem);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type,
+								data, player, showtype);
+						addShowcase(showItem);
 						String extra = line[9];
 						showItem.setExtraLoad(extra);
-					} else if(line.length==9){
-						int x,y,z;
+					} else if (line.length == 9) {
+						int x, y, z;
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
 						z = Integer.valueOf(line[2]);
-						Material type = Material.getMaterial(Integer.valueOf(line[3]));
+						Material type = Material.getMaterial(Integer
+								.valueOf(line[3]));
 						short data = Short.valueOf(line[4]);
 						String player = line[5];
 						World world = getServer().getWorld(line[6]);
 						String showtype = line[7].toLowerCase();
 						Location loc = new Location(world, x, y, z);
-						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
-						showcasedItems.add(showItem);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type,
+								data, player, showtype);
+						addShowcase(showItem);
 						String extra = line[8];
 						showItem.setExtraLoad(extra);
-					}else {
+					} else {
 						continue;
 					}
 				}
-			} catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
 	public void setupPermissions() {
-		try{
-			Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+		try {
+			Plugin test = this.getServer().getPluginManager()
+					.getPlugin("Permissions");
 
-			if(Showcase.Permissions == null) {
-				try{
-					Showcase.Permissions = ((Permissions)test).getHandler();
-				} catch(Exception e) {
+			if (Showcase.Permissions == null) {
+				try {
+					Showcase.Permissions = ((Permissions) test).getHandler();
+				} catch (Exception e) {
 					Showcase.Permissions = null;
 					log.log(Level.WARNING, tr("permissionsUnavailable"));
 				}
 			}
-		} catch(java.lang.NoClassDefFoundError e){
+		} catch (java.lang.NoClassDefFoundError e) {
 			Showcase.Permissions = null;
 			log.log(Level.WARNING, tr("permissionsUnavailable"));
 		}
 	}
 
-	public static boolean hasPermission(Player player, String node, boolean adminMethod){
-		if(Permissions!=null)
-		{
+	public static boolean hasPermission(Player player, String node,
+			boolean adminMethod) {
+		if (Permissions != null) {
 			return Permissions.has(player, node);
 		} else {
-			if(!player.isOp()){
+			if (!player.isOp()) {
 				return !adminMethod;
 			} else {
 				return true;
@@ -422,27 +444,21 @@ public class Showcase extends JavaPlugin {
 		}
 	}
 
-	public static String getName(Material type, short data){
-		if(instance.config.useSpout()){
-			ItemManager itemManager = SpoutManager.getItemManager();
-			String custom = itemManager.getCustomItemName(type, (byte)data);
-			if(custom==null)
-			{
-				return itemManager.getItemName(type, (byte) data);
-			} else {
-				return custom;
-			}
-		} else {
-			return type.toString().toLowerCase();
+	public static String getName(Material type, short data) {
+		if (instance.config.useSpout()) {
+			return MaterialData.getMaterial(type.getId(), data).getName();
 		}
+		return type.toString().toLowerCase();
 	}
 
-	public void registerProvider(ShowcaseProvider provider){
-		if(config.isTypeEnabled(provider.getType())&&!(!provider.getType().equals("basic")&&config.isBasicMode())){
+	public void registerProvider(ShowcaseProvider provider) {
+		if (config.isTypeEnabled(provider.getType())
+				&& !(!provider.getType().equals("basic") && config
+						.isBasicMode())) {
 			providers.put(provider.getType(), provider);
 			int a = 0;
-			for(ShowcaseItem item:showcasedItems){
-				if(item.getType().equals(provider.getType())){
+			for (ShowcaseItem item : showcasedItems) {
+				if (item.getType().equals(provider.getType())) {
 					item.setExtra(provider.loadShowcase(item.getExtraLoad()));
 					a++;
 				}
@@ -453,43 +469,48 @@ public class Showcase extends JavaPlugin {
 		}
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
-		if(cmd.getName().equals("showcase")){
-			if(args.length>=1){
-				if(args[0].equalsIgnoreCase("reload")){
-					if(sender.isOp()){
+	public boolean onCommand(CommandSender sender, Command cmd, String label,
+			String args[]) {
+		if (cmd.getName().equals("showcase")) {
+			if (args.length >= 1) {
+				if (args[0].equalsIgnoreCase("reload")) {
+					if (sender.isOp()) {
 						save();
-						for(ShowcaseItem item:showcasedItems){
+						for (ShowcaseItem item : showcasedItems) {
 							item.remove();
 						}
 						showcasedItems.clear();
+						itemsByDrop.clear();
 						config.load();
-						trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+						trans.reload(new File(getDataFolder(), "showcase-"
+								+ config.getLocale() + ".csv"));
 						load();
-						for(ShowcaseProvider provider:providers.values()){
+						for (ShowcaseProvider provider : providers.values()) {
 							registerProvider(provider);
 						}
 						sender.sendMessage(tr("reloadSuccessful"));
 					}
 					return true;
 				}
-				if(args[0].equalsIgnoreCase("save")){
-					if(sender.isOp()){
+				if (args[0].equalsIgnoreCase("save")) {
+					if (sender.isOp()) {
 						save();
 						sender.sendMessage(tr("saveSuccessful"));
 					}
 					return true;
 				}
-				if(args[0].equalsIgnoreCase("load")){
-					if(sender.isOp()){
-						for(ShowcaseItem item:showcasedItems){
+				if (args[0].equalsIgnoreCase("load")) {
+					if (sender.isOp()) {
+						for (ShowcaseItem item : showcasedItems) {
 							item.remove();
 						}
 						showcasedItems.clear();
+						itemsByDrop.clear();
 						config.load();
-						trans.reload(new File(getDataFolder(), "showcase-"+config.getLocale()+".csv"));
+						trans.reload(new File(getDataFolder(), "showcase-"
+								+ config.getLocale() + ".csv"));
 						load();
-						for(ShowcaseProvider provider:providers.values()){
+						for (ShowcaseProvider provider : providers.values()) {
 							registerProvider(provider);
 						}
 						sender.sendMessage(tr("loadSuccessful"));
@@ -501,20 +522,36 @@ public class Showcase extends JavaPlugin {
 		return false;
 	}
 
-	public void copyFromJarToDisk(String entry, File folder) throws IOException{
+	public void copyFromJarToDisk(String entry, File folder) throws IOException {
 		JarFile jar = new JarFile(getFile());
 		InputStream is = jar.getInputStream(jar.getJarEntry(entry));
 		OutputStream os = new FileOutputStream(new File(getDataFolder(), entry));
 		byte[] buffer = new byte[4096];
 		int length;
-		while (is!=null&&(length = is.read(buffer)) > 0) {
+		while (is != null && (length = is.read(buffer)) > 0) {
 			os.write(buffer, 0, length);
 		}
 		os.close();
 		is.close();
 	}
-	
-	public static boolean hasOddItem(){
-		return instance.odditem!=null;
+
+	public static boolean hasOddItem() {
+		return instance.odditem != null;
+	}
+
+	public void addShowcase(ShowcaseItem item) {
+		if (item.isChunkLoaded()) {
+			itemsByDrop.put(item.getItem().getEntityId(), item);
+		}
+		showcasedItems.add(item);
+	}
+
+	public boolean isShowcaseItem(Item item) {
+		return itemsByDrop.containsKey(item.getEntityId());
+	}
+
+	public void removeShowcase(ShowcaseItem showItem) {
+		itemsByDrop.remove(showItem.getItem().getEntityId());
+		showcasedItems.remove(showItem);
 	}
 }

@@ -28,22 +28,19 @@ import com.narrowtux.showcase.ShowcaseProvider;
 
 public class InfiniteShowcase implements ShowcaseProvider {
 	private Map<ShowcaseCreationAssistant, ShowcasePricePage> pricePages = new HashMap<ShowcaseCreationAssistant, ShowcasePricePage>();
-	@Override
+
 	public String getType() {
 		return "infinite";
 	}
 
-	@Override
 	public String getPermission() {
 		return "showcase.infinite";
 	}
 
-	@Override
 	public boolean isOpMethod() {
 		return true;
 	}
 
-	@Override
 	public ShowcaseExtra loadShowcase(String values) {
 		double price = Double.valueOf(values);
 		InfiniteShowcaseExtra extra = new InfiniteShowcaseExtra();
@@ -51,19 +48,16 @@ public class InfiniteShowcase implements ShowcaseProvider {
 		return extra;
 	}
 
-	@Override
 	public String getDescription() {
 		return Showcase.tr("types.infinite.description");
 	}
 
-	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
 		ShowcasePricePage pricePage = new ShowcasePricePage(assistant);
 		assistant.addPage(pricePage);
 		pricePages.put(assistant, pricePage);
 	}
 
-	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		ShowcasePricePage pricePage = pricePages.get(assistant);
 		InfiniteShowcaseExtra extra = new InfiniteShowcaseExtra();
@@ -72,7 +66,6 @@ public class InfiniteShowcase implements ShowcaseProvider {
 		return extra;
 	}
 
-	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
 		return 0;
 	}

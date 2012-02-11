@@ -24,30 +24,26 @@ import com.narrowtux.showcase.ShowcasePlayer;
 
 public class BasicShowcaseExtra implements ShowcaseExtra {
 	ShowcaseItem item = null;
-	@Override
+
 	public boolean onDestroy(ShowcasePlayer player) {
-		if(Showcase.instance.config.isBasicUseItem()){
+		if (Showcase.instance.config.isBasicUseItem()) {
 			player.addItems(item.getMaterial(), item.getData(), 1);
 		}
 		return true;
 	}
 
-	@Override
 	public void onClick(ShowcasePlayer player) {
 
 	}
 
-	@Override
 	public String save() {
 		return "-";
 	}
 
-	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
 		this.item = item;
 	}
 
-	@Override
 	public void onRightClick(ShowcasePlayer player) {
 	}
 }

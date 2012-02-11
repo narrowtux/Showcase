@@ -23,27 +23,28 @@ import org.bukkit.event.world.WorldListener;
 
 public class ShowcaseWorldListener extends WorldListener {
 	@Override
-	public void onChunkLoad(ChunkLoadEvent event){
-		for(ShowcaseItem item:Showcase.instance.showcasedItems){
-			try{
-				if(event.getChunk().equals(item.getBlock().getChunk())){
+	public void onChunkLoad(ChunkLoadEvent event) {
+		for (ShowcaseItem item : Showcase.instance.showcasedItems) {
+			try {
+				if (event.getChunk().equals(item.getBlock().getChunk())) {
 					item.respawn();
 					item.setChunkLoaded(true);
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 			}
 		}
 	}
 
 	@Override
-	public void onChunkUnload(ChunkUnloadEvent event){
-		for(ShowcaseItem item:Showcase.instance.showcasedItems){
-			try{
-				if(event.getChunk().equals(item.getBlock().getChunk())){
+	public void onChunkUnload(ChunkUnloadEvent event) {
+		for (ShowcaseItem item : Showcase.instance.showcasedItems) {
+			try {
+				if (event.getChunk().equals(item.getBlock().getChunk())) {
+					Showcase.instance.itemsByDrop.remove(item.getItem().getEntityId());
 					item.remove();
 					item.setChunkLoaded(false);
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 			}
 		}
 	}

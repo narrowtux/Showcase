@@ -47,24 +47,29 @@ public class ShowcaseCreationAssistant extends Assistant {
 
 		player = ShowcasePlayer.getPlayer(getPlayer());
 		setTitle(Showcase.tr("assistant.creation.title"));
-		ShowcaseTypeSelectionPage typeSelectionPage = new ShowcaseTypeSelectionPage(player, this);
+		ShowcaseTypeSelectionPage typeSelectionPage = new ShowcaseTypeSelectionPage(
+				player, this);
 		typeSelectionPage.assistant = this;
-		if(item==null)
-		{
-			addPage(new AssistantPage(this){
+		if (item == null) {
+			addPage(new AssistantPage(this) {
 				{
 					setTitle(Showcase.tr("creation.item.title"));
 					setText(Showcase.tr("creation.item.text"));
 				}
 
 				@Override
-				public AssistantAction onPageInput(String text){
+				public AssistantAction onPageInput(String text) {
 					ItemStack result = null;
-					OddItem odd = (OddItem)Bukkit.getServer().getPluginManager().getPlugin("OddItem");
-					try{
+					OddItem odd = (OddItem) Bukkit.getServer()
+							.getPluginManager().getPlugin("OddItem");
+					try {
 						result = odd.getItemStack(text);
-					} catch(IllegalArgumentException e){
-						ShowcaseCreationAssistant.this.sendMessage(Icon.WARNING, "Showcase", Showcase.tr("creation.item.notfound", e.getMessage()));
+					} catch (IllegalArgumentException e) {
+						ShowcaseCreationAssistant.this.sendMessage(
+								Icon.WARNING,
+								"Showcase",
+								Showcase.tr("creation.item.notfound",
+										e.getMessage()));
 						return AssistantAction.SILENT_REPEAT;
 					}
 					material = result.getType();
@@ -81,25 +86,29 @@ public class ShowcaseCreationAssistant extends Assistant {
 	}
 
 	@Override
-	public void onAssistantCancel(){
-		sendMessage(Icon.WARNING, "Showcase", Showcase.tr("assistant.creation.cancel"));
+	public void onAssistantCancel() {
+		sendMessage(Icon.WARNING, "Showcase",
+				Showcase.tr("assistant.creation.cancel"));
 	}
 
 	@Override
-	public void onAssistantFinish(){
+	public void onAssistantFinish() {
 		ShowcaseProvider provider = Showcase.instance.providers.get(type);
 		ShowcaseExtra extra = provider.createShowcase(this);
-		if(extra!=null){
-			sendMessage(Icon.INFORMATION, "Showcase", Showcase.tr("assistant.creation.finish"));
-			ShowcaseItem item = new ShowcaseItem(loc, material, data, getPlayer().getName(), type);
-			Showcase.instance.showcasedItems.add(item);
+		if (extra != null) {
+			sendMessage(Icon.INFORMATION, "Showcase",
+					Showcase.tr("assistant.creation.finish"));
+			ShowcaseItem item = new ShowcaseItem(loc, material, data,
+					getPlayer().getName(), type);
+			Showcase.instance.addShowcase(item);
 			item.setExtra(extra);
-			if(method!=null)
-			{
-				method.getAccount(getPlayer().getName()).subtract(provider.getPriceForCreation(player));
+			if (method != null) {
+				method.getAccount(getPlayer().getName()).subtract(
+						provider.getPriceForCreation(player));
 			}
 		} else {
-			sendMessage(Icon.WARNING, "Showcase", Showcase.tr("assistant.creation.cancel"));
+			sendMessage(Icon.WARNING, "Showcase",
+					Showcase.tr("assistant.creation.cancel"));
 		}
 	}
 

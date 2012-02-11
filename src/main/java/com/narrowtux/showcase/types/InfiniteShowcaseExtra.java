@@ -26,15 +26,13 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 	private double price;
 	private ShowcaseItem showcase = null;
 
-	@Override
 	public boolean onDestroy(ShowcasePlayer player) {
-		//No special cases to do here.
+		// No special cases to do here.
 		return true;
 	}
 
-	@Override
 	public void onClick(ShowcasePlayer player) {
-		if(!player.hasPermission("showcase.buy.infinite", false)){
+		if (!player.hasPermission("showcase.buy.infinite", false)) {
 			return;
 		}
 		BuyAssistant assistant = new BuyAssistant(player.getPlayer(), showcase);
@@ -42,18 +40,17 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 		assistant.start();
 	}
 
-	@Override
 	public String save() {
 		return String.valueOf(price);
 	}
 
-	@Override
 	public void setShowcaseItem(ShowcaseItem item) {
 		showcase = item;
 	}
 
 	/**
-	 * @param price the price to set
+	 * @param price
+	 *            the price to set
 	 */
 	public void setPrice(double price) {
 		this.price = price;
@@ -66,7 +63,6 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 		return price;
 	}
 
-	@Override
 	public void onRightClick(ShowcasePlayer player) {
 	}
 }

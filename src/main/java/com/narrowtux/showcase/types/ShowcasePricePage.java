@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
  */
 
-
 package com.narrowtux.showcase.types;
 
 import com.narrowtux.narrowtuxlib.assistant.Assistant;
@@ -26,23 +25,25 @@ import com.narrowtux.showcase.Showcase;
 public class ShowcasePricePage extends AssistantPage {
 	public double price;
 
-	public ShowcasePricePage(Assistant assistant){
+	public ShowcasePricePage(Assistant assistant) {
 		super(assistant);
 		setTitle(Showcase.tr("assistant.price.title"));
 		setText("");
 	}
 
 	@Override
-	public AssistantAction onPageInput(String text){
-		try{
+	public AssistantAction onPageInput(String text) {
+		try {
 			price = Double.valueOf(text);
-		} catch(Exception e){
+		} catch (Exception e) {
 			price = -1;
 		}
-		if(price<0){
+		if (price < 0) {
 			return AssistantAction.CANCEL;
 		}
-		getAssistant().sendMessage(getAssistant().formatLine(Showcase.tr("assistant.price.done", price)));
+		getAssistant().sendMessage(
+				getAssistant().formatLine(
+						Showcase.tr("assistant.price.done", price)));
 		return AssistantAction.CONTINUE;
 	}
 }

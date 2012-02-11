@@ -29,38 +29,33 @@ import com.narrowtux.showcase.ShowcaseProvider;
 public class FiniteShowcase implements ShowcaseProvider {
 	private Map<ShowcaseCreationAssistant, ShowcasePricePage> pricePages = new HashMap<ShowcaseCreationAssistant, ShowcasePricePage>();
 	private Map<ShowcaseCreationAssistant, ShowcaseAmountPage> amountPages = new HashMap<ShowcaseCreationAssistant, ShowcaseAmountPage>();
-	@Override
+
 	public String getType() {
 		return "finite";
 	}
 
-	@Override
 	public String getPermission() {
 		return "showcase.finite";
 	}
 
-	@Override
 	public boolean isOpMethod() {
 		return false;
 	}
 
-	@Override
 	public ShowcaseExtra loadShowcase(String values) {
-		String [] args = values.split(";");
+		String[] args = values.split(";");
 		FiniteShowcaseExtra extra = new FiniteShowcaseExtra();
-		if(args.length==2){
+		if (args.length == 2) {
 			extra.setItemAmount(Integer.valueOf(args[0]));
 			extra.setPricePerItem(Double.valueOf(args[1]));
 		}
 		return extra;
 	}
 
-	@Override
 	public String getDescription() {
 		return Showcase.tr("types.finite.description");
 	}
 
-	@Override
 	public void addPagesToCreationWizard(ShowcaseCreationAssistant assistant) {
 		ShowcasePricePage pricePage = new ShowcasePricePage(assistant);
 		pricePages.put(assistant, pricePage);
@@ -70,7 +65,6 @@ public class FiniteShowcase implements ShowcaseProvider {
 		assistant.addPage(amountPage);
 	}
 
-	@Override
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		FiniteShowcaseExtra extra = new FiniteShowcaseExtra();
 		ShowcasePricePage pricePage = pricePages.get(assistant);
@@ -84,7 +78,6 @@ public class FiniteShowcase implements ShowcaseProvider {
 		return extra;
 	}
 
-	@Override
 	public double getPriceForCreation(ShowcasePlayer player) {
 		return Showcase.instance.config.getPriceForFiniteShop();
 	}
