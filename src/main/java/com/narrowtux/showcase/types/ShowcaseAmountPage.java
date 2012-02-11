@@ -30,18 +30,15 @@ public class ShowcaseAmountPage extends AssistantPage {
 	public ShowcaseAmountPage(ShowcaseCreationAssistant a) {
 		super(a);
 		assistant = a;
-		maximumamount = assistant.player.getAmountOfType(assistant.material,
-				assistant.data);
-		String title = Showcase.tr("assistant.amount.title", maximumamount,
-				Showcase.getName(assistant.material, assistant.data));
+		maximumamount = assistant.player.getAmountOfType(assistant.material, assistant.data);
+		String title = Showcase.tr("assistant.amount.title", maximumamount, Showcase.getName(assistant.material, assistant.data));
 		setTitle(title);
 		setText("");
 	}
 
 	@Override
 	public AssistantAction onPageInput(String text) {
-		maximumamount = assistant.player.getAmountOfType(assistant.material,
-				assistant.data);
+		maximumamount = assistant.player.getAmountOfType(assistant.material, assistant.data);
 		try {
 			amount = Integer.valueOf(text);
 		} catch (Exception e) {
@@ -53,8 +50,7 @@ public class ShowcaseAmountPage extends AssistantPage {
 		if (amount > maximumamount) {
 			amount = maximumamount;
 		}
-		assistant.sendMessage(assistant.formatLine(Showcase.tr(
-				"assistant.amount.add", amount)));
+		assistant.sendMessage(assistant.formatLine(Showcase.tr("assistant.amount.add", amount)));
 		return AssistantAction.CONTINUE;
 	}
 }

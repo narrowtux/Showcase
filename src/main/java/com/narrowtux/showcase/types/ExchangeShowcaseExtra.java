@@ -42,26 +42,16 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	public void onClick(ShowcasePlayer player) {
 		if (player.getPlayer().getName().equals(showcase.getPlayer())) {
 			String name = Showcase.getName(exchangeType, exchangeData);
-			int remaining = player.addItems(exchangeType, exchangeData,
-					exchangeAmount);
-			player.sendMessage(Showcase.tr("exchange.addexchange",
-					exchangeAmount - remaining, name));
+			int remaining = player.addItems(exchangeType, exchangeData, exchangeAmount);
+			player.sendMessage(Showcase.tr("exchange.addexchange", exchangeAmount - remaining, name));
 			if (remaining != 0) {
-				player.getPlayer()
-						.getWorld()
-						.dropItemNaturally(
-								player.getPlayer().getLocation(),
-								new ItemStack(exchangeType, remaining,
-										exchangeData));
-				player.sendMessage(Showcase.tr("exchange.remaining.dropped",
-						remaining, name));
+				player.getPlayer().getWorld().dropItemNaturally(player.getPlayer().getLocation(), new ItemStack(exchangeType, remaining, exchangeData));
+				player.sendMessage(Showcase.tr("exchange.remaining.dropped", remaining, name));
 			}
 			exchangeAmount = remaining;
 		} else {
-			ExchangeAssistant assistant = new ExchangeAssistant(
-					player.getPlayer(), showcase);
-			assistant.setAssistantStartLocation(player.getPlayer()
-					.getLocation());
+			ExchangeAssistant assistant = new ExchangeAssistant(player.getPlayer(), showcase);
+			assistant.setAssistantStartLocation(player.getPlayer().getLocation());
 			assistant.start();
 		}
 	}
@@ -69,9 +59,7 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	public String save() {
 		// Values:
 		// Exchange-type;Exchange-data;buy-amount;exchange-amount;exchange-rate
-		return exchangeType.getId() + ";" + exchangeData + ";" + itemAmount
-				+ ";" + exchangeAmount + ";" + exchangeRateLeft + ";"
-				+ exchangeRateRight;
+		return exchangeType.getId() + ";" + exchangeData + ";" + itemAmount + ";" + exchangeAmount + ";" + exchangeRateLeft + ";" + exchangeRateRight;
 	}
 
 	public void setShowcaseItem(ShowcaseItem item) {

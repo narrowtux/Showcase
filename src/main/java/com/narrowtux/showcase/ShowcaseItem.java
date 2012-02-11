@@ -38,8 +38,7 @@ public class ShowcaseItem {
 	private ShowcaseExtra extra = null;
 	private String extraLoad = "";
 
-	public ShowcaseItem(Location loc, Material mat, short data, String player,
-			String type) {
+	public ShowcaseItem(Location loc, Material mat, short data, String player, String type) {
 		setMaterial(mat);
 		setData(data);
 		setPlayer(player);
@@ -57,13 +56,13 @@ public class ShowcaseItem {
 		} catch (Exception e) {
 			block = null;
 		}
-		setChunkLoaded(block == null ? false : block.getWorld().isChunkLoaded(
-				block.getChunk()));
+		setChunkLoaded(block == null ? false : block.getWorld().isChunkLoaded(block.getChunk()));
 		if (isChunkLoaded()) {
 			setLocation(loc);
-			setItem(loc.getWorld().dropItemNaturally(getLocation(),
-					new ItemStack(mat, 1, data)));
-			getItem().setVelocity(new Vector(0, 0.1, 0));
+			if(!Showcase.instance.startup) {
+				setItem(loc.getWorld().dropItemNaturally(getLocation(), new ItemStack(mat, 1, data)));
+				getItem().setVelocity(new Vector(0, 0.1, 0));
+			}
 			checkForDupedItem();
 		} else {
 			location = loc;
@@ -144,9 +143,7 @@ public class ShowcaseItem {
 	}
 
 	public void updatePosition() {
-		if (item != null
-				&& (!updatedPosition || item.getLocation().getY() <= getLocation()
-						.getBlockY() + 0.4)) {
+		if (item != null && (!updatedPosition || item.getLocation().getY() <= getLocation().getBlockY() + 0.4)) {
 			item.teleport(location);
 			item.setVelocity(new Vector(0, 0.1, 0));
 			updatedPosition = true;
@@ -259,8 +256,7 @@ public class ShowcaseItem {
 	public void checkForDupedItem() {
 		Chunk c = getBlock().getChunk();
 		for (Entity e : c.getEntities()) {
-			if (e.getLocation().getBlock().equals(getBlock())
-					&& e instanceof Item && !e.equals(item)) {
+			if (e.getLocation().getBlock().equals(getBlock()) && e instanceof Item && !e.equals(item)) {
 				e.remove();
 			}
 		}

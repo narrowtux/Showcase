@@ -32,12 +32,10 @@ public class ShowcaseBlockListener extends BlockListener {
 		ShowcaseItem item = Showcase.instance.getItemByBlock(event.getBlock());
 		if (item != null) {
 			event.setCancelled(true);
-			event.getPlayer().sendMessage(
-					Showcase.tr("showcaseOwner", item.getPlayer()));
+			event.getPlayer().sendMessage(Showcase.tr("showcaseOwner", item.getPlayer()));
 		}
 		if (event.isCancelled()) {
-			event.getPlayer().sendBlockChange(event.getBlock().getLocation(),
-					event.getBlock().getType(), event.getBlock().getData());
+			event.getPlayer().sendBlockChange(event.getBlock().getLocation(), event.getBlock().getType(), event.getBlock().getData());
 		}
 	}
 

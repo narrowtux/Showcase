@@ -49,8 +49,7 @@ public class BasicShowcase implements ShowcaseProvider {
 
 	public ShowcaseExtra createShowcase(ShowcaseCreationAssistant assistant) {
 		if (Showcase.instance.config.isBasicUseItem()) {
-			ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant
-					.getPlayer());
+			ShowcasePlayer player = ShowcasePlayer.getPlayer(assistant.getPlayer());
 			player.remove(assistant.material, assistant.data, 1);
 		}
 		return new BasicShowcaseExtra();

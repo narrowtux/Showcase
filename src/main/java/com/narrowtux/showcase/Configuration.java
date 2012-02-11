@@ -80,8 +80,7 @@ public class Configuration {
 
 	public Configuration() {
 		File pluginFolder = Showcase.instance.getDataFolder();
-		reader = new FlatFileReader(new File(pluginFolder.getAbsolutePath()
-				+ "/showcase.cfg"), false);
+		reader = new FlatFileReader(new File(pluginFolder.getAbsolutePath() + "/showcase.cfg"), false);
 		load();
 		reader.write();
 	}
@@ -96,8 +95,7 @@ public class Configuration {
 		removeWhenEmpty = reader.getBoolean("removewhenempty", false);
 		locale = reader.getString("locale", "en-US");
 		autoSaveInterval = reader.getInteger("autosaveinterval", 60);
-		showAutosaveNotification = reader.getBoolean("autosavenotification",
-				false);
+		showAutosaveNotification = reader.getBoolean("autosavenotification", false);
 		useSpout = reader.getBoolean("usespout", false);
 		basicUsesItem = reader.getBoolean("basicusesitem", false);
 		maxStackSize.clear();
@@ -113,8 +111,7 @@ public class Configuration {
 		File file = new File(Showcase.instance.getDataFolder(), "stacks.csv");
 		if (!file.exists()) {
 			try {
-				Showcase.instance.copyFromJarToDisk("stacks.csv",
-						Showcase.instance.getDataFolder());
+				Showcase.instance.copyFromJarToDisk("stacks.csv", Showcase.instance.getDataFolder());
 			} catch (IOException e) {
 				return;
 			}

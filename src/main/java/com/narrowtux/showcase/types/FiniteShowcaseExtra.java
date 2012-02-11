@@ -84,8 +84,7 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 		if (!player.getPlayer().getName().equals(item.getPlayer())) {
 			return;
 		}
-		RefillAssistant assistant = new RefillAssistant(player.getPlayer(),
-				item);
+		RefillAssistant assistant = new RefillAssistant(player.getPlayer(), item);
 		assistant.setAssistantStartLocation(player.getPlayer().getLocation());
 		assistant.start();
 	}

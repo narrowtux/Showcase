@@ -33,12 +33,9 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		setTitle(Showcase.tr("assistant.creation.select.title"));
 		String text = "";
 		for (ShowcaseProvider provider : Showcase.instance.providers.values()) {
-			if (player.hasPermission(provider.getPermission(),
-					provider.isOpMethod())) {
+			if (player.hasPermission(provider.getPermission(), provider.isOpMethod())) {
 				text += ChatColor.YELLOW + provider.getType() + ChatColor.WHITE;
-				text += " (" + ChatColor.YELLOW
-						+ getPrice(provider.getPriceForCreation(player))
-						+ ChatColor.WHITE + "), ";
+				text += " (" + ChatColor.YELLOW + getPrice(provider.getPriceForCreation(player)) + ChatColor.WHITE + "), ";
 			}
 		}
 		if (text.equals("")) {
@@ -58,8 +55,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			if (args.length >= 2) {
 				String type = args[1];
 				if (Showcase.instance.providers.containsKey(type)) {
-					ShowcaseProvider provider = Showcase.instance.providers
-							.get(type);
+					ShowcaseProvider provider = Showcase.instance.providers.get(type);
 					String msg = "";
 					msg += provider.getType() + "\n";
 					msg += provider.getDescription();
@@ -71,8 +67,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 				}
 			}
 		}
-		ShowcasePlayer player = ShowcasePlayer.getPlayer(getAssistant()
-				.getPlayer());
+		ShowcasePlayer player = ShowcasePlayer.getPlayer(getAssistant().getPlayer());
 		text = text.toLowerCase();
 		ShowcaseProvider type = null;
 		for (ShowcaseProvider provider : Showcase.instance.providers.values()) {
@@ -85,8 +80,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 			return AssistantAction.CANCEL;
 		}
 		if (!player.canAfford(type.getPriceForCreation(player))) {
-			sendMessage(getAssistant().formatLine(
-					Showcase.tr("notEnoughMoneyForShowcase")));
+			sendMessage(getAssistant().formatLine(Showcase.tr("notEnoughMoneyForShowcase")));
 			return AssistantAction.CANCEL;
 		}
 		if (player.hasPermission(type.getPermission(), type.isOpMethod())) {

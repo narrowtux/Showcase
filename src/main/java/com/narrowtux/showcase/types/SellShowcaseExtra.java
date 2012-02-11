@@ -33,12 +33,10 @@ public class SellShowcaseExtra implements ShowcaseExtra {
 	public boolean onDestroy(ShowcasePlayer player) {
 		double amount = amountLeft * pricePerItem;
 		player.giveMoney(amount);
-		player.addItems(showcase.getMaterial(), showcase.getData(),
-				amountOfItems);
+		player.addItems(showcase.getMaterial(), showcase.getData(), amountOfItems);
 		Method method = NarrowtuxLib.getMethod();
 		// TODO: put a string in all translation files!
-		player.sendMessage(Showcase.tr("sell.moneygiveback",
-				method.format(amount)));
+		player.sendMessage(Showcase.tr("sell.moneygiveback", method.format(amount)));
 		return true;
 	}
 

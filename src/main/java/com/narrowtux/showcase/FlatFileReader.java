@@ -195,8 +195,7 @@ public class FlatFileReader {
 				e.printStackTrace();
 			}
 		} else {
-			System.out
-					.println("File " + file.getAbsoluteFile() + " not found.");
+			System.out.println("File " + file.getAbsoluteFile() + " not found.");
 			return false;
 		}
 		return true;
@@ -217,16 +216,13 @@ public class FlatFileReader {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
-				System.out.println("Could not create Datafile (" + e.getCause()
-						+ "). Aborting.");
+				System.out.println("Could not create Datafile (" + e.getCause() + "). Aborting.");
 				return;
 			}
 		}
 		try {
-			FileOutputStream output = new FileOutputStream(
-					file.getAbsoluteFile());
-			BufferedWriter w = new BufferedWriter(
-					new OutputStreamWriter(output));
+			FileOutputStream output = new FileOutputStream(file.getAbsoluteFile());
+			BufferedWriter w = new BufferedWriter(new OutputStreamWriter(output));
 			w.write(finalFile);
 			w.flush();
 			output.close();

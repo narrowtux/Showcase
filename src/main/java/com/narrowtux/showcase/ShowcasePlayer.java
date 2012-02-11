@@ -76,8 +76,7 @@ public class ShowcasePlayer {
 		int ret = 0;
 		for (int i = 0; i < inv.getSize(); i++) {
 			ItemStack stack = inv.getItem(i);
-			if (stack != null && stack.getType().equals(mat)
-					&& stack.getDurability() == data) {
+			if (stack != null && stack.getType().equals(mat) && stack.getDurability() == data) {
 				ret += stack.getAmount();
 			}
 		}
@@ -150,8 +149,7 @@ public class ShowcasePlayer {
 	public int addItems(Material type, short data, int amount) {
 		// returns the number of items that did not fit.
 		if (getPlayer() == null) {
-			System.out.println("[Showcase] someone removed the items of "
-					+ player);
+			System.out.println("[Showcase] someone removed the items of " + player);
 			return 0;
 		}
 		PlayerInventory inv = getPlayer().getInventory();
@@ -183,7 +181,6 @@ public class ShowcasePlayer {
 	}
 
 	public void sendNotification(String title, String text) {
-		NarrowtuxLib.getNotificationManager().sendNotification(player, title,
-				text);
+		NarrowtuxLib.getNotificationManager().sendNotification(player, title, text);
 	}
 }

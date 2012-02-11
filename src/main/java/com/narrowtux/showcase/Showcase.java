@@ -80,24 +80,22 @@ public class Showcase extends JavaPlugin {
 
 	private final static int INITIAL_CAPACITY = 500;
 
-	List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>(
-			INITIAL_CAPACITY);
-	HashMap<Integer, ShowcaseItem> itemsByDrop = new HashMap<Integer, ShowcaseItem>(
-			INITIAL_CAPACITY);
+	List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>(INITIAL_CAPACITY);
+	HashMap<Integer, ShowcaseItem> itemsByDrop = new HashMap<Integer, ShowcaseItem>(INITIAL_CAPACITY);
 	private ItemWatcher watcher = new ItemWatcher();
 	public Configuration config;
-	public WorldGuardPlugin worldguard;
-	public int autosaverId = -1;
-	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
+	WorldGuardPlugin worldguard;
+	int autosaverId = -1;
+	Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	private Translation trans;
 	private OddItem odditem = null;
+	boolean startup = true;
 
 	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
 		// Read plugin file
 		PluginDescriptionFile pdfFile = this.getDescription();
-		String logText = tr("disableMessage", pdfFile.getName(),
-				pdfFile.getVersion());
+		String logText = tr("disableMessage", pdfFile.getName(), pdfFile.getVersion());
 		save();
 		for (ShowcaseItem item : showcasedItems) {
 			item.remove();
@@ -121,8 +119,7 @@ public class Showcase extends JavaPlugin {
 			dclistener = null;
 		}
 		try {
-			worldguard = (WorldGuardPlugin) getServer().getPluginManager()
-					.getPlugin("WorldGuard");
+			worldguard = (WorldGuardPlugin) getServer().getPluginManager().getPlugin("WorldGuard");
 		} catch (Exception e) {
 			worldguard = null;
 		}
@@ -149,8 +146,7 @@ public class Showcase extends JavaPlugin {
 				if (e instanceof Item) {
 					Location loc = e.getLocation();
 					Block b = loc.getBlock();
-					if (b.getType().equals(Material.GLASS)
-							|| b.getType().equals(Material.STEP)) {
+					if (b.getType().equals(Material.GLASS) || b.getType().equals(Material.STEP)) {
 						e.remove();
 					}
 				}
@@ -173,21 +169,15 @@ public class Showcase extends JavaPlugin {
 
 		odditem = (OddItem) pm.getPlugin("OddItem");
 
-		trans.reload(new File(getDataFolder(), "showcase-" + config.getLocale()
-				+ ".csv"));
+		trans.reload(new File(getDataFolder(), "showcase-" + config.getLocale() + ".csv"));
 
 		if (trans.getVersion() < 5) {
 			try {
-				copyFromJarToDisk("showcase-" + config.getLocale() + ".csv",
-						getDataFolder());
-				log.log(Level.INFO,
-						"[Showcase] copied new translation file for "
-								+ config.getLocale() + " to disk.");
-				trans.reload(new File(getDataFolder(), "showcase-"
-						+ config.getLocale() + ".csv"));
+				copyFromJarToDisk("showcase-" + config.getLocale() + ".csv", getDataFolder());
+				log.log(Level.INFO, "[Showcase] copied new translation file for " + config.getLocale() + " to disk.");
+				trans.reload(new File(getDataFolder(), "showcase-" + config.getLocale() + ".csv"));
 			} catch (IOException e) {
-				System.out
-						.println("Unable to copy default translation to plugin folder");
+				System.out.println("Unable to copy default translation to plugin folder");
 			}
 		}
 
@@ -199,25 +189,24 @@ public class Showcase extends JavaPlugin {
 		registerProvider(new ExchangeShowcase());
 		registerProvider(new TutorialShowcase());
 		// registerProvider(new SellShowcase());
+		
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new ItemSpawner(), 20);
 
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 0,
-				40);
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 10, 40);
 		setupPermissions();
 
 		if (config.getAutosaveInterval() != -1) {
-			getServer().getScheduler().scheduleSyncRepeatingTask(this,
-					new Runnable() {
-						public void run() {
-							save();
-							if (config.isShowingAutosaveNotification()) {
-								log.log(Level.INFO, "[Showcase] Autosaved");
-							}
-						}
-					}, 0, config.getAutosaveInterval() * 20);
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+				public void run() {
+					save();
+					if (config.isShowingAutosaveNotification()) {
+						log.log(Level.INFO, "[Showcase] Autosaved");
+					}
+				}
+			}, 0, config.getAutosaveInterval() * 20);
 		}
 
-		String logText = trans.tr("enableMessage", pdfFile.getName(),
-				pdfFile.getVersion());
+		String logText = trans.tr("enableMessage", pdfFile.getName(), pdfFile.getVersion());
 		log.log(Level.INFO, logText);
 	}
 
@@ -226,11 +215,7 @@ public class Showcase extends JavaPlugin {
 		if (pm.getPlugin("NarrowtuxLib") == null) {
 			try {
 				File toPut = new File("plugins/NarrowtuxLib.jar");
-				download(
-						getServer().getLogger(),
-						new URL(
-								"http://tetragaming.com/narrowtux/plugins/NarrowtuxLib.jar"),
-						toPut);
+				download(getServer().getLogger(), new URL("http://tetragaming.com/narrowtux/plugins/NarrowtuxLib.jar"), toPut);
 				pm.loadPlugin(toPut);
 				pm.enablePlugin(pm.getPlugin("NarrowtuxLib"));
 			} catch (Exception exception) {
@@ -257,8 +242,7 @@ public class Showcase extends JavaPlugin {
 			out.write(buffer, 0, len);
 			downloaded += len;
 			if ((int) ((System.currentTimeMillis() - start) / 500) > msgs) {
-				log.info((int) ((double) downloaded / (double) size * 100d)
-						+ "%");
+				log.info((int) ((double) downloaded / (double) size * 100d) + "%");
 				msgs++;
 			}
 		}
@@ -291,16 +275,13 @@ public class Showcase extends JavaPlugin {
 			try {
 				datafile.createNewFile();
 			} catch (IOException e) {
-				System.out.println("Could not create Datafile (" + e.getCause()
-						+ "). Aborting.");
+				System.out.println("Could not create Datafile (" + e.getCause() + "). Aborting.");
 				return;
 			}
 		}
 		try {
-			FileOutputStream output = new FileOutputStream(
-					datafile.getAbsoluteFile());
-			BufferedWriter w = new BufferedWriter(
-					new OutputStreamWriter(output));
+			FileOutputStream output = new FileOutputStream(datafile.getAbsoluteFile());
+			BufferedWriter w = new BufferedWriter(new OutputStreamWriter(output));
 			for (ShowcaseItem item : showcasedItems) {
 				try {
 					String line = "";
@@ -311,8 +292,7 @@ public class Showcase extends JavaPlugin {
 					String showtype = item.getType();
 					// Save
 					// x,y,z,itemid,player,worldname,worldenviromnent,showtype
-					line += loc.getBlockX() + "," + loc.getBlockY() + ","
-							+ loc.getBlockZ() + ",";
+					line += loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + ",";
 					line += type.getId() + "," + data + ",";
 					line += player + ",";
 					line += loc.getWorld().getName() + ",";
@@ -366,8 +346,7 @@ public class Showcase extends JavaPlugin {
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
 						z = Integer.valueOf(line[2]);
-						Material type = Material.getMaterial(Integer
-								.valueOf(line[3]));
+						Material type = Material.getMaterial(Integer.valueOf(line[3]));
 						short data = Short.valueOf(line[4]);
 						String player = line[5];
 						Environment environment = Environment.NORMAL;
@@ -376,12 +355,10 @@ public class Showcase extends JavaPlugin {
 						} catch (Exception e) {
 							environment = Environment.NORMAL;
 						}
-						World world = getServer().createWorld(line[6],
-								environment);
+						World world = getServer().createWorld(line[6], environment);
 						String showtype = line[7].toLowerCase();
 						Location loc = new Location(world, x, y, z);
-						ShowcaseItem showItem = new ShowcaseItem(loc, type,
-								data, player, showtype);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						addShowcase(showItem);
 						String extra = line[9];
 						showItem.setExtraLoad(extra);
@@ -390,15 +367,13 @@ public class Showcase extends JavaPlugin {
 						x = Integer.valueOf(line[0]);
 						y = Integer.valueOf(line[1]);
 						z = Integer.valueOf(line[2]);
-						Material type = Material.getMaterial(Integer
-								.valueOf(line[3]));
+						Material type = Material.getMaterial(Integer.valueOf(line[3]));
 						short data = Short.valueOf(line[4]);
 						String player = line[5];
 						World world = getServer().getWorld(line[6]);
 						String showtype = line[7].toLowerCase();
 						Location loc = new Location(world, x, y, z);
-						ShowcaseItem showItem = new ShowcaseItem(loc, type,
-								data, player, showtype);
+						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);
 						addShowcase(showItem);
 						String extra = line[8];
 						showItem.setExtraLoad(extra);
@@ -414,8 +389,7 @@ public class Showcase extends JavaPlugin {
 
 	public void setupPermissions() {
 		try {
-			Plugin test = this.getServer().getPluginManager()
-					.getPlugin("Permissions");
+			Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
 
 			if (Showcase.Permissions == null) {
 				try {
@@ -431,8 +405,7 @@ public class Showcase extends JavaPlugin {
 		}
 	}
 
-	public static boolean hasPermission(Player player, String node,
-			boolean adminMethod) {
+	public static boolean hasPermission(Player player, String node, boolean adminMethod) {
 		if (Permissions != null) {
 			return Permissions.has(player, node);
 		} else {
@@ -452,9 +425,7 @@ public class Showcase extends JavaPlugin {
 	}
 
 	public void registerProvider(ShowcaseProvider provider) {
-		if (config.isTypeEnabled(provider.getType())
-				&& !(!provider.getType().equals("basic") && config
-						.isBasicMode())) {
+		if (config.isTypeEnabled(provider.getType()) && !(!provider.getType().equals("basic") && config.isBasicMode())) {
 			providers.put(provider.getType(), provider);
 			int a = 0;
 			for (ShowcaseItem item : showcasedItems) {
@@ -469,8 +440,7 @@ public class Showcase extends JavaPlugin {
 		}
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label,
-			String args[]) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]) {
 		if (cmd.getName().equals("showcase")) {
 			if (args.length >= 1) {
 				if (args[0].equalsIgnoreCase("reload")) {
@@ -482,8 +452,7 @@ public class Showcase extends JavaPlugin {
 						showcasedItems.clear();
 						itemsByDrop.clear();
 						config.load();
-						trans.reload(new File(getDataFolder(), "showcase-"
-								+ config.getLocale() + ".csv"));
+						trans.reload(new File(getDataFolder(), "showcase-" + config.getLocale() + ".csv"));
 						load();
 						for (ShowcaseProvider provider : providers.values()) {
 							registerProvider(provider);
@@ -507,8 +476,7 @@ public class Showcase extends JavaPlugin {
 						showcasedItems.clear();
 						itemsByDrop.clear();
 						config.load();
-						trans.reload(new File(getDataFolder(), "showcase-"
-								+ config.getLocale() + ".csv"));
+						trans.reload(new File(getDataFolder(), "showcase-" + config.getLocale() + ".csv"));
 						load();
 						for (ShowcaseProvider provider : providers.values()) {
 							registerProvider(provider);
@@ -540,7 +508,7 @@ public class Showcase extends JavaPlugin {
 	}
 
 	public void addShowcase(ShowcaseItem item) {
-		if (item.isChunkLoaded()) {
+		if (item.isChunkLoaded() && item.getItem() != null) {
 			itemsByDrop.put(item.getItem().getEntityId(), item);
 		}
 		showcasedItems.add(item);

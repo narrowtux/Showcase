@@ -19,8 +19,7 @@ package com.narrowtux.showcase;
 
 import com.narrowtux.dropchest.api.DropChestSuckEvent;
 
-public class DropChestListener extends
-		com.narrowtux.dropchest.api.DropChestListener {
+public class DropChestListener extends com.narrowtux.dropchest.api.DropChestListener {
 	@Override
 	public void onDropChestSuck(DropChestSuckEvent event) {
 		if (Showcase.instance.isShowcaseItem(event.getItem())) {

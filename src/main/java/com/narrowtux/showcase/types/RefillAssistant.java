@@ -64,13 +64,11 @@ public class RefillAssistant extends Assistant {
 				if (value > 0 && value <= amountAtPlayer) {
 					player.remove(mat, data, value);
 					extra.setItemAmount(amountAtShowcase + value);
-					sendMessage(formatLine(ChatColor.YELLOW.toString() + value
-							+ ChatColor.WHITE + " items added."));
+					sendMessage(formatLine(ChatColor.YELLOW.toString() + value + ChatColor.WHITE + " items added."));
 				} else if (value < 0 && value * -1 <= amountAtShowcase) {
 					player.addItems(mat, data, -value);
 					extra.setItemAmount(amountAtShowcase + value);
-					sendMessage(formatLine(ChatColor.YELLOW.toString()
-							+ (-value) + ChatColor.WHITE + " items removed."));
+					sendMessage(formatLine(ChatColor.YELLOW.toString() + (-value) + ChatColor.WHITE + " items removed."));
 				}
 				updateText();
 				addPage(this);
@@ -99,10 +97,7 @@ public class RefillAssistant extends Assistant {
 		short data = showcase.getData();
 		String text = "";
 		String itemName = Showcase.getName(mat, data);
-		text = Showcase.tr("assistant.refill.body", extra.getItemAmount(),
-				itemName,
-				NarrowtuxLib.getMethod().format(extra.getPricePerItem()),
-				player.getAmountOfType(mat, data));
+		text = Showcase.tr("assistant.refill.body", extra.getItemAmount(), itemName, NarrowtuxLib.getMethod().format(extra.getPricePerItem()), player.getAmountOfType(mat, data));
 		for (AssistantPage page : getPages()) {
 			page.setText(text);
 		}
