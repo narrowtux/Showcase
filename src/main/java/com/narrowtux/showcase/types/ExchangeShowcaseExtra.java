@@ -36,7 +36,7 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	private static int count = 0;
 	
 	static {
-		Showcase.instance.getMetrics().addCustomData(Showcase.instance, new Metrics.Plotter("Basic Showcases") {
+		Showcase.instance.getMetrics().addCustomData(Showcase.instance, new Metrics.Plotter("Exchange Showcases") {
 			
 			@Override
 			public int getValue() {
