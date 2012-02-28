@@ -1,5 +1,5 @@
 name: Showcase
-version: 0.8.0.${build.number}
+version: 0.8.1.${build.number}
 author: narrowtux
 description: Item showcasing and visual shop plugin for Bukkit-based Minecraft servers.
 
