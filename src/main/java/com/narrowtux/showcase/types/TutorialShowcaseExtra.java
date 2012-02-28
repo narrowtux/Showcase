@@ -17,6 +17,8 @@
 
 package com.narrowtux.showcase.types;
 
+import com.narrowtux.showcase.Metrics;
+import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.ShowcasePlayer;
@@ -25,8 +27,24 @@ public class TutorialShowcaseExtra implements ShowcaseExtra {
 	private String text = "I've got no text";
 	@SuppressWarnings("unused")
 	private ShowcaseItem showcase = null;
+	private static int count = 0;
+	
+	static {
+		Showcase.instance.getMetrics().addCustomData(Showcase.instance, new Metrics.Plotter("Tutorial Showcases") {
+			
+			@Override
+			public int getValue() {
+				return count;
+			}
+		});
+	}
+	
+	public TutorialShowcaseExtra() {
+		count++;
+	}
 
 	public boolean onDestroy(ShowcasePlayer player) {
+		count--;
 		return true;
 	}
 

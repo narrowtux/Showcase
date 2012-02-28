@@ -17,6 +17,8 @@
 
 package com.narrowtux.showcase.types;
 
+import com.narrowtux.showcase.Metrics;
+import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.ShowcasePlayer;
@@ -25,11 +27,28 @@ public class FiniteShowcaseExtra implements ShowcaseExtra {
 	private int itemAmount = 0;
 	private double pricePerItem = 0.0D;
 	private ShowcaseItem item = null;
+	
+	private static int count = 0;
+	
+	static {
+		Showcase.instance.getMetrics().addCustomData(Showcase.instance, new Metrics.Plotter("Finite Showcases") {
+			
+			@Override
+			public int getValue() {
+				return count;
+			}
+		});
+	}
+	
+	public FiniteShowcaseExtra() {
+		count ++;
+	}
 
 	public boolean onDestroy(ShowcasePlayer player) {
 		ShowcasePlayer owner = ShowcasePlayer.getPlayer(item.getPlayer());
 		owner.addItems(item.getMaterial(), item.getData(), itemAmount);
 		itemAmount = 0;
+		count --;
 		return true;
 	}
 

@@ -15,17 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
  */
 
-package com.narrowtux.showcase;
+package com.narrowtux.showcase.event;
 
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockListener;
-import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.util.Vector;
 
-public class ShowcaseBlockListener extends BlockListener {
-	@Override
+import com.narrowtux.showcase.Showcase;
+import com.narrowtux.showcase.ShowcaseItem;
+
+public class ShowcaseBlockListener implements Listener {
+	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (!event.getBlock().getType().equals(Material.STEP)) {
 			// nothing to do for us.
@@ -44,7 +47,7 @@ public class ShowcaseBlockListener extends BlockListener {
 		}
 	}
 	
-	@Override
+	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if(Showcase.instance.getItemByBlock(event.getBlock()) != null) {
 			event.setCancelled(true);

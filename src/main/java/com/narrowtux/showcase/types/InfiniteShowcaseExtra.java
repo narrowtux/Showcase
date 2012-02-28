@@ -17,6 +17,8 @@
 
 package com.narrowtux.showcase.types;
 
+import com.narrowtux.showcase.Metrics;
+import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcaseItem;
 import com.narrowtux.showcase.ShowcasePlayer;
@@ -25,9 +27,25 @@ public class InfiniteShowcaseExtra implements ShowcaseExtra {
 
 	private double price;
 	private ShowcaseItem showcase = null;
+	private static int count = 0;
+	
+	static {
+		Showcase.instance.getMetrics().addCustomData(Showcase.instance, new Metrics.Plotter("Infinite Showcases") {
+			
+			@Override
+			public int getValue() {
+				return count;
+			}
+		});
+	}
+	
+	public InfiniteShowcaseExtra() {
+		count++;
+	}
 
 	public boolean onDestroy(ShowcasePlayer player) {
 		// No special cases to do here.
+		count--;
 		return true;
 	}
 

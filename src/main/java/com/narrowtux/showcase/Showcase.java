@@ -44,14 +44,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -60,6 +59,10 @@ import org.getspout.spoutapi.material.MaterialData;
 
 import com.narrowtux.narrowtuxlib.NarrowtuxLib;
 import com.narrowtux.narrowtuxlib.translation.Translation;
+import com.narrowtux.showcase.event.DropChestListener;
+import com.narrowtux.showcase.event.ShowcaseBlockListener;
+import com.narrowtux.showcase.event.ShowcasePlayerListener;
+import com.narrowtux.showcase.event.ShowcaseWorldListener;
 import com.narrowtux.showcase.types.BasicShowcase;
 import com.narrowtux.showcase.types.ExchangeShowcase;
 import com.narrowtux.showcase.types.FiniteShowcase;
@@ -80,17 +83,18 @@ public class Showcase extends JavaPlugin {
 
 	private final static int INITIAL_CAPACITY = 500;
 
-	List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>(INITIAL_CAPACITY);
-	HashMap<Integer, ShowcaseItem> itemsByDrop = new HashMap<Integer, ShowcaseItem>(INITIAL_CAPACITY);
-	HashMap<Block, ShowcaseItem> itemsByBlock = new HashMap<Block, ShowcaseItem>(INITIAL_CAPACITY);
+	public List<ShowcaseItem> showcasedItems = new ArrayList<ShowcaseItem>(INITIAL_CAPACITY);
+	public HashMap<Integer, ShowcaseItem> itemsByDrop = new HashMap<Integer, ShowcaseItem>(INITIAL_CAPACITY);
+	public HashMap<Block, ShowcaseItem> itemsByBlock = new HashMap<Block, ShowcaseItem>(INITIAL_CAPACITY);
 	private ItemWatcher watcher = new ItemWatcher();
 	public Configuration config;
 	WorldGuardPlugin worldguard;
 	int autosaverId = -1;
-	Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
+	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	private Translation trans;
 	private OddItem odditem = null;
 	boolean startup = true;
+	private Metrics metrics;
 
 	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
@@ -108,9 +112,28 @@ public class Showcase extends JavaPlugin {
 	public static String tr(String string, Object... args) {
 		return instance.trans.tr(string, args);
 	}
+	
+	public Metrics getMetrics() {
+		return metrics;
+	}
 
 	public void onEnable() {
 		checkForLibs();
+		try {
+			metrics = new Metrics();
+			
+			metrics.beginMeasuringPlugin(this);
+			
+			metrics.addCustomData(this, new Metrics.Plotter("Total Showcases") {
+				
+				@Override
+				public int getValue() {
+					return showcasedItems.size();
+				}
+			});
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		trans = new Translation();
 		instance = this;
 		log = getServer().getLogger();
@@ -129,16 +152,12 @@ public class Showcase extends JavaPlugin {
 
 		PluginDescriptionFile pdfFile = this.getDescription();
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Low, this);
-		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Low, this);
-		pm.registerEvent(Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this);
-		pm.registerEvent(Type.CHUNK_LOAD, worldListener, Priority.Normal, this);
-		pm.registerEvent(Type.CHUNK_UNLOAD, worldListener, Priority.Normal, this);
-		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
+		pm.registerEvents(blockListener, this);
+		pm.registerEvents(playerListener, this);
+		pm.registerEvents(worldListener, this);
 		if (dclistener != null) {
 			// Listen for dropchest-suck events
-			pm.registerEvent(Type.CUSTOM_EVENT, dclistener, Priority.Normal, this);
+			pm.registerEvents(dclistener, this);
 		}
 
 		// Remove probably duplicated items
@@ -351,7 +370,7 @@ public class Showcase extends JavaPlugin {
 						} catch (Exception e) {
 							environment = Environment.NORMAL;
 						}
-						World world = getServer().createWorld(line[6], environment);
+						World world = getServer().createWorld(new WorldCreator(line[6]).environment(environment));
 						String showtype = line[7].toLowerCase();
 						Location loc = new Location(world, x, y, z);
 						ShowcaseItem showItem = new ShowcaseItem(loc, type, data, player, showtype);

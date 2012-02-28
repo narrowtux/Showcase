@@ -15,24 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
  */
 
-package com.narrowtux.showcase;
+package com.narrowtux.showcase.event;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.narrowtux.narrowtuxlib.assistant.Assistant;
+import com.narrowtux.showcase.Configuration;
+import com.narrowtux.showcase.Showcase;
+import com.narrowtux.showcase.ShowcaseCreationAssistant;
+import com.narrowtux.showcase.ShowcaseItem;
+import com.narrowtux.showcase.ShowcasePlayer;
 
-public class ShowcasePlayerListener extends PlayerListener {
+public class ShowcasePlayerListener implements Listener {
 	public Configuration config = null;
 
-	@Override
+	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.hasBlock() && event.getClickedBlock().getType().equals(Material.STEP)) {
 			ShowcaseItem showItem = Showcase.instance.getItemByBlock(event.getClickedBlock());
@@ -103,20 +108,14 @@ public class ShowcasePlayerListener extends PlayerListener {
 		}
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 		if (Showcase.instance.isShowcaseItem(event.getItem())) {
 			event.setCancelled(true);
 		}
 	}
 
-	@Override
-	public void onPlayerChat(PlayerChatEvent event) {
-		// Cool, not?
-		Assistant.onPlayerChat(event);
-	}
-
-	@Override
+	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Assistant.onPlayerMove(event);
 	}

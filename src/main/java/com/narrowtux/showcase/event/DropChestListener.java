@@ -15,12 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
  */
 
-package com.narrowtux.showcase;
+package com.narrowtux.showcase.event;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import com.narrowtux.dropchest.api.DropChestSuckEvent;
+import com.narrowtux.showcase.Showcase;
 
-public class DropChestListener extends com.narrowtux.dropchest.api.DropChestListener {
-	@Override
+public class DropChestListener implements Listener {
+	@EventHandler
 	public void onDropChestSuck(DropChestSuckEvent event) {
 		if (Showcase.instance.isShowcaseItem(event.getItem())) {
 			event.setCancelled(true);

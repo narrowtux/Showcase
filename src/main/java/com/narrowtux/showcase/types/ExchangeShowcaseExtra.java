@@ -20,6 +20,7 @@ package com.narrowtux.showcase.types;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import com.narrowtux.showcase.Metrics;
 import com.narrowtux.showcase.Showcase;
 import com.narrowtux.showcase.ShowcaseExtra;
 import com.narrowtux.showcase.ShowcaseItem;
@@ -32,10 +33,26 @@ public class ExchangeShowcaseExtra implements ShowcaseExtra {
 	private int exchangeAmount = 0;
 	private int exchangeRateLeft = 1, exchangeRateRight = 1;
 	private ShowcaseItem showcase = null;
+	private static int count = 0;
+	
+	static {
+		Showcase.instance.getMetrics().addCustomData(Showcase.instance, new Metrics.Plotter("Basic Showcases") {
+			
+			@Override
+			public int getValue() {
+				return count;
+			}
+		});
+	}
+	
+	public ExchangeShowcaseExtra() {
+		count ++;
+	}
 
 	public boolean onDestroy(ShowcasePlayer player) {
 		player.addItems(exchangeType, exchangeData, exchangeAmount);
 		player.addItems(showcase.getMaterial(), showcase.getData(), itemAmount);
+		count --;
 		return true;
 	}
 

@@ -15,14 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
  */
 
-package com.narrowtux.showcase;
+package com.narrowtux.showcase.event;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.event.world.WorldListener;
 
-public class ShowcaseWorldListener extends WorldListener {
-	@Override
+import com.narrowtux.showcase.Showcase;
+import com.narrowtux.showcase.ShowcaseItem;
+
+public class ShowcaseWorldListener implements Listener {
+	@EventHandler
 	public void onChunkLoad(ChunkLoadEvent event) {
 		for (ShowcaseItem item : Showcase.instance.showcasedItems) {
 			try {
@@ -35,7 +39,7 @@ public class ShowcaseWorldListener extends WorldListener {
 		}
 	}
 
-	@Override
+	@EventHandler
 	public void onChunkUnload(ChunkUnloadEvent event) {
 		for (ShowcaseItem item : Showcase.instance.showcasedItems) {
 			try {
