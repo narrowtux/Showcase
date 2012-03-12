@@ -86,6 +86,9 @@ public class ShowcasePlayer {
 	public void remove(Material mat, short data, int amount) {
 		Inventory inv = getPlayer().getInventory();
 		for (int i = 0; i < inv.getSize(); i++) {
+			if(inv.getItem(i) == null) {
+				continue;
+			}
 			ItemStack stack = inv.getItem(i).clone();
 			if (stack.getType().equals(mat) && stack.getDurability() == data) {
 				if (stack.getAmount() > amount) {
@@ -104,53 +107,27 @@ public class ShowcasePlayer {
 		if (price <= 0) {
 			return true;
 		}
-		MethodAccount account = getAccount();
-		if (account != null) {
-			return account.balance() >= price;
-		} else {
-			return false;
-		}
+		return Showcase.getEconomy().has(player, price);
 	}
 
 	public boolean takeMoney(double price) {
 		if (canAfford(price)) {
-			MethodAccount account = getAccount();
-			if (account != null) {
-				account.subtract(price);
-				return true;
-			} else {
-				return false;
-			}
+			Showcase.getEconomy().withdrawPlayer(player, price);
+			return true;
 		} else {
 			return false;
 		}
 	}
 
 	public void giveMoney(double amount) {
-		MethodAccount account = getAccount();
-		if (account != null) {
-			account.add(amount);
-		}
-	}
-
-	public MethodAccount getAccount() {
-		Method method = NarrowtuxLib.getMethod();
-		if (method != null) {
-			if (method.hasAccount(player)) {
-				return method.getAccount(player);
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
+		Showcase.getEconomy().depositPlayer(player, amount);
 	}
 
 	public int addItems(Material type, short data, int amount) {
 		// returns the number of items that did not fit.
 		if (getPlayer() == null) {
-			System.out.println("[Showcase] someone removed the items of " + player);
-			return 0;
+			System.out.println("[Showcase] someone added some items to " + player + ", but he is offline.");
+			return amount;
 		}
 		PlayerInventory inv = getPlayer().getInventory();
 		while (amount > 0) {

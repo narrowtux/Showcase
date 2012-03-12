@@ -97,7 +97,7 @@ public class RefillAssistant extends Assistant {
 		short data = showcase.getData();
 		String text = "";
 		String itemName = Showcase.getName(mat, data);
-		text = Showcase.tr("assistant.refill.body", extra.getItemAmount(), itemName, NarrowtuxLib.getMethod().format(extra.getPricePerItem()), player.getAmountOfType(mat, data));
+		text = Showcase.tr("assistant.refill.body", extra.getItemAmount(), itemName, Showcase.getEconomy().format(extra.getPricePerItem()), player.getAmountOfType(mat, data));
 		for (AssistantPage page : getPages()) {
 			page.setText(text);
 		}

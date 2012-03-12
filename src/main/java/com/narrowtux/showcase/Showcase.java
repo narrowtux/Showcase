@@ -40,6 +40,10 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -54,6 +58,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.material.MaterialData;
 
@@ -73,12 +78,10 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class Showcase extends JavaPlugin {
-	private static PermissionHandler Permissions = null;
 	private Logger log;
 	private ShowcasePlayerListener playerListener = new ShowcasePlayerListener();
 	private ShowcaseBlockListener blockListener = new ShowcaseBlockListener();
 	private ShowcaseWorldListener worldListener = new ShowcaseWorldListener();
-	private DropChestListener dclistener;
 	public static Showcase instance;
 
 	private final static int INITIAL_CAPACITY = 500;
@@ -88,13 +91,18 @@ public class Showcase extends JavaPlugin {
 	public HashMap<Block, ShowcaseItem> itemsByBlock = new HashMap<Block, ShowcaseItem>(INITIAL_CAPACITY);
 	private ItemWatcher watcher = new ItemWatcher();
 	public Configuration config;
-	WorldGuardPlugin worldguard;
 	int autosaverId = -1;
 	public Map<String, ShowcaseProvider> providers = new HashMap<String, ShowcaseProvider>();
 	private Translation trans;
-	private OddItem odditem = null;
 	boolean startup = true;
+	
+	//3rd-party plugins
+	private DropChestListener dclistener;
+	WorldGuardPlugin worldguard;
+	private OddItem odditem = null;
 	private Metrics metrics;
+	private static Economy economy;
+	private static Permission permission;
 
 	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
@@ -214,6 +222,7 @@ public class Showcase extends JavaPlugin {
 
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 10, 40);
 		setupPermissions();
+		setupEconomy();
 
 		if (config.getAutosaveInterval() != -1) {
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -402,34 +411,35 @@ public class Showcase extends JavaPlugin {
 		}
 	}
 
-	public void setupPermissions() {
-		try {
-			Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
-
-			if (Showcase.Permissions == null) {
-				try {
-					Showcase.Permissions = ((Permissions) test).getHandler();
-				} catch (Exception e) {
-					Showcase.Permissions = null;
-					log.log(Level.WARNING, tr("permissionsUnavailable"));
-				}
-			}
-		} catch (java.lang.NoClassDefFoundError e) {
-			Showcase.Permissions = null;
-			log.log(Level.WARNING, tr("permissionsUnavailable"));
-		}
+	public boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
+        }
+        
+        return (permission != null);
 	}
+	
+	private boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
+    }
 
 	public static boolean hasPermission(Player player, String node, boolean adminMethod) {
-		if (Permissions != null) {
-			return Permissions.has(player, node);
+		if (permission != null) {
+			return permission.has(player, node);
 		} else {
-			if (!player.isOp()) {
-				return !adminMethod;
-			} else {
-				return true;
-			}
+			return player.hasPermission(node); //Fallback to superperms
 		}
+	}
+	
+	public static Economy getEconomy() {
+		return economy;
 	}
 
 	public static String getName(Material type, short data) {

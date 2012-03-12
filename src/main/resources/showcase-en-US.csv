@@ -1,4 +1,4 @@
-version=5
+version=6
 enableMessage=[%s] version %s has been enabled.
 diableMessage=[%s] version %s has been disabled.
 registerShowcase=[Showcase] Registered type [%s] (%d items loaded)
@@ -48,6 +48,9 @@ assistant.refill.body=[YELLOW]%d[WHITE] of [YELLOW]%s[WHITE] in showcase.\nOne i
 assistant.amount.title=Enter the amount of items. You have got %d of %s.
 assistant.amount.add=You put in %d items.
 assistant.price.title=Enter the price per item.
-assistant.price.done=You selected a price of [YELLOW]%f.
+assistant.price.done=You selected a price of [YELLOW]%s.
 tutorial.title=Enter the text
 tutorial.text=Multiple lines supported, [COLOR] for colors, [YELLOW]done[WHITE] for finish.
+creation.item.notfound=I could not find that. Did you mean %s?
+creation.item.title=Enter an item type
+creation.item.text=PLease enter an item type, because you do not hold an item.

@@ -41,7 +41,7 @@ public class ShowcasePricePage extends AssistantPage {
 		if (price < 0) {
 			return AssistantAction.CANCEL;
 		}
-		getAssistant().sendMessage(getAssistant().formatLine(Showcase.tr("assistant.price.done", price)));
+		getAssistant().sendMessage(getAssistant().formatLine(Showcase.tr("assistant.price.done", Showcase.getEconomy().format(price))));
 		return AssistantAction.CONTINUE;
 	}
 }

@@ -35,7 +35,11 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 		for (ShowcaseProvider provider : Showcase.instance.providers.values()) {
 			if (player.hasPermission(provider.getPermission(), provider.isOpMethod())) {
 				text += ChatColor.YELLOW + provider.getType() + ChatColor.WHITE;
-				text += " (" + ChatColor.YELLOW + getPrice(provider.getPriceForCreation(player)) + ChatColor.WHITE + "), ";
+				if(provider.getPriceForCreation(player) > 0) {
+					text += " (" + ChatColor.YELLOW + getPrice(provider.getPriceForCreation(player)) + ChatColor.WHITE + "), ";
+				} else {
+					text += ChatColor.WHITE + ", ";
+				}
 			}
 		}
 		if (text.equals("")) {
@@ -95,7 +99,7 @@ public class ShowcaseTypeSelectionPage extends AssistantPage {
 
 	private String getPrice(double price) {
 		if (NarrowtuxLib.getMethod() != null) {
-			return NarrowtuxLib.getMethod().format(price);
+			return Showcase.getEconomy().format(price);
 		} else {
 			return price + " $";
 		}

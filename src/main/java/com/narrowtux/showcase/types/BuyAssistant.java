@@ -65,7 +65,6 @@ public class BuyAssistant extends Assistant {
 				return AssistantAction.FINISH;
 			}
 		};
-		Method method = NarrowtuxLib.getMethod();
 		page.setText(Showcase.tr("assistant.buy.text"));
 		String itemCount = "";
 		if (item.getType().equals("finite")) {
@@ -73,7 +72,7 @@ public class BuyAssistant extends Assistant {
 		}
 		String itemName = Showcase.getName(item.getMaterial(), item.getData());
 		String print = "";
-		print += Showcase.tr("assistant.buy.price", itemName + itemCount, method.format(getPrice()));
+		print += Showcase.tr("assistant.buy.price", itemName + itemCount, Showcase.getEconomy().format(amount));
 		page.setTitle(print);
 		addPage(page);
 	}
@@ -90,7 +89,7 @@ public class BuyAssistant extends Assistant {
 				amount = amount - remaining;
 			}
 			String itemName = Showcase.getName(item.getMaterial(), item.getData());
-			String total = NarrowtuxLib.getMethod().format(totalamount);
+			String total = Showcase.getEconomy().format(totalamount);
 			player.takeMoney(totalamount);
 			if (item.getType().equals("finite")) {
 				FiniteShowcaseExtra extra = (FiniteShowcaseExtra) item.getExtra();
